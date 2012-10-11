@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <!-- css -->
+    <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
+    <!-- javascript libs-->
+    <script type="text/javascript" src="js/lib/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery.pajinate.js"></script>
+    <script type="text/javascript" src="js/lib/underscore.js"></script>
+    <script type="text/javascript" src="js/lib/knockout-2.1.0.js"></script>
+    <script type="text/javascript" src="js/lib/knockout.mapping.js"></script>
+    <script type="text/javascript" src="js/lib/sammy.js" ></script>
+    <!-- javascript custom-->
+    <script type="text/javascript" src="js/mvvm.js"></script>
+    <script type="text/javascript" src="js/dragDrop.js"></script>
+    <script type="text/javascript" src="js/pagination.js"></script>
+    
+	<title>Episteme: Demostrador del Bazar Ágil</title>
+
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">
+		<a href="#">
+            <img class="epistemeLogo" src="images/episteme_logo.png" />
+		</a>
+		
+            <br class="clear" />
+	Knockout.js version
+        </div>
+
+<div id="main" class="mainContainer" data-bind="visible: dragdropPage">
+
+<div class="dropContainer" >
+
+        <div  class="droppable" class="class2">
+   	 <div class ="droppableText">Drop here</div>
+	</div>
+	<div  class="droppable" class="class2">
+   	 <div class ="droppableText">Drop here</div>
+	</div>
+	<div  class="droppable" class="class2">
+   	 <div class ="droppableText">Drop here</div>
+	</div>
+
+</div>
+
+
+<div class="controlContainer">
+    <a class="button">Barcelona</a>
+    <a class="button">Madrid</a>
+    Search: <input data-bind="value: filter, hasfocus: focusBar, valueUpdate: 'afterkeydown'" />
+    <input type="radio" name="filterGroup" value="name" data-bind="click: setFocusBar, checked: filterType" /> Nombre
+    <input type="radio" name="filterGroup" value="province" data-bind=" click: setFocusBar, checked: filterType" /> Provincia
+</div>
+
+
+<div id="dragContainer" class="dragContainer">
+
+	<div data-bind="foreach: filteredData" class="content" >
+
+        <div class="draggable" class="class1">
+	    <img class="defaultLogo" src="images/default.png" />
+            <div class="draggableText" data-bind="text: $data.name.value"></div>
+        </div>
+
+    </div>
+
+	  <div class="page_navigation"></div>
+
+</div>	
+
+<div data-bind="autoPaginate: filteredData"></div>
+
+</div>
+
+
+
+
+        <div id="footer">
+            <p>Demostrador realizado por:</p>
+		<a href="http://gsi.dit.upm.es/" target="_blank">
+		<img class="gsiLogo" src="images/gsi_logo_gray.png" />
+		</a>
+		<a href="http://www.globalmetanoia.com/" target="_blank">
+		<img class="globalLogo" src="images/GlobalMetanoia_logo_gray.png" />
+		</a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+
+
+
+
