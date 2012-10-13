@@ -5,3 +5,4 @@ function paginate ()
 		items_per_page : 15
 	});
 };
+

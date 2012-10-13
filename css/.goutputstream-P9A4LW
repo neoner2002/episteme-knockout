@@ -70,7 +70,7 @@ position:relative;
 }
 .menuBarItem{
   height:40px;
-  width:120px;
+  width:100px;
   float:left;
   text-align: center;
 }
@@ -93,7 +93,7 @@ position:relative;
 
 .selected .menuItemArrow{
   margin-top:12px;
-  margin-left:50px;
+  margin-left:40px;
   width: 0; 
   height: 0; 
   border-left: 8px solid transparent;
@@ -143,19 +143,21 @@ box-shadow:0 0 20px #666;
 }
 
 .dropContainer{
-padding-left:30px;
+padding-left:25px;
 height:160px;
 background-color: #ECECEC;
 box-shadow:inset 0 0 10px #bbb;
 border-radius: 5px;
-width: 140px;
-overflow: hidden;
+width: 100%;
+max-width: 460px;
+
 margin: 0 auto;
 }
 
 .offerContainer{
 padding-left:30px;
-width: 140px;
+max-width: 140px;
+min-width: 140px;
 }
 .droppable{ 
 width: 110px; 
@@ -178,14 +180,13 @@ margin: 25px 0px 0px 0px;
 
 .to {
 text-align: center;
-font-size: 50px;
-padding-top: 40px;
-width: 75px;
+font-size: 40px;
+padding-top: 50px;
+width: 80px;
 float: left;
 color: #999;
 }
 .droppableText{
-padding-top: 25px;
 color: #AAA;
 text-shadow: 1px 1px 0 #EEE;
 text-align: center;
@@ -202,9 +203,14 @@ box-shadow:inset 0 0 10px #999;
 background-color: #F0F0F0;
 }
 
+
 .dragContainer{
 width:610px;
 height:400px;
+
+width: 100%;
+max-width: 610px;
+min-width: 610px;
 margin: 0 auto;
 }
 .defaultLogo{
@@ -244,6 +250,9 @@ padding-top:50px;
 width:610px;
 height:30px;
 
+width: 100%;
+max-width: 610px;
+min-width: 610px;
 margin: 0 auto;
 }
 
@@ -297,28 +306,4 @@ margin: 0 auto;
 }
 .add-arrow:hover {
 background-position: 0 -50px;
-}
-
-#langBar{
-  float:right;
-}
-.flag{
-  margin:3px;
-  width: 25px; 
-  height: 15px; 
-  box-shadow: 0 0 5px #555;
-  opacity: 0.5;
-}
-.flag:hover{
-  box-shadow: 0 0 8px #555;
-  opacity: 1;
-}
-.flagSelected{
-  box-shadow: 0 0 5px #555;
-  opacity: 1;
-}
-
-.med ul{
-  list-style-type: circle;
-  padding-left: 20px; 
 }

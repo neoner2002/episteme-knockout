@@ -14,66 +14,114 @@
     <script type="text/javascript" src="js/lib/underscore.js"></script>
     <script type="text/javascript" src="js/lib/knockout-2.1.0.js"></script>
     <script type="text/javascript" src="js/lib/knockout.mapping.js"></script>
-    <script type="text/javascript" src="js/lib/sammy.js" ></script>
+    <script type="text/javascript" src="js/lib/sammy-latest.min.js" ></script>
     <!-- javascript custom-->
+    <script type="text/javascript" src="js/dictionary.js" ></script>
     <script type="text/javascript" src="js/mvvm.js"></script>
     <script type="text/javascript" src="js/dragDrop.js"></script>
     <script type="text/javascript" src="js/pagination.js"></script>
+
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon"> 
     
-	<title>Episteme: Demostrador del Bazar Ágil</title>
+	<title>Episteme</title>
 
 </head>
 
 <body>
     <div id="container">
         <div id="header">
-		<a href="#">
-            <img class="epistemeLogo" src="images/episteme_logo.png" />
+	    <div id = "logo">
+		<a href="#/main">
+                <img class="epistemeLogo" src="images/episteme_logo.png" />
+            </a>
+		<br class="clear" />
+            </div>
+
+	    <div  id = "menuBar" data-bind="visible: page() < 3">
+	        <div  class = "menuBarItem" data-bind="css: { selected: page() == 0 }">
+		  <div class = "menuItemText "><a href="#/main"><span data-bind="text: lang().m1"></span></a></div>
+		  <div class = "menuItemArrow"></div>
+		</div>
+		<div  class = "menuBarItem" data-bind="css: { inactive: status() < 1, selected: page() == 1 }">
+		  <div class = "menuItemText"><a href="#/composer"><span data-bind="text: lang().m2"></span></a></div>
+		  <div class = "menuItemArrow"></div>
+		</div>
+		<div  class = "menuBarItem" data-bind="css: { inactive: status() < 2,  selected: page() == 2 }">
+		  <div class = "menuItemText"><a href="#/finalize"><span data-bind="text: lang().m3"></span></a></div>
+		  <div class = "menuItemArrow"></div>
+		</div>
+	    </div>
+	    <div  id = "langBar" data-bind="visible: page() < 3">
+	        <a href="#" data-bind="click: changeLanguage.bind($data,'0')">
+			<img class="flag" src="images/spanish.png" data-bind="css: { flagSelected: lang().lang == 'Spanish' }"/>		
 		</a>
-		
-            <br class="clear" />
-	Knockout.js version
+	        <a href="#" data-bind="click: changeLanguage.bind($data,'1')">
+			<img class="flag" src="images/english.png" data-bind="css: { flagSelected: lang().lang == 'English' }"/>
+		</a>
+	    </div>
         </div>
 
-<div id="main" class="mainContainer" data-bind="visible: dragdropPage">
+<div id="main" class="mainContainer" data-bind="visible: page() < 3">
 
-<div class="dropContainer" >
+<div class="dropContainer" data-bind="css: { offerContainer: page() == 0 }" >
 
-        <div  class="droppable" class="class2">
-   	 <div class ="droppableText">Drop here</div>
+        <div  class="droppable offer" class="class1" data-bind="visible: page() >= 0">
+   	 <div class ="droppableText"> <span data-bind="text: lang().d1"></span> </div>
 	</div>
-	<div  class="droppable" class="class2">
-   	 <div class ="droppableText">Drop here</div>
+	<h2 class="to" data-bind="visible: page() > 0">→</h2>
+	<div  class="droppable" class="class2" data-bind="visible: page() > 0 ">
+   	 <div class ="droppableText"> <span data-bind="text: lang().d2"></span> </div>
 	</div>
-	<div  class="droppable" class="class2">
-   	 <div class ="droppableText">Drop here</div>
+	<div  class="droppable" class="class2" data-bind="visible: page() > 0">
+   	 <div class ="droppableText"> <span data-bind="text: lang().d2"></span> </div>
 	</div>
 
 </div>
 
 
-<div class="controlContainer">
+
+<div class="controlContainer" data-bind="visible: page() < 2">
     <a class="button">Barcelona</a>
     <a class="button">Madrid</a>
-    Search: <input data-bind="value: filter, hasfocus: focusBar, valueUpdate: 'afterkeydown'" />
-    <input type="radio" name="filterGroup" value="name" data-bind="click: setFocusBar, checked: filterType" /> Nombre
-    <input type="radio" name="filterGroup" value="province" data-bind=" click: setFocusBar, checked: filterType" /> Provincia
+    <span data-bind="text: lang().b1"></span> <input id="search" data-bind="value: filter, hasfocus: focusBar, valueUpdate: 'afterkeydown'" />
+    <input type="radio" name="filterGroup" value="name" data-bind="click: setFocusBar, checked: filterType" /> <span data-bind="text: lang().b2"></span>
+    <input type="radio" name="filterGroup" value="province" data-bind=" click: setFocusBar, checked: filterType" /> <span data-bind="text: lang().b3"></span>
 </div>
 
 
-<div id="dragContainer" class="dragContainer">
+<div id="dragContainer" class="dragContainer" data-bind="visible: page() < 2">
 
 	<div data-bind="foreach: filteredData" class="content" >
-
-        <div class="draggable" class="class1">
-	    <img class="defaultLogo" src="images/default.png" />
-            <div class="draggableText" data-bind="text: $data.name.value"></div>
+        <div class="draggable">
+	    <div class="logoContainer">
+	    <img class="defaultLogo" src="images/default.png" data-bind="attr: { 'src': $data.logo.value } " />
+	    </div>
+	    <div class="textContainer">
+            <p class="draggableText" data-bind="text: $data.name.value"></p>
+	    </div>
         </div>
 
-    </div>
-
-	  <div class="page_navigation"></div>
-
+    </div>	
+	<a href="#/wizard" data-bind="visible: filteredData().length > 0">
+	<div id="new_offer_entry" class="add-arrow" data-bind="visible: page() < 1"></div>
+	</a>
+	  <div class="page_navigation" data-bind="visible: filteredData().length > 0"></div>
+	  <div class="message" data-bind="visible: filteredData().length < 1">
+		<div class="med">
+			<p>
+			<span data-bind="text: lang().h1"></span>
+			<b><span data-bind="text: filter"></span></b>
+			<span data-bind="text: lang().h2"></span>
+			</p><br>
+			<p><span data-bind="text: lang().h3"></span></p><br>
+			<ul>
+				<li><span data-bind="text: lang().h4"></span></li>
+				<li><span data-bind="text: lang().h5"></span></li>
+				<li><span data-bind="text: lang().h6"></span></li>
+			</ul>
+		</div>
+	</div>
+	
 </div>	
 
 <div data-bind="autoPaginate: filteredData"></div>
@@ -84,7 +132,7 @@
 
 
         <div id="footer">
-            <p>Demostrador realizado por:</p>
+            <p><span data-bind="text: lang().c1"></span></p>
 		<a href="http://gsi.dit.upm.es/" target="_blank">
 		<img class="gsiLogo" src="images/gsi_logo_gray.png" />
 		</a>

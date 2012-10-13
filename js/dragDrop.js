@@ -1,7 +1,8 @@
 function OnloadFunction ()
 {
 
-var droppedElements = 1;
+opportunities = 1;
+companies = 1;
 
 
 $(function() {
@@ -20,22 +21,47 @@ $(function() {
 
 $(function() {
         $( ".droppable" ).droppable({
+	    accept: ".draggable",
             drop: function( event, ui ) {
                 dropAction( $(ui.helper), $(this) );
+		console.log("company drop");
+            }
+        });
+    });
+
+$(function() {
+        $( ".offer" ).droppable({
+	    accept: ".draggable",
+            drop: function( event, ui ) {
+                dropOfferAction( $(ui.helper), $(this) );
+		console.log("holaholahola");
             }
         });
     });
 
 function dropAction( $drag, $drop ) {
-	$drop.css( 'background' , '#FAFAFA'  );
-        $drop.css( 'box-shadow' , ' 0 0 1px #999'  );
+	$drop.css( 'background' , 'white'  );
+        $drop.css( 'box-shadow' , ' 0 0 1px #5c5'  );
 	$drop.html( $drag.html() );
-	if(droppedElements == 3){
-	    sammyPlugin.trigger('redirectEvent', {url_data: '#/composer'});
+        if(self.status() > 0){
+	if(companies > 1){
+	    self.status(2);
+	    sammyPlugin.trigger('redirectEvent', {url_data: '#/finalize'});
 	}
 	else{
-	    droppedElements++;
+	    companies++;
 	}
+        }
+}
+
+function dropOfferAction( $drag, $drop ) {
+	$drop.css( 'background' , 'white'  );
+        $drop.css( 'box-shadow' , ' 0 0 1px #5c5'  );
+	$drop.html( $drag.html() );
+        if(self.page() == 0){
+	    self.status(1);
+	    sammyPlugin.trigger('redirectEvent', {url_data: '#/composer'});
+        }
 }
 
 function startAction( $helper, $original ) {
@@ -51,22 +77,6 @@ function stopAction( $helper, $original ) {
 	$helper.addClass( "dragged" );
 	$original.css( 'opacity' , ' 1'  );
 }
-
-
-$( "ul.gallery > li" ).click(function( event ) {
-            var $item = $( this ),
-                $target = $( event.target );
- 
-            if ( $target.is( "a.ui-icon-trash" ) ) {
-                deleteImage( $item );
-            } else if ( $target.is( "a.ui-icon-zoomin" ) ) {
-                viewLargerImage( $target );
-            } else if ( $target.is( "a.ui-icon-refresh" ) ) {
-                recycleImage( $item );
-            }
- 
-            return false;
-        });
 
 };
 
