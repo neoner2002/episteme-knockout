@@ -8,6 +8,50 @@ ko.utils.stringContains = function(string, contain) {
     if (contain.length > string.length) return false;
     return string.indexOf(contain) !== -1
 };
+
+offers = {"offers": [{
+	"name" : { "value" : "offer1"},
+	"logo" : { "text" : "company 4 logo", "value" : "images/offer1.png"},
+	"description" : "The description of fourth company",
+	"capabilities" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
+
+	},{
+	"name" : { "value" : "offer2"},
+	"logo" : { "text" : "company 4 logo", "value" : "images/offer2.png"},
+	"description" : "The description of fourth company",
+	"capabilities" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
+
+	},{
+	"name" : { "value" : "offer3"},
+	"logo" : { "text" : "company 4 logo", "value" : "images/offer3.png"},
+	"description" : "The description of fourth company",
+	"capabilities" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
+
+	},{
+	"name" : { "value" : "offer4"},
+	"logo" : { "text" : "company 4 logo", "value" : "images/offer4.png"},
+	"description" : "The description of fourth company",
+	"capabilities" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
+
+	},{
+	"name" : { "value" : "offer5"},
+	"logo" : { "text" : "company 4 logo", "value" : "images/offer5.png"},
+	"description" : "The description of fourth company",
+	"capabilities" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
+
+	},{
+	"name" : { "value" : "offer6"},
+	"logo" : { "text" : "company 3 logo", "value" : "images/offer6.png"},
+	"description" : "The description of third company",
+	"capabilities" : [ "Gran Empresa","Centro Tecnológico","Pequeña y mediana empresa" ]
+
+	},{
+	"name" : { "value" : "offer7"},
+	"logo" : { "text" : "company 2 logo", "value" : "images/offer7.png"},
+	"description" : "The description of second company",
+	"capabilities" : [ "Centro Privado de Investigación","Asociación de Empresa"  ]
+
+	}]}
 	
 AppViewModel = function() {
 	    self = this;
@@ -70,6 +114,7 @@ sammyPlugin = $.sammy(function() {
 		$(".dropContainer").animate({width: "140px", opacity: 1,}, 300 );
 		$(".dragContainer").hide();
 		$(".dragContainer").fadeIn();
+		self.filter("");
 		reload();
 	});
 
@@ -80,6 +125,7 @@ sammyPlugin = $.sammy(function() {
 		if(self.status() != 0) $(".dropContainer").animate({width: "460px", opacity: 1,}, 300 );
 		$(".dragContainer").hide();
 		$(".dragContainer").fadeIn();
+		self.filter("");
 		reload();
 		
 	});
@@ -87,10 +133,12 @@ sammyPlugin = $.sammy(function() {
 		if(self.status() == 0) this.redirect('#/main');
 		if(self.status() != 0) $(".dropContainer").animate({width: "460px", opacity: 1,}, 300 );
 		self.page(2);
+		self.filter("");
 		reload();
 	});
 	this.get('#/wizard', function(context) {
 		self.page(3);
+		self.filter("");
 		reload();
 	});
 }).run('#/main'); 
@@ -137,49 +185,7 @@ self.changeLanguage = function(place) {
 
 }
 
-offers = {"offers": [{
-	"name" : { "value" : "offer1"},
-	"logo" : { "text" : "company 4 logo", "value" : "images/offer1.png"},
-	"description" : "The description of fourth company",
-	"capabilities" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
 
-	},{
-	"name" : { "value" : "offer2"},
-	"logo" : { "text" : "company 4 logo", "value" : "images/offer2.png"},
-	"description" : "The description of fourth company",
-	"capabilities" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
-
-	},{
-	"name" : { "value" : "offer3"},
-	"logo" : { "text" : "company 4 logo", "value" : "images/offer3.png"},
-	"description" : "The description of fourth company",
-	"capabilities" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
-
-	},{
-	"name" : { "value" : "offer4"},
-	"logo" : { "text" : "company 4 logo", "value" : "images/offer4.png"},
-	"description" : "The description of fourth company",
-	"capabilities" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
-
-	},{
-	"name" : { "value" : "offer5"},
-	"logo" : { "text" : "company 4 logo", "value" : "images/offer5.png"},
-	"description" : "The description of fourth company",
-	"capabilities" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
-
-	},{
-	"name" : { "value" : "offer6"},
-	"logo" : { "text" : "company 3 logo", "value" : "images/offer6.png"},
-	"description" : "The description of third company",
-	"capabilities" : [ "Gran Empresa","Centro Tecnológico","Pequeña y mediana empresa" ]
-
-	},{
-	"name" : { "value" : "offer7"},
-	"logo" : { "text" : "company 2 logo", "value" : "images/offer7.png"},
-	"description" : "The description of second company",
-	"capabilities" : [ "Centro Privado de Investigación","Asociación de Empresa"  ]
-
-	}]}
 
 
 	// Activates knockout.js
