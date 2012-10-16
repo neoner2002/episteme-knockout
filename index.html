@@ -4,22 +4,26 @@
 <head>
     <meta http-equiv="content-type" content="text/html" charset="utf-8">
     <!-- css -->
-    <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/lib/reset.css" type="text/css" media="screen">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/lib/jquery-ui-1.9.0.custom.min.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
     <!-- javascript libs-->
-    <script type="text/javascript" src="js/lib/jquery-1.8.2.min.js"></script>
-    <script type="text/javascript" src="js/lib/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-1.8.2.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-ui-1.9.0.custom.js"></script>
     <script type="text/javascript" src="js/lib/jquery.pajinate.js"></script>
     <script type="text/javascript" src="js/lib/underscore.js"></script>
     <script type="text/javascript" src="js/lib/knockout-2.1.0.js"></script>
     <script type="text/javascript" src="js/lib/knockout.mapping.js"></script>
     <script type="text/javascript" src="js/lib/sammy-latest.min.js" ></script>
+    <script type="text/javascript" src="js/lib/jquery.qtip-1.0.0-rc3.min.js" ></script>
     <!-- javascript custom-->
     <script type="text/javascript" src="js/dictionary.js" ></script>
-    <script type="text/javascript" src="js/mvvm.js"></script>
     <script type="text/javascript" src="js/dragDrop.js"></script>
     <script type="text/javascript" src="js/pagination.js"></script>
+    <script type="text/javascript" src="js/tooltips.js"></script>
+    <script type="text/javascript" src="js/filters.js"></script>
+    <script type="text/javascript" src="js/mvvm.js"></script>
 
     <link rel="icon" href="images/favicon.ico" type="image/x-icon"> 
     
@@ -28,6 +32,7 @@
 </head>
 
 <body>
+
     <div id="container">
         <div id="header">
 	    <div id = "logo">
@@ -69,10 +74,10 @@
    	 <div class ="droppableText"> <span data-bind="text: lang().d1"></span> </div>
 	</div>
 	<h2 class="to" data-bind="visible: page() > 0">→</h2>
-	<div  class="droppable" class="class2" data-bind="visible: page() > 0 ">
+	<div  class="droppable company" class="class2" data-bind="visible: page() > 0 ">
    	 <div class ="droppableText"> <span data-bind="text: lang().d2"></span> </div>
 	</div>
-	<div  class="droppable" class="class2" data-bind="visible: page() > 0">
+	<div  class="droppable company" class="class2" data-bind="visible: page() > 0">
    	 <div class ="droppableText"> <span data-bind="text: lang().d2"></span> </div>
 	</div>
 
@@ -81,18 +86,15 @@
 
 
 <div class="controlContainer" data-bind="visible: page() < 2">
-    <a class="button">Barcelona</a>
-    <a class="button">Madrid</a>
-    <span data-bind="text: lang().b1"></span> <input id="search" data-bind="value: filter, hasfocus: focusBar, valueUpdate: 'afterkeydown'" />
-    <input type="radio" name="filterGroup" value="name" data-bind="click: setFocusBar, checked: filterType" /> <span data-bind="text: lang().b2"></span>
-    <input type="radio" name="filterGroup" value="province" data-bind=" click: setFocusBar, checked: filterType" /> <span data-bind="text: lang().b3"></span>
+    <a class="button category" > <span data-bind="text: lang().b2"></span> </a>
+    <input id="search" data-bind="value: filter, hasfocus: focusBar, valueUpdate: 'afterkeydown'" />
 </div>
 
 
 <div id="dragContainer" class="dragContainer" data-bind="visible: page() < 2">
 
 	<div data-bind="foreach: filteredData" class="content" >
-        <div class="draggable">
+        <div class="draggable" data-bind="attr: { 'name': $data.name.value }">
 	    <div class="logoContainer">
 	    <img class="defaultLogo" src="images/default.png" data-bind="attr: { 'src': $data.logo.value } " />
 	    </div>
@@ -125,6 +127,27 @@
 </div>	
 
 <div data-bind="autoPaginate: filteredData"></div>
+
+<div id="dialog" data-bind="attr: { 'title': lang().b3 }">
+    <div id="tabs">
+    <ul>
+        <li><a href="#tabs-1"> <span data-bind="text: lang().b4"></span> </a></li>
+        <li><a href="#tabs-2"> <span data-bind="text: lang().b5"></span> </a></li>
+        <li><a href="#tabs-3"> <span data-bind="text: lang().b6"></span> </a></li>
+    </ul>
+    <div id="tabs-1">
+        <div><input type="checkbox" value="Madrid" data-bind="checked: selectedCategories" /> Madrid</div>
+	<div><input type="checkbox" value="Barcelona" data-bind="checked: selectedCategories" /> Barcelona</div>
+	<div><input type="checkbox" value="Valencia" data-bind="checked: selectedCategories" /> Valencia</div>
+    </div>
+    <div id="tabs-2">
+        <p>2</p>
+    </div>
+    <div id="tabs-3">
+        <p>3</p>
+    </div>
+</div>
+</div>
 
 </div>
 

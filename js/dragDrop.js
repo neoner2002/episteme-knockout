@@ -4,7 +4,6 @@ function OnloadFunction ()
 opportunities = 1;
 companies = 1;
 
-
 $(function() {
 	$( ".draggable" ).draggable({
 	revert: "invalid",
@@ -20,7 +19,7 @@ $(function() {
 });
 
 $(function() {
-        $( ".droppable" ).droppable({
+        $( ".company" ).droppable({
 	    accept: ".draggable",
             drop: function( event, ui ) {
                 dropAction( $(ui.helper), $(this) );
@@ -34,7 +33,7 @@ $(function() {
 	    accept: ".draggable",
             drop: function( event, ui ) {
                 dropOfferAction( $(ui.helper), $(this) );
-		console.log("holaholahola");
+		console.log("offer drop");
             }
         });
     });
