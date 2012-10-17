@@ -2,7 +2,7 @@ function createTooltips ()
 {
 
 
-$('.draggable').each(function(){
+$('.DESACTIVADOS').each(function(){
 
 
 

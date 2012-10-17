@@ -21,6 +21,11 @@ languages =
 		h4: "Comprueba que todas las palabras están escritas correctamente.",
 		h5: "Intenta usar otras palabras.",
 		h6: "Intenta usar palabras más generales.",
+		f1: "¡Consorcio completado!",
+		f2: "Mandar Expresión de Interés",
+		f3: "Convocar teleconferencia",
+		f4: "Convocar reunión",
+		f5: "Revisar consorcio",
         },
         {
             lang: "English",
@@ -43,6 +48,11 @@ languages =
 		h4: "Make sure all words are spelled correctly.",
 		h5: "Try different keywords.",
 		h6: "Try more general keywords.",
+		f1: "Partnership completed!",
+		f2: "Send an Expression of Interest",
+		f3: "Convene a conference call",
+		f4: "Convene a meeting",
+		f5: "Check the partnership",
         },
 
     ];

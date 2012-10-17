@@ -32,7 +32,6 @@
 </head>
 
 <body>
-
     <div id="container">
         <div id="header">
 	    <div id = "logo">
@@ -67,22 +66,35 @@
         </div>
 
 <div id="main" class="mainContainer" data-bind="visible: page() < 3">
+<img id = "loading" src="images/loading.gif" data-bind="visible: loading()"/>
 
 <div class="dropContainer" data-bind="css: { offerContainer: page() == 0 }" >
 
         <div  class="droppable offer" class="class1" data-bind="visible: page() >= 0">
    	 <div class ="droppableText"> <span data-bind="text: lang().d1"></span> </div>
 	</div>
+
 	<h2 class="to" data-bind="visible: page() > 0">→</h2>
+
 	<div  class="droppable company" class="class2" data-bind="visible: page() > 0 ">
    	 <div class ="droppableText"> <span data-bind="text: lang().d2"></span> </div>
 	</div>
+
 	<div  class="droppable company" class="class2" data-bind="visible: page() > 0">
    	 <div class ="droppableText"> <span data-bind="text: lang().d2"></span> </div>
 	</div>
 
+	<div id="finalizeContainer" class="finalizeContainer" data-bind="if: page() == 2">
+                <h2> <span data-bind="text: lang().f1"></span> <br></h2><br>
+                <ul>
+                    <li><a href="#"> <span data-bind="text: lang().f2"></span> </a></li>
+                    <li><a href="#"> <span data-bind="text: lang().f3"></span> </a></li>
+                    <li><a href="#"> <span data-bind="text: lang().f4"></span> </a></li>
+                    <li><a href="#"> <span data-bind="text: lang().f5"></span> </a></li>
+            </ul>
+	</div>	
+	<div id="lines" data-bind="visible: status() == 0"></div>
 </div>
-
 
 
 <div class="controlContainer" data-bind="visible: page() < 2">

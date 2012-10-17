@@ -40,7 +40,7 @@ $(function() {
 
 function dropAction( $drag, $drop ) {
 	$drop.css( 'background' , 'white'  );
-        $drop.css( 'box-shadow' , ' 0 0 1px #5c5'  );
+        $drop.css( 'box-shadow' , ' 0 0 0px #555'  );
 	$drop.html( $drag.html() );
         if(self.status() > 0){
 	if(companies > 1){
@@ -55,7 +55,7 @@ function dropAction( $drag, $drop ) {
 
 function dropOfferAction( $drag, $drop ) {
 	$drop.css( 'background' , 'white'  );
-        $drop.css( 'box-shadow' , ' 0 0 1px #5c5'  );
+        $drop.css( 'box-shadow' , ' 0 0 0px #5c5'  );
 	$drop.html( $drag.html() );
         if(self.page() == 0){
 	    self.status(1);
@@ -64,14 +64,14 @@ function dropOfferAction( $drag, $drop ) {
 }
 
 function startAction( $helper, $original ) {
-	$helper.css( 'box-shadow' , ' 0 0 40px #666'  );
+	$helper.css( 'box-shadow' , ' 0 0 40px #999'  );
 	$helper.css( 'z-index' , '999'  );
 	$helper.addClass( "dragged" );
 	$original.css( 'opacity' , ' 0.5'  );
 }
 
 function stopAction( $helper, $original ) {
-	$helper.css( 'box-shadow' , ' 0 0 40px #666'  );
+	$helper.css( 'box-shadow' , ' 0 0 40px #999'  );
 	$helper.css( 'z-index' , '999'  );
 	$helper.addClass( "dragged" );
 	$original.css( 'opacity' , ' 1'  );

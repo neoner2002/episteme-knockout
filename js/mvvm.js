@@ -83,6 +83,7 @@ AppViewModel = function() {
 	    var limit = "505";
 
 	    self.lang = ko.observable(languages[0]);
+            self.loading = ko.observable(true);
 
 	    self.filter = ko.observable();
 
@@ -160,10 +161,11 @@ sammyPlugin = $.sammy(function() {
 		self.page(0);
 		ko.mapping.fromJS(offers.offers, self.viewData);
 		self.viewData.sortByPropertyAsc('name');
-		$(".dropContainer").animate({width: "140px", opacity: 1,}, 300 );
+		$(".dropContainer").animate({height: "160px", width: "140px", opacity: 1,}, 300 );
 		$(".dragContainer").hide();
 		$(".dragContainer").fadeIn();
 		self.filter("");
+		self.focusBar(true);
 		reload();
 	});
 
@@ -172,18 +174,23 @@ sammyPlugin = $.sammy(function() {
 		self.page(1);
 		ko.mapping.fromJS(self.companiesData, self.viewData);
 		self.viewData.sortByPropertyAsc('name');
-		if(self.status() != 0) $(".dropContainer").animate({width: "460px", opacity: 1,}, 300 );
+		if(self.status() != 0) $(".dropContainer").animate({height: "160px", width: "460px", opacity: 1,}, 300 );
 		$(".dragContainer").hide();
 		$(".dragContainer").fadeIn();
 		self.filter("");
+		self.focusBar(true);
 		reload();
 		
 	});
         this.get('#/finalize', function(context) {
-		if(self.status() == 0) this.redirect('#/main');
-		if(self.status() != 0) $(".dropContainer").animate({width: "460px", opacity: 1,}, 300 );
 		self.page(2);
+		if(self.status() == 0) this.redirect('#/main');
+		if(self.status() != 0) {
+                  $(".dropContainer").animate({width: "460px"}, 300 );
+		  $(".dropContainer").animate({height: "350px"}, 300 );
+                }
 		self.filter("");
+		self.focusBar(true);
 		reload();
 	});
 	this.get('#/wizard', function(context) {
@@ -212,7 +219,7 @@ function loadData(){
 		    //console.log("Alldata es: " + JSON.stringify(allData)); 
 		    self.companiesData = ko.mapping.fromJS(allData.results.bindings);
 		    self.viewData = ko.mapping.fromJS(self.companiesData);
-
+		    self.loading(false);
 	    },
 	    data: {},
 	    async: false

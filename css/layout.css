@@ -30,6 +30,11 @@ position:relative;
   font-weight: 300;
 }
 
+#loading{
+  height:20px;
+  width:20px;
+  float:left;
+}
 #container {
  min-height: 100%;
  position: relative;
@@ -69,7 +74,7 @@ position:relative;
   min-width: 400px;
 }
 .menuBarItem{
-  height:40px;
+  height:35px;
   width:120px;
   float:left;
   text-align: center;
@@ -92,7 +97,7 @@ position:relative;
 }
 
 .selected .menuItemArrow{
-  margin-top:12px;
+  margin-top:7px;
   margin-left:50px;
   width: 0; 
   height: 0; 
@@ -122,7 +127,7 @@ float: left;
 margin: 5px 5px 5px 5px; 
 background:white;
 border: 1px solid #A0A0A0;
-box-shadow: 0px 0px 7px #999;
+box-shadow: 0px 0px 5px #999;
 border-radius: 5px;
 cursor:move;
 overflow: hidden;
@@ -139,18 +144,20 @@ transform:rotate(-4deg);
 .draggable:hover
 { 
 
-box-shadow:0 0 20px #666;
+box-shadow:0 0 10px #555;
 }
 
 .dropContainer{
 padding-left:30px;
 height:160px;
-background-color: #ECECEC;
-box-shadow:inset 0 0 10px #bbb;
-border-radius: 5px;
+background-color: #E8E8E8;
+box-shadow:inset 0 0 10px #ccc;
+border-radius: 15px;
 width: 140px;
 overflow: hidden;
 margin: 0 auto;
+margin-top:20px;
+margin-bottom:20px;
 }
 
 .offerContainer{
@@ -163,8 +170,8 @@ height: 110px;
 float: left; 
 margin: 25px 20px 0px 0px; 
 background: #DADADA;
-border: 1px solid #A0A0A0;
-box-shadow:inset 0 0 8px #999;
+border: 1px solid #ADADAD;
+box-shadow:inset 0 0 8px #bbb;
 border-radius: 5px;
 text-align:center;
 overflow: hidden;
@@ -182,7 +189,7 @@ font-size: 50px;
 padding-top: 40px;
 width: 75px;
 float: left;
-color: #999;
+color: #79A04B;
 }
 .droppableText{
 padding-top: 25px;
@@ -194,12 +201,11 @@ margin:10px;
 }
 
 .mainContainer{
-padding-top:15px;
-  padding-bottom:15px;
 float:left;
 width:100%;
-box-shadow:inset 0 0 10px #999;
+box-shadow:inset 0 0 5px #999;
 background-color: #F0F0F0;
+z-index:-100;
 }
 
 .dragContainer{
@@ -229,6 +235,24 @@ box-shadow: 50px -10px 100px #bbb;
 opacity: 0.9;
 }
 
+/*Finalize*/
+.finalizeContainer{
+  float:left;
+  margin: 0 auto;
+  margin-top:20px;
+}
+
+.finalizeContainer h2{
+  font-size: 25px;
+}
+
+.finalizeContainer a{
+  text-decoration:none;
+  color:#333;
+  text-align:left;
+  font-size: 15px;
+}
+
 .logoContainer{
 width: 110px; 
 height: 90px;
@@ -240,10 +264,8 @@ box-shadow: 0 0 3px #999;
 }
 
 .controlContainer{
-padding-top:50px;
 width:610px;
 height:30px;
-
 margin: 0 auto;
 }
 
@@ -262,7 +284,7 @@ margin: 0 auto;
 	background-color:#79A04B;
 	border-radius: 3px;
 	cursor:pointer;
-	box-shadow: 0 0 4px #79A04B;
+	box-shadow: 0 0 4px #999;
 }
 
 #search{
@@ -372,8 +394,9 @@ background-position: 0 -50px;
 
 .ui-tabs-nav{
   background:#fafafa;
-  border: 1px solid #ECF2E1;
-  box-shadow:inset 0 0 10px #79A04B;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow:inset 0 0 10px #ddd;
 }
 
 .ui-tabs-anchor{
@@ -383,10 +406,14 @@ background-position: 0 -50px;
 
 
 .ui-state-default{
-  border: 1px solid #ECF2E1;
+  border: 1px solid #ccc;
   border-radius: 3px 3px 0 0px;
-  background:#eee;
   opacity: 0.7;
+}
+
+.ui-state-hover{
+  opacity: 1;
+  background:#fff;
 }
 
 .ui-state-active{
@@ -394,7 +421,17 @@ background-position: 0 -50px;
   opacity: 1;
 }
 
-.ui-state-hover{
-  opacity: 1;
-  background:white;
+#lines{
+  position:absolute;
+  margin-left:140px;
+  width:300px;
+  height:180px;
+  background: url(../images/drag.png);
+  background-size:200px 180px;
+  background-repeat:no-repeat;
+}
+
+.finalizeContainer ul{
+  list-style-type: circle;
+  padding-left: 20px; 
 }
