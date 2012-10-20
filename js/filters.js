@@ -9,8 +9,8 @@ function createTooltips2 ()
 	    $( "#dialog" ).dialog({
                 resizable: true,
 	        autoOpen: false,
-                height: 300,
-          	width: 500,
+                height: 250,
+          	width: 600,
 	    });
 	});
 

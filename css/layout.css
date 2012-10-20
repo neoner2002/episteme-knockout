@@ -17,7 +17,7 @@ background: #FAFAF0;
 float:left;
 width:100%;
 background-color: #ECF2E1;
-  border-bottom: 3px solid #79A04B;
+  border-bottom: 2px solid #79A04B;
 position:relative;
 }
 #header h1 {
@@ -126,9 +126,9 @@ height: 110px;
 float: left;
 margin: 5px 5px 5px 5px; 
 background:white;
-border: 1px solid #A0A0A0;
-box-shadow: 0px 0px 5px #999;
-border-radius: 5px;
+border: 1px solid #A9A9A9;
+box-shadow: 0px 0px 5px #aaa;
+border-radius: 3px;
 cursor:move;
 overflow: hidden;
 }
@@ -148,12 +148,12 @@ box-shadow:0 0 10px #555;
 }
 
 .dropContainer{
-padding-left:30px;
-height:160px;
+padding-left:0px;
+width: 190px;
+height:150px;
 background-color: #E8E8E8;
-box-shadow:inset 0 0 10px #ccc;
-border-radius: 15px;
-width: 140px;
+box-shadow:inset 0 0 3px #ccc;
+border-radius: 5px;
 overflow: hidden;
 margin: 0 auto;
 margin-top:20px;
@@ -161,18 +161,19 @@ margin-bottom:20px;
 }
 
 .offerContainer{
-padding-left:30px;
-width: 140px;
+padding-left:0px;
+height:150px;
+width: 190px;
 }
 .droppable{ 
 width: 110px; 
-height: 110px; 
+height: 110px;
+margin: 19px 19px 0px 0px; 
 float: left; 
-margin: 25px 20px 0px 0px; 
 background: #DADADA;
 border: 1px solid #ADADAD;
 box-shadow:inset 0 0 8px #bbb;
-border-radius: 5px;
+border-radius: 3px;
 text-align:center;
 overflow: hidden;
 position:relative;
@@ -180,7 +181,8 @@ position:relative;
 .offer{
 width: 110px; 
 height: 110px; 
-margin: 25px 0px 0px 0px; 
+display: inline-block;
+margin: 19px 0px 0px 39px; 
 }
 
 .to {
@@ -230,8 +232,8 @@ text-overflow: ellipsis;
 white-space: nowrap;
 text-align:center;
 vertical-align:middle;
-border-radius: 0px 0px 5px 5px;
-box-shadow: 50px -10px 100px #bbb;
+border-radius: 0px 0px 3px 3px;
+box-shadow: 50px -10px 100px #999;
 opacity: 0.9;
 }
 
@@ -240,6 +242,7 @@ opacity: 0.9;
   float:left;
   margin: 0 auto;
   margin-top:20px;
+  margin-left:20px;
 }
 
 .finalizeContainer h2{
@@ -265,33 +268,84 @@ box-shadow: 0 0 3px #999;
 
 .controlContainer{
 width:610px;
-height:30px;
+height:40px;
 margin: 0 auto;
+text-align: center;
 }
 
-.button{
-	width:75px;
+#filterBtn{
+        display: inline-block;
+        width:150px;
 	height:15px;
-	padding:3px 3px;
-	margin:2px;
-	margin-right:5px;
+        margin-right:10px;
+        padding:3px;
 	color:white;
 	text-decoration:none;
-	float: left;
 	font-family: Tahoma;
 	font-size: 12px;
 	text-align:center;
 	background-color:#79A04B;
-	border-radius: 3px;
+	border-radius: 0px;
 	cursor:pointer;
 	box-shadow: 0 0 4px #999;
 }
 
-#search{
-	width:515px;
+.filterSelBtn{
+        display: inline-block;
 	height:15px;
-	margin-top:2px;
+        margin:5px;
+        padding:5px;
+	text-align:center;
+	background-color:#8a8a8a;
+	border-radius: 5px;
+	cursor:pointer;
+	box-shadow: 0 0 5px #999;
 }
+
+.catActive{
+	background-color:#79A04B;
+}
+
+.filterSelBtn a{
+        display:block;
+	color:white;
+	text-decoration:none;
+	font-family: Tahoma;
+	font-size: 12px;
+	text-align:center;
+}
+
+#filterBtn a{
+        color:white;
+        font-weight:bold;
+	text-decoration:none;
+
+}
+
+#filterBtn a:hover{
+	text-decoration:underline
+
+}
+
+#search {
+        padding:4px;
+	width:450px;
+	height:18px;
+	border: 1px solid #CCC;
+        border-radius: 3px;
+}
+
+input{ 
+        width:100%;
+        background-color:white;
+	opacity:0.7;
+}
+
+input:focus{ 
+        background-color:white;
+        opacity:1;
+}
+
 .page_navigation , .alt_page_navigation{
 	padding-bottom: 10px;
 	width: 100%;
@@ -365,14 +419,14 @@ background-position: 0 -50px;
 .ui-dialog{
   overflow: hidden;
   background:#79A04B;
-  box-shadow: 0 0 5px #333;
-  border-radius: 2px;
+  box-shadow: 0 0 7px #999;
+  border-radius: 5px;
   padding:2px;
 }
 
 .ui-dialog-titlebar{
   background:#ECF2E1;
-  border-radius: 2px 2px 0 0px;
+  border-radius: 5px 5px 0 0px;
 }
 
 .ui-dialog-titlebar-close{
@@ -387,7 +441,7 @@ background-position: 0 -50px;
 }
 #dialog{
   background:white;
-  border-radius: 0 0 2px 2px;
+  border-radius: 0 0 5px 5px;
   padding:2px;
 }
 /*Tabs Ventana Emergente*/
@@ -423,11 +477,11 @@ background-position: 0 -50px;
 
 #lines{
   position:absolute;
-  margin-left:140px;
+  margin-left:220px;
   width:300px;
-  height:180px;
+  height:220px;
   background: url(../images/drag.png);
-  background-size:200px 180px;
+  background-size:220px 220px;
   background-repeat:no-repeat;
 }
 

@@ -13,11 +13,22 @@ ko.utils.stringContains = function(string, contain) {
 
 //Ordenar ObservableArray por "datacolumn"
 //self.myObservableArray.sortByPropertyAsc('name');
-ko.observableArray.fn.sortByPropertyAsc = function(prop) {
+ko.observableArray.fn.sortByPropertyAsc = function(prop, accesor) {
         this.sort(function(obj1, obj2) {
-            if (obj1[prop].value() == obj2[prop].value())
+            if (obj1[prop][accesor]() == obj2[prop][accesor]())
                 return 0;
-            else if (obj1[prop].value() < obj2[prop].value())
+            else if (obj1[prop][accesor]() < obj2[prop][accesor]())
+                return -1;
+            else
+                return 1;
+        });
+}
+
+ko.observableArray.fn.sortByPropertyCat = function(prop) {
+        this.sort(function(obj1, obj2) {
+            if (obj1[prop]() == obj2[prop]())
+                return 0;
+            else if (obj1[prop]() < obj2[prop]())
                 return -1;
             else
                 return 1;
@@ -36,59 +47,75 @@ ko.utils.getDataColumns = function(type) {
 
 offers = {"offers": [{
 	"name" : { "value" : "offer1"},
+        "province" : { "value" : "Madrid"},
+        "type" : { "value" : "Pequeña Empresa"},
 	"logo" : { "text" : "company 4 logo", "value" : "images/offer1.png"},
-	"description" : "The description of fourth company",
-	"type" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
+	"description" : "The description of fourth company"
 
 	},{
 	"name" : { "value" : "offer2"},
+	"province" : { "value" : "Madrid"},
+        "type" : { "value" : "Pequeña Empresa"},
 	"logo" : { "text" : "company 4 logo", "value" : "images/offer2.png"},
-	"description" : "The description of fourth company",
-	"type" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
+	"description" : "The description of fourth company"
 
 	},{
 	"name" : { "value" : "offer3"},
+	"province" : { "value" : "Madrid"},
+        "type" : { "value" : "Pequeña Empresa"},
 	"logo" : { "text" : "company 4 logo", "value" : "images/offer3.png"},
-	"description" : "The description of fourth company",
-	"type" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
+	"description" : "The description of fourth company"
 
 	},{
 	"name" : { "value" : "offer4"},
+	"province" : { "value" : "Madrid"},
+        "type" : { "value" : "Pequeña Empresa"},
+	"province" : { "value" : "Madrid"},
+        "type" : { "value" : "Pequeña Empresa"},
 	"logo" : { "text" : "company 4 logo", "value" : "images/offer4.png"},
-	"description" : "The description of fourth company",
-	"type" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
+	"description" : "The description of fourth company"
 
 	},{
 	"name" : { "value" : "offer5"},
+	"province" : { "value" : "Madrid"},
+        "type" : { "value" : "Pequeña Empresa"},
 	"logo" : { "text" : "company 4 logo", "value" : "images/offer5.png"},
-	"description" : "The description of fourth company",
-	"type" : [ "Pequeña y mediana empresa", "Universidad","Otros" ]
+	"description" : "The description of fourth company"
 
 	},{
 	"name" : { "value" : "offer6"},
+	"province" : { "value" : "Madrid"},
+        "type" : { "value" : "Pequeña Empresa"},
 	"logo" : { "text" : "company 3 logo", "value" : "images/offer6.png"},
-	"description" : "The description of third company",
-	"type" : [ "Gran Empresa","Centro Tecnológico","Pequeña y mediana empresa" ]
+	"description" : "The description of third company"
 
 	},{
 	"name" : { "value" : "offer7"},
+	"province" : { "value" : "Madrid"},
+        "type" : { "value" : "Pequeña Empresa"},
 	"logo" : { "text" : "company 2 logo", "value" : "images/offer7.png"},
-	"description" : "The description of second company",
-	"type" : [ "Centro Privado de Investigación","Asociación de Empresa"  ]
+	"description" : "The description of second company"
 
 	}]}
-	
+
+availableCategories = [
+            {"id":0,"name":"province","values":[]},
+            {"id":1,"name":"type","values":[]}
+            ];
+
+
 AppViewModel = function() {
 	    self = this;
 	    var limit = "505";
 
 	    self.lang = ko.observable(languages[0]);
             self.loading = ko.observable(true);
+            self.loadingCat = ko.observable(true);
 
 	    self.filter = ko.observable();
 
 	    self.availableCategories = ko.observableArray();
-	    self.selectedCategories = ko.observableArray();
+	    self.loadedCategories = ko.mapping.fromJS(availableCategories);
 	    self.filteredCategory = ko.observableArray();
             self.filteredData = ko.observableArray();
 
@@ -109,19 +136,39 @@ loadData();
 self.filteredCategory = ko.computed(function() {  
 
    var data = self.viewData();
-   var selected = self.selectedCategories();
-   self.availableCategories(ko.utils.getDataColumns("province"));
-   console.log(selected);
-   console.log( self.availableCategories());
+   if(self.loadingCat() == true){
+       $.each(self.loadedCategories(), function(index, item) {  
+         self.availableCategories(ko.utils.getDataColumns(item.name()));
+         //console.log( self.availableCategories());
+         populateCategories(index);
+       });
+      self.loadingCat(false);
+   }
 
-   var filtro = null;
+   var filtro = self.loadedCategories();
 
    if(!filtro){
 	return self.viewData();  
    }else{
-   	return ko.utils.arrayFilter(self.viewData(), function(item) {
-		return ko.utils.stringContains(item.name.value(), filtro);
-  	});
+        tempFilter = self.viewData();
+        //return ko.utils.arrayFilter(self.viewData(), function(item) {
+	//	return ko.utils.stringContains(item.name.value(), filtro);
+  	//});
+        $.each(self.loadedCategories(), function(index1, item1) {
+           tempString = "";
+           catParent = item1.name();
+           //console.log(item1.values());
+           $.each(item1.values(), function(index2, item2) {
+                if(item2.state() == true){
+                    tempString += " "+item2.name();
+                    console.log(tempString);
+                }
+           });
+           tempFilter = ko.utils.arrayFilter(tempFilter, function(item) {
+		return ko.utils.stringContains(item[catParent].value(), tempString);
+  	        });
+        }); 
+        return tempFilter;
    }
 },self);
 
@@ -140,6 +187,22 @@ self.filteredData = ko.computed(function() {
     }
 }, self);
 
+self.selection = function(pIndex, index, name) {
+        var parent = self.loadedCategories()[pIndex];
+        var temp = !parent.values()[index()].state();  
+        //alert(pIndex +" "+ index +" "+ name); 
+        parent.values.remove(function(item) {
+            return item.name() == name;
+        });                 
+        parent.values.push(
+            {"id": index,
+             "name": ko.observable(name),
+             "state": ko.observable(temp)
+            }
+        );
+        parent.values.sortByPropertyCat('id');
+    self.loadedCategories(self.loadedCategories());
+    };
 
 //reload when filteredData changes
 ko.bindingHandlers.autoPaginate = {
@@ -160,10 +223,12 @@ sammyPlugin = $.sammy(function() {
         this.get('#/main', function(context) {
 		self.page(0);
 		ko.mapping.fromJS(offers.offers, self.viewData);
-		self.viewData.sortByPropertyAsc('name');
-		$(".dropContainer").animate({height: "160px", width: "140px", opacity: 1,}, 300 );
+		self.viewData.sortByPropertyAsc('name', 'value');
+		$(".dropContainer").animate({height: "150px", width: "190px", opacity: 1,}, 300 );
 		$(".dragContainer").hide();
 		$(".dragContainer").fadeIn();
+                $("#filterBtn").hide();
+                $("#search").animate({width: "450px",}, 300 );
 		self.filter("");
 		self.focusBar(true);
 		reload();
@@ -173,10 +238,12 @@ sammyPlugin = $.sammy(function() {
 		if(self.status() == 0) this.redirect('#/main');
 		self.page(1);
 		ko.mapping.fromJS(self.companiesData, self.viewData);
-		self.viewData.sortByPropertyAsc('name');
-		if(self.status() != 0) $(".dropContainer").animate({height: "160px", width: "460px", opacity: 1,}, 300 );
+		self.viewData.sortByPropertyAsc('name', 'value');
+		if(self.status() != 0) $(".dropContainer").animate({height: "150px", width: "510px", opacity: 1,}, 300 );
 		$(".dragContainer").hide();
 		$(".dragContainer").fadeIn();
+                $("#filterBtn").fadeIn();
+                $("#search").animate({width: "300px",}, 300 );
 		self.filter("");
 		self.focusBar(true);
 		reload();
@@ -186,7 +253,7 @@ sammyPlugin = $.sammy(function() {
 		self.page(2);
 		if(self.status() == 0) this.redirect('#/main');
 		if(self.status() != 0) {
-                  $(".dropContainer").animate({width: "460px"}, 300 );
+                  $(".dropContainer").animate({width: "510px"}, 300 );
 		  $(".dropContainer").animate({height: "350px"}, 300 );
                 }
 		self.filter("");
@@ -209,6 +276,28 @@ function reload(){
 
 }
 
+function populateCategories(pIndex){
+    var parent = self.loadedCategories()[pIndex];
+    var countIndex = 0;      
+        $.each(self.availableCategories(), function(index, item) {  
+          //console.log(self.availableCategories()[index]);  
+          parent.values.push(
+            {"id": ko.observable(countIndex++),
+             "name": ko.observable(self.availableCategories()[index]),
+             "state": ko.observable(false)
+            }
+          );
+        });  
+        parent.values.sortByPropertyCat('id');
+}
+
+ function HtmlEncode(s)
+{
+ var el = document.createElement("div");
+ el.innerText = el.textContent = s;
+ s = el.innerHTML;
+ return s;
+}
 
 function loadData(){
             $.ajax({

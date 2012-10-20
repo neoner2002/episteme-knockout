@@ -98,8 +98,10 @@
 
 
 <div class="controlContainer" data-bind="visible: page() < 2">
-    <a class="button category" > <span data-bind="text: lang().b2"></span> </a>
-    <input id="search" data-bind="value: filter, hasfocus: focusBar, valueUpdate: 'afterkeydown'" />
+    <div id="filterBtn">
+    <a class="category" href="#" data-filter-by-category="true"> <span data-bind="text: lang().b2"></span> </a>
+    </div>
+    <input id="search" data-bind="attr: { 'placeholder': lang().b1 }, value: filter, hasfocus: focusBar, valueUpdate: 'afterkeydown'" />
 </div>
 
 
@@ -139,25 +141,24 @@
 </div>	
 
 <div data-bind="autoPaginate: filteredData"></div>
+<!--
+<pre data-bind="text: ko.toJSON(loadedCategories, null, 2)"></pre>
+-->
 
 <div id="dialog" data-bind="attr: { 'title': lang().b3 }">
     <div id="tabs">
-    <ul>
-        <li><a href="#tabs-1"> <span data-bind="text: lang().b4"></span> </a></li>
-        <li><a href="#tabs-2"> <span data-bind="text: lang().b5"></span> </a></li>
-        <li><a href="#tabs-3"> <span data-bind="text: lang().b6"></span> </a></li>
+    <ul data-bind="foreach: loadedCategories">
+        <li><a data-bind="attr: { 'href': '#'+name() }"> <span data-bind="text: $parent.lang()[name()]"></span> </a></li>
     </ul>
-    <div id="tabs-1">
-        <div><input type="checkbox" value="Madrid" data-bind="checked: selectedCategories" /> Madrid</div>
-	<div><input type="checkbox" value="Barcelona" data-bind="checked: selectedCategories" /> Barcelona</div>
-	<div><input type="checkbox" value="Valencia" data-bind="checked: selectedCategories" /> Valencia</div>
+    <span data-bind="foreach: loadedCategories">
+    <div data-bind="attr: { 'id': name() }">
+	<div data-bind="foreach: values ">
+          <div class="filterSelBtn" data-bind="css: { catActive: state() == true}">
+            <a class="category" href="#" data-bind="text: name, click: $root.selection.bind($data, $parent.id(), id, name())"></span> </a>
+          </div>
+        </div>
     </div>
-    <div id="tabs-2">
-        <p>2</p>
-    </div>
-    <div id="tabs-3">
-        <p>3</p>
-    </div>
+    </span>
 </div>
 </div>
 
