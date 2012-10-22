@@ -128,7 +128,7 @@ AppViewModel = function() {
 	    self.page = ko.observable(0);
             self.status = ko.observable(0);
 
-if(self.page() == 0){
+if(self.status() == 0){
 loadData();
 }
 
@@ -221,41 +221,48 @@ sammyPlugin = $.sammy(function() {
     	});
 
         this.get('#/main', function(context) {
+                self.loading(true);
 		self.page(0);
 		ko.mapping.fromJS(offers.offers, self.viewData);
 		self.viewData.sortByPropertyAsc('name', 'value');
-		$(".dropContainer").animate({height: "150px", width: "190px", opacity: 1,}, 300 );
+		$(".dropContainer").animate({height: "102px", width: "132px"}, 200 );
 		$(".dragContainer").hide();
 		$(".dragContainer").fadeIn();
                 $("#filterBtn").hide();
-                $("#search").animate({width: "450px",}, 300 );
+                $("#search").animate({width: "450px",}, 200 );
+                $(".menuItemArrow").animate({marginLeft: "50px",}, 200 );
 		self.filter("");
 		self.focusBar(true);
 		reload();
+                self.loading(false);
 	});
 
 	this.get('#/composer', function(context) {
+                self.loading(true);
 		if(self.status() == 0) this.redirect('#/main');
 		self.page(1);
 		ko.mapping.fromJS(self.companiesData, self.viewData);
 		self.viewData.sortByPropertyAsc('name', 'value');
-		if(self.status() != 0) $(".dropContainer").animate({height: "150px", width: "510px", opacity: 1,}, 300 );
+		if(self.status() != 0) $(".dropContainer").animate({height: "102px", width: "500px"}, 200 );
 		$(".dragContainer").hide();
 		$(".dragContainer").fadeIn();
                 $("#filterBtn").fadeIn();
-                $("#search").animate({width: "300px",}, 300 );
+                $("#search").animate({width: "300px",}, 200 );
+                $(".menuItemArrow").animate({marginLeft: "170px",}, 200 );
 		self.filter("");
 		self.focusBar(true);
 		reload();
+                self.loading(false);
 		
 	});
         this.get('#/finalize', function(context) {
 		self.page(2);
 		if(self.status() == 0) this.redirect('#/main');
 		if(self.status() != 0) {
-                  $(".dropContainer").animate({width: "510px"}, 300 );
-		  $(".dropContainer").animate({height: "350px"}, 300 );
+                  $(".dropContainer").animate({width: "500px"}, 200 );
+		  $(".dropContainer").animate({height: "350px"}, 200 );
                 }
+                $(".menuItemArrow").animate({marginLeft: "290px",}, 200 );
 		self.filter("");
 		self.focusBar(true);
 		reload();

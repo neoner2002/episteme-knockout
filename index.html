@@ -48,14 +48,12 @@
 		</div>
 		<div  class = "menuBarItem" data-bind="css: { inactive: status() < 1, selected: page() == 1 }">
 		  <div class = "menuItemText"><a href="#/composer"><span data-bind="text: lang().m2"></span></a></div>
-		  <div class = "menuItemArrow"></div>
 		</div>
 		<div  class = "menuBarItem" data-bind="css: { inactive: status() < 2,  selected: page() == 2 }">
 		  <div class = "menuItemText"><a href="#/finalize"><span data-bind="text: lang().m3"></span></a></div>
-		  <div class = "menuItemArrow"></div>
 		</div>
 	    </div>
-	    <div  id = "langBar" data-bind="visible: page() < 3">
+	    <div  id = "langBar" >
 	        <a href="#" data-bind="click: changeLanguage.bind($data,'0')">
 			<img class="flag" src="images/spanish.png" data-bind="css: { flagSelected: lang().lang == 'Spanish' }"/>		
 		</a>
@@ -84,18 +82,17 @@
    	 <div class ="droppableText"> <span data-bind="text: lang().d2"></span> </div>
 	</div>
 
-	<div id="finalizeContainer" class="finalizeContainer" data-bind="if: page() == 2">
-                <h2> <span data-bind="text: lang().f1"></span> <br></h2><br>
-                <ul>
-                    <li><a href="#"> <span data-bind="text: lang().f2"></span> </a></li>
-                    <li><a href="#"> <span data-bind="text: lang().f3"></span> </a></li>
-                    <li><a href="#"> <span data-bind="text: lang().f4"></span> </a></li>
-                    <li><a href="#"> <span data-bind="text: lang().f5"></span> </a></li>
-            </ul>
-	</div>	
+        <div id="finalizeContainer" class="finalizeContainer" data-bind="visible: page() == 2">
+          <h2> <span data-bind="text: lang().f1"></span> </h2>
+          <div class = "finalizeBtn"><a href="#"> <span data-bind="text: lang().f2"></span> </a></div>
+          <div class = "finalizeBtn"><a href="#"> <span data-bind="text: lang().f3"></span> </a></div>
+          <div class = "finalizeBtn"><a href="#"> <span data-bind="text: lang().f4"></span> </a></div>
+          <div class = "finalizeBtn"><a href="#"> <span data-bind="text: lang().f5"></span> </a></div>
+         </div>	
+
+	
 	<div id="lines" data-bind="visible: status() == 0"></div>
 </div>
-
 
 <div class="controlContainer" data-bind="visible: page() < 2">
     <div id="filterBtn">
@@ -144,7 +141,6 @@
 <!--
 <pre data-bind="text: ko.toJSON(loadedCategories, null, 2)"></pre>
 -->
-
 <div id="dialog" data-bind="attr: { 'title': lang().b3 }">
     <div id="tabs">
     <ul data-bind="foreach: loadedCategories">
