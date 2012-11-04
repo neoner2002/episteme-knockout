@@ -6,17 +6,20 @@
     <!-- css -->
     <link rel="stylesheet" href="css/lib/reset.css" type="text/css" media="screen">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/lib/jquery-ui-1.9.0.custom.min.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/lib/jquery-ui-1.9.1.custom.min.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/lib/kendo.common.min.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/lib/kendo.metro.min.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
     <!-- javascript libs-->
     <script type="text/javascript" src="js/lib/jquery-1.8.2.js"></script>
-    <script type="text/javascript" src="js/lib/jquery-ui-1.9.0.custom.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-ui-1.9.1.custom.min.js"></script>
     <script type="text/javascript" src="js/lib/jquery.pajinate.js"></script>
+    <script type="text/javascript" src="js/lib/kendo.web.min.js"></script>
     <script type="text/javascript" src="js/lib/underscore.js"></script>
     <script type="text/javascript" src="js/lib/knockout-2.1.0.js"></script>
     <script type="text/javascript" src="js/lib/knockout.mapping.js"></script>
     <script type="text/javascript" src="js/lib/sammy-latest.min.js" ></script>
-    <script type="text/javascript" src="js/lib/jquery.qtip-1.0.0-rc3.min.js" ></script>
+    <script type="text/javascript" src="js/lib/knockout-kendo.min.js"></script>
     <!-- javascript custom-->
     <script type="text/javascript" src="js/dictionary.js" ></script>
     <script type="text/javascript" src="js/dragDrop.js"></script>
@@ -61,13 +64,31 @@
 			<img class="flag" src="images/english.png" data-bind="css: { flagSelected: lang().lang == 'English' }"/>
 		</a>
 	    </div>
+	    <div  id = "messageBar" >
+		<div id = "mBarText" data-bind="text: viewOffers().length + ' ' + lang().m1, visible: page() == 0" ></div>
+		<div id = "mBarText" data-bind="text: filteredData().length + ' ' + lang().m2, visible: page() == 1" ></div>
+	    </div>
         </div>
 
 <div id="main" class="mainContainer" data-bind="visible: page() < 3">
-<img id = "loading" src="images/loading.gif" data-bind="visible: loading()"/>
 
+<!-- KENDO FILTERS -->
+<ul class="filterPanel" data-bind="kendoPanelBar: {}, visible: page() == 1, foreach: loadedCategories">
+    <li>
+        <span class="filterName" data-bind="text: $parent.lang()[name()]"></span><span class="separator"></span>
+        <ul class="filterGroup" data-bind="foreach: values">
+            <li class="k-item k-state-default">
+                <a class="filter k-link" href="#" data-bind="text: name,
+                click: $root.selection.bind($data, $parent.id(), id, name()),
+                css: { active: state() == true}"></a>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<!-- DROPPABLES -->
 <div class="dropContainer" data-bind="css: { offerContainer: page() == 0 }" >
-
+    <div id="droppableElements">
         <div  class="droppable offer" class="class1" data-bind="visible: page() >= 0">
    	 <div class ="droppableText"> <span data-bind="text: lang().d1"></span> </div>
 	</div>
@@ -90,80 +111,110 @@
           <div class = "finalizeBtn"><a href="#"> <span data-bind="text: lang().f5"></span> </a></div>
          </div>	
 
-	
-	<div id="lines" data-bind="visible: status() == 0"></div>
+	<div id="lines" data-bind="visible: status() == 0">
+		<img class="img" data-bind="attr: { 'src': lang().i1 }">
+	</div>
+
+    </div>
 </div>
 
-<div class="controlContainer" data-bind="visible: page() < 2">
-    <div id="filterBtn">
+<!-- CONTROL -->
+<div class="controlContainer">
+    <div id="filterBtn" data-bind="visible: false">
     <a class="category" href="#" data-filter-by-category="true"> <span data-bind="text: lang().b2"></span> </a>
     </div>
-    <input id="search" data-bind="attr: { 'placeholder': lang().b1 }, value: filter, hasfocus: focusBar, valueUpdate: 'afterkeydown'" />
+    <div id="filterBar" data-bind="if: page() == 1">
+    <input id="search" data-bind="attr: { 'placeholder': lang().b1 }, value: filter, hasfocus: focusBar, valueUpdate: 'afterkeydown'"/>
+    </div>
 </div>
 
-
+<!-- DRAGGABLES -->
 <div id="dragContainer" class="dragContainer" data-bind="visible: page() < 2">
+<div id="leftArrow" data-bind="visible: existPagination()">
+  <a class="prevBtn" href="">
+    <img id="larrow" src="images/larrow.png" />
+  </a>
+</div>
 
-	<div data-bind="foreach: filteredData" class="content" >
-        <div class="draggable" data-bind="attr: { 'name': $data.name.value }">
-	    <div class="logoContainer">
-	    <img class="defaultLogo" src="images/default.png" data-bind="attr: { 'src': $data.logo.value } " />
-	    </div>
-	    <div class="textContainer">
-            <p class="draggableText" data-bind="text: $data.name.value"></p>
-	    </div>
-        </div>
+<div id="draggableElements">
+  <div data-bind="foreach: viewOffers, visible: page() == 0, css: { content: page() == 0}">
+    <div class="draggable" data-bind="attr: { 'name': $data.name.value}">
+      <div class="logoContainer">
+        <!-- ko if: $data.logo != undefined -->
+        <img class="defaultLogo" src="images/default.png" data-bind="attr: {src: $data.logo.value}"/>
+        <!-- /ko -->
+        <!-- ko if: $data.logo == undefined -->
+        <img class="defaultLogo" src="images/default.png"/>
+        <!-- /ko -->
+      </div>
+      <div class="textContainer">
+        <p class="draggableText" data-bind="text: $data.name.value"></p>
+      </div>
+    </div>
+    <!-- ko if: $index() == 13 && $parent.viewOffers().length > 14 -->
+    <a href="#/wizard" >
+      <div id="newOfferContainer">
+      <div id="newOfferText"> <span data-bind="text: $parent.lang().g1"></span> </div>
+      </div>
+    </a>
+    <!-- /ko -->
+    <!-- ko if: $index() == $parent.viewOffers().length-1 && $parent.viewOffers().length < 15 -->
+    <a href="#/wizard" >
+      <div id="newOfferContainer">
+      <div id="newOfferText"> <span data-bind="text: $parent.lang().g1"></span> </div>
+      </div>
+    </a>
+    <!-- /ko -->
+  </div>
 
-    </div>	
-	<a href="#/wizard" data-bind="visible: filteredData().length > 0">
-	<div id="new_offer_entry" class="add-arrow" data-bind="visible: page() < 1"></div>
-	</a>
-	  <div class="page_navigation" data-bind="visible: filteredData().length > 0"></div>
-	  <div class="message" data-bind="visible: filteredData().length < 1">
-		<div class="med">
-			<p>
-			<span data-bind="text: lang().h1"></span>
-			<b><span data-bind="text: filter"></span></b>
-			<span data-bind="text: lang().h2"></span>
-			</p><br>
-			<p><span data-bind="text: lang().h3"></span></p><br>
-			<ul>
-				<li><span data-bind="text: lang().h4"></span></li>
-				<li><span data-bind="text: lang().h5"></span></li>
-				<li><span data-bind="text: lang().h6"></span></li>
-			</ul>
-		</div>
-	</div>
-	
+  <div data-bind="foreach: filteredData, visible: page() == 1, css: { content: page() == 1}">
+    <div class="draggable" data-bind="attr: { 'name': $data.name.value, 'title': $data.summary.value  }">
+      <div class="logoContainer">
+        <!-- ko if: $data.logo != undefined -->
+        <img class="defaultLogo" src="images/default.png" data-bind="attr: {src: $data.logo.value}"/>
+        <!-- /ko -->
+        <!-- ko if: $data.logo == undefined -->
+        <img class="defaultLogo" src="images/default.png"/>
+        <!-- /ko -->
+      </div>
+      <div class="textContainer">
+        <p class="draggableText" data-bind="text: $data.name.value"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page_navigation"></div>
+
+  <div class="message" data-bind="visible: filteredData().length < 1 && filter() != '' ">
+    <div class="med">
+      <p>
+        <span data-bind="text: lang().h1"></span>
+        <b><span data-bind="text: filter"></span></b>
+        <span data-bind="text: lang().h2"></span>
+      </p><br>
+      <p><span data-bind="text: lang().h3"></span></p><br>
+      <ul>
+        <li><span data-bind="text: lang().h4"></span></li>
+        <li><span data-bind="text: lang().h5"></span></li>
+        <li><span data-bind="text: lang().h6"></span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div id="rightArrow" data-bind="visible: existPagination()">
+  <a  class="nextBtn"  href="">
+    <img id="rarrowIMG" src="images/rarrow.png" />
+  </a>
+</div>
 </div>	
 
 <div data-bind="autoPaginate: filteredData"></div>
 <!--
 <pre data-bind="text: ko.toJSON(loadedCategories, null, 2)"></pre>
 -->
-<div id="dialog" data-bind="attr: { 'title': lang().b3 }">
-    <div id="tabs">
-    <ul data-bind="foreach: loadedCategories">
-        <li><a data-bind="attr: { 'href': '#'+name() }"> <span data-bind="text: $parent.lang()[name()]"></span> </a></li>
-    </ul>
-    <span data-bind="foreach: loadedCategories">
-    <div data-bind="attr: { 'id': name() }">
-	<div data-bind="foreach: values ">
-          <div class="filterSelBtn" data-bind="css: { catActive: state() == true}">
-            <a class="category" href="#" data-bind="text: name, click: $root.selection.bind($data, $parent.id(), id, name())"></span> </a>
-          </div>
-        </div>
-    </div>
-    </span>
-</div>
 </div>
 
-</div>
-
-
-
-
-        <div id="footer">
+<div id="footer">
             <p><span data-bind="text: lang().c1"></span></p>
 		<a href="http://gsi.dit.upm.es/" target="_blank">
 		<img class="gsiLogo" src="images/gsi_logo_gray.png" />
@@ -172,8 +223,6 @@
 		<img class="globalLogo" src="images/GlobalMetanoia_logo_gray.png" />
 		</a>
         </div>
-
-    </div>
 
 </body>
 

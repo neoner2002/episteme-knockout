@@ -20,7 +20,8 @@
 		// Setup default option values
 		var defaults = {
 			item_container_id : '.content',
-			items_per_page : 10,			
+			items_per_page : 10,	
+                        total_items : 0,		
 			nav_panel_id : '.page_navigation',
 			nav_info_id : '.info_text',
 			num_page_links_to_display : 20,			
@@ -39,23 +40,27 @@
             jquery_ui_default: "ui-state-default",
             jquery_ui_disabled: "ui-state-disabled"
 		};
-		var options = $.extend(defaults,options);
-		var $item_container;
-		var $page_container;
-		var $items;
-		var $nav_panels;
+	var options = $.extend(defaults,options);
+	var $item_container;
+	var $page_container;
+	var $items;
+	var $nav_panels;
         var total_page_no_links;
         var jquery_ui_default_class = options.jquery_ui ? options.jquery_ui_default : '';
         var jquery_ui_active_class = options.jquery_ui ? options.jquery_ui_active : '';
         var jquery_ui_disabled_class = options.jquery_ui ? options.jquery_ui_disabled : '';
-	
+
 		return this.each(function(){
 			$page_container = $(this);
 			$item_container = $(this).find(options.item_container_id);
 			$items = $page_container.find(options.item_container_id).children();
 			
-			if (options.abort_on_small_lists && options.items_per_page >= $items.size())
-                return $page_container;
+			if (options.abort_on_small_lists && (options.items_per_page >= $items.size())){
+                        $nav_panels = $page_container.find(options.nav_panel_id);			
+			$nav_panels.html('');
+                        $items.show();
+                        return $page_container;
+			}
                 
 			meta = $page_container;
 			
@@ -68,7 +73,6 @@
 			
 			// Calculate the number of pages needed
 			var number_of_pages = Math.ceil(total_items/options.items_per_page);
-			
 			// Construct the nav bar
 			var more = '<span class="ellipse more">...</span>';
 			var less = '<span class="ellipse less">...</span>';

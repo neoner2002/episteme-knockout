@@ -70,8 +70,6 @@ offers = {"offers": [{
 	"name" : { "value" : "offer4"},
 	"province" : { "value" : "Madrid"},
         "type" : { "value" : "Pequeña Empresa"},
-	"province" : { "value" : "Madrid"},
-        "type" : { "value" : "Pequeña Empresa"},
 	"logo" : { "text" : "company 4 logo", "value" : "images/offer4.png"},
 	"description" : "The description of fourth company"
 
@@ -98,9 +96,8 @@ offers = {"offers": [{
 
 	}]}
 
-availableCategories = [
-            {"id":0,"name":"province","values":[]},
-            {"id":1,"name":"type","values":[]}
+templateCategories = [
+            {"id":0,"name":"province","values":[]}
             ];
 
 
@@ -109,42 +106,40 @@ AppViewModel = function() {
 	    var limit = "505";
 
 	    self.lang = ko.observable(languages[0]);
-            self.loading = ko.observable(true);
-            self.loadingCat = ko.observable(true);
+            self.loading = ko.observable(false);
+	    self.existPagination = ko.observable(false);
 
 	    self.filter = ko.observable();
-
-	    self.availableCategories = ko.observableArray();
-	    self.loadedCategories = ko.mapping.fromJS(availableCategories);
-	    self.filteredCategory = ko.observableArray();
-            self.filteredData = ko.observableArray();
-
 	    filterType = ko.observable("name");
+	    self.availableCategories = ko.observableArray();
+	    self.companiesData = ko.observableArray();
+	    self.viewData = ko.observableArray();
+	    self.loadedCategories = ko.mapping.fromJS(templateCategories);
+	    //self.filteredCategory = ko.observableArray();
+            //self.filteredData = ko.observableArray();
 
 	    self.focusBar = ko.observable(true);
-	    self.pageNavigation = ko.observable(true);
-	    self.setFocusBar = function() { self.focusBar(true); console.log("eo"); return true;}
+	    self.setFocusBar = function() { self.focusBar(true); return true;}
 
 	    self.page = ko.observable(0);
             self.status = ko.observable(0);
 
-if(self.status() == 0){
-loadData();
-}
+            self.viewOffers = ko.mapping.fromJS(offers.offers);
+
+            ko.bindingHandlers.kendoPanelBar.options.expandMode = "single";
+            ko.bindingHandlers.kendoPanelBar.options.select = expandCollapse;
+              function expandCollapse(e) {
+                if ($(e.item).is(".k-state-active")) {
+                  var that = this;
+                   window.setTimeout(function(){that.collapse(e.item);}, 1);
+		   $(e.item.children).removeClass("k-state-selected");
+                 }
+              };
+
 
 //filter the items using selectors
 self.filteredCategory = ko.computed(function() {  
-
    var data = self.viewData();
-   if(self.loadingCat() == true){
-       $.each(self.loadedCategories(), function(index, item) {  
-         self.availableCategories(ko.utils.getDataColumns(item.name()));
-         //console.log( self.availableCategories());
-         populateCategories(index);
-       });
-      self.loadingCat(false);
-   }
-
    var filtro = self.loadedCategories();
 
    if(!filtro){
@@ -161,7 +156,7 @@ self.filteredCategory = ko.computed(function() {
            $.each(item1.values(), function(index2, item2) {
                 if(item2.state() == true){
                     tempString += " "+item2.name();
-                    console.log(tempString);
+                    //console.log(tempString);
                 }
            });
            tempFilter = ko.utils.arrayFilter(tempFilter, function(item) {
@@ -201,7 +196,6 @@ self.selection = function(pIndex, index, name) {
             }
         );
         parent.values.sortByPropertyCat('id');
-    self.loadedCategories(self.loadedCategories());
     };
 
 //reload when filteredData changes
@@ -221,46 +215,39 @@ sammyPlugin = $.sammy(function() {
     	});
 
         this.get('#/main', function(context) {
-                self.loading(true);
 		self.page(0);
-		ko.mapping.fromJS(offers.offers, self.viewData);
-		self.viewData.sortByPropertyAsc('name', 'value');
-		$(".dropContainer").animate({height: "102px", width: "132px"}, 200 );
+		self.viewOffers.sortByPropertyAsc('name', 'value');
+		$("#droppableElements").animate({height: "122px", width: "152px"}, 200 );
+		$("#droppableElements").css( 'box-shadow' , 'inset 0 0 3px #ccc'  );
 		$(".dragContainer").hide();
 		$(".dragContainer").fadeIn();
-                $("#filterBtn").hide();
-                $("#search").animate({width: "450px",}, 200 );
                 $(".menuItemArrow").animate({marginLeft: "50px",}, 200 );
 		self.filter("");
 		self.focusBar(true);
 		reload();
-                self.loading(false);
 	});
 
 	this.get('#/composer', function(context) {
-                self.loading(true);
 		if(self.status() == 0) this.redirect('#/main');
 		self.page(1);
-		ko.mapping.fromJS(self.companiesData, self.viewData);
-		self.viewData.sortByPropertyAsc('name', 'value');
-		if(self.status() != 0) $(".dropContainer").animate({height: "102px", width: "500px"}, 200 );
-		$(".dragContainer").hide();
-		$(".dragContainer").fadeIn();
-                $("#filterBtn").fadeIn();
-                $("#search").animate({width: "300px",}, 200 );
+		if(self.status() != 0) $("#droppableElements").animate({height: "122px", width: "550px"}, 200 );
+		$(".dragContainer").hide().fadeIn();
+                $(".controlContainer").hide().fadeIn();
+		$(".filterPanel").hide().fadeIn();
+		$("#droppableElements").css( 'box-shadow' , 'inset 0 0 3px #ccc'  );
                 $(".menuItemArrow").animate({marginLeft: "170px",}, 200 );
 		self.filter("");
 		self.focusBar(true);
 		reload();
-                self.loading(false);
 		
 	});
         this.get('#/finalize', function(context) {
 		self.page(2);
 		if(self.status() == 0) this.redirect('#/main');
 		if(self.status() != 0) {
-                  $(".dropContainer").animate({width: "500px"}, 200 );
-		  $(".dropContainer").animate({height: "350px"}, 200 );
+                  $("#droppableElements").animate({width: "550px"}, 200 );
+		  $("#droppableElements").animate({height: "350px"}, 200 );
+		  $("#droppableElements").css( 'box-shadow' , ' 0 0 10px #999'  );
                 }
                 $(".menuItemArrow").animate({marginLeft: "290px",}, 200 );
 		self.filter("");
@@ -279,15 +266,23 @@ function reload(){
 	console.log("reload!");
 	paginate();
 	createTooltips();
+        createFilters();
 	OnloadFunction();
-
+	if($('.page_navigation').is(':empty')){
+	  self.existPagination(false);
+	}else{
+	  self.existPagination(true);
+	}
 }
 
 function populateCategories(pIndex){
     var parent = self.loadedCategories()[pIndex];
     var countIndex = 0;      
         $.each(self.availableCategories(), function(index, item) {  
-          //console.log(self.availableCategories()[index]);  
+          //console.log(self.availableCategories()[index]); 
+          parent.values.remove(function(item) {
+            return item.name() == self.availableCategories()[index];
+          });     
           parent.values.push(
             {"id": ko.observable(countIndex++),
              "name": ko.observable(self.availableCategories()[index]),
@@ -306,29 +301,36 @@ function populateCategories(pIndex){
  return s;
 }
 
-function loadData(){
+var url1 = "http://shannon.gsi.dit.upm.es/episteme/lmf/sparql/select?query=SELECT+*+WHERE+%7B%5B%5D+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Fname%3E+%3Fname+%3B+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Fprovince%3E+%3Fprovince+%3B+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Flogo%3E+%3Flogo+%3B+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Ftype%3E+%3Ftype+%3B%7D&output=json";
+
+var url2 = "http://138.4.3.224:8080/Episteme/CompanyMatcher?categorie[0]=Web&categorie[1]=Wifi&weight[0]=0.25&weight[1]=0.75&json=json1";
+
+self.loadData = function loadData(){
             $.ajax({
 	    type: 'GET',
-	    url: "http://shannon.gsi.dit.upm.es/episteme/lmf/sparql/select?query=SELECT+*+WHERE+%7B%5B%5D+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Fname%3E+%3Fname+%3B+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Fprovince%3E+%3Fprovince+%3B+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Flogo%3E+%3Flogo+%3B+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Ftype%3E+%3Ftype+%3B%7D&output=json",
+	    url: "http://shannon.gsi.dit.upm.es/episteme/lmf/sparql/select?query=SELECT+%3Fname+%3Flogo+%3Furl+%3Fstreetaddress+%3Fprovince+%3Fsummary+WHERE+%7B%0D%0A++%3Fs+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23VCard%3E+%3Fnodoblanco+.%0D%0A++%3Fnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23logo%3E+%3Flogo+.%0D%0A++%3Fnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23fn%3E+%3Fname+.%0D%0A++%3Fnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23url%3E+%3Furl+.%0D%0A++%3Fnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23adr%3E+%3Fadrnodoblanco+.%0D%0A++%3Fadrnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23street-address%3E+%3Fstreetaddress+.%0D%0A++%3Fadrnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23locality%3E+%3Fprovince+.%0D%0A++%3Fs+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23General%3E+%3FnodoblancoSummary+.%0D%0A++%3FnodoblancoSummary+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23summary%3E+%3Fsummary%0D%0A%7D%0D%0ALIMIT+50&output=json",
 	    dataType: 'json',
 	    success: function(allData) {
-		    //console.log("Alldata es: " + JSON.stringify(allData)); 
-		    self.companiesData = ko.mapping.fromJS(allData.results.bindings);
-		    self.viewData = ko.mapping.fromJS(self.companiesData);
-		    self.loading(false);
+		    data = JSON.stringify(allData.results.bindings);
+		    console.log("Alldata es: " + data); 
+		    self.companiesData = ko.mapping.fromJSON(data);
+		    self.viewData = ko.mapping.fromJSON(data);
+
 	    },
 	    data: {},
 	    async: false
 	    });
-	    
-	     this.dataColumns = ko.computed( function() {
-		    var mapping = _.map(self.viewData(), function(element){ return Object.keys(element); });
-		    var flat = _.reduce(mapping, function(a,b){return a.concat(b); }, [] );
-		    var unique = _.uniq(flat);
-		    return unique;
-	    });
+		
+	    loadCategories();
 }
 
+function loadCategories(){
+       $.each(self.loadedCategories(), function(index, item) {
+         self.availableCategories(ko.utils.getDataColumns(item.name()));
+         //console.log( self.availableCategories());
+         populateCategories(index);
+       });
+}
 
 self.changeLanguage = function(place) {  
         self.lang(languages[place]); 

@@ -33,7 +33,6 @@ $(function() {
 	    accept: ".draggable",
             drop: function( event, ui ) {
                 dropOfferAction( $(ui.helper), $(this) );
-		console.log("offer drop");
             }
         });
     });
@@ -59,6 +58,8 @@ function dropOfferAction( $drag, $drop ) {
 	$drop.html( $drag.html() );
         if(self.page() == 0){
 	    self.status(1);
+	    self.loadData();
+	    self.viewData.sortByPropertyAsc('name', 'value');
 	    sammyPlugin.trigger('redirectEvent', {url_data: '#/composer'});
         }
 }

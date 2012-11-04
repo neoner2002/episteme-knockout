@@ -1,4 +1,4 @@
-function createTooltips2 ()
+function createFilters ()
 {
 
 	$(function() {
@@ -22,4 +22,4 @@ function createTooltips2 ()
 };
 
 
-$(document).ready(createTooltips2);
+$(document).ready(createFilters);
