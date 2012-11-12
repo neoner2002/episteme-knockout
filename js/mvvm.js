@@ -93,8 +93,14 @@ offers = {"offers": [{
         "type" : { "value" : "Pequeña Empresa"},
 	"logo" : { "text" : "company 2 logo", "value" : "images/offer7.png"},
 	"description" : "The description of second company"
-
-	}]}
+	},{
+	"name" : { "value" : "offer8"},
+	"province" : { "value" : "Madrid"},
+        "type" : { "value" : "Pequeña Empresa"},
+	"logo" : { "text" : "company 2 logo", "value" : "images/default.png"},
+	"description" : "The description of second company"
+	}
+	]}
 
 templateCategories = [
             {"id":0,"name":"province","values":[]}
@@ -122,7 +128,8 @@ AppViewModel = function() {
 	    self.setFocusBar = function() { self.focusBar(true); return true;}
 
 	    self.page = ko.observable(0);
-            self.status = ko.observable(0);
+            self.status = ko.observable(-1);
+	    self.help = ko.observable(false);
 
             self.viewOffers = ko.mapping.fromJS(offers.offers);
 
@@ -167,6 +174,8 @@ self.filteredCategory = ko.computed(function() {
    }
 },self);
 
+self.hideElement = function(elem) { alert('eo');$(elem).fadeOut() }
+
 //filter the items using the filter text
 self.filteredData = ko.computed(function() {
     var filter = self.filter();
@@ -202,7 +211,7 @@ self.selection = function(pIndex, index, name) {
 ko.bindingHandlers.autoPaginate = {
     update: function(element, valueAccessor) {
 	ko.utils.unwrapObservable(valueAccessor());
-	reload();
+	self.reload();
     }
 };
 
@@ -221,48 +230,59 @@ sammyPlugin = $.sammy(function() {
 		$("#droppableElements").css( 'box-shadow' , 'inset 0 0 3px #ccc'  );
 		$(".dragContainer").hide();
 		$(".dragContainer").fadeIn();
-                $(".menuItemArrow").animate({marginLeft: "50px",}, 200 );
+                $(".menuItemArrow").stop().animate({marginLeft: "50px",}, 300 );
+		$(".filterPanel").stop().animate({marginLeft: "-200px"}, 300 );
 		self.filter("");
 		self.focusBar(true);
-		reload();
+		self.reload();
 	});
 
 	this.get('#/composer', function(context) {
-		if(self.status() == 0) this.redirect('#/main');
+		if(self.status() <= 0){ 
+                  this.redirect('#/main');
+                  return;
+                }
 		self.page(1);
-		if(self.status() != 0) $("#droppableElements").animate({height: "122px", width: "550px"}, 200 );
+		if(self.status() > 0) $("#droppableElements").animate({height: "122px", width: "550px"}, 300 );
 		$(".dragContainer").hide().fadeIn();
                 $(".controlContainer").hide().fadeIn();
-		$(".filterPanel").hide().fadeIn();
+		//$(".filterPanel").hide().fadeIn();
 		$("#droppableElements").css( 'box-shadow' , 'inset 0 0 3px #ccc'  );
-                $(".menuItemArrow").animate({marginLeft: "170px",}, 200 );
+                $(".menuItemArrow").stop().animate({marginLeft: "170px"}, 300 );
+		$(".filterPanel").stop().animate({marginLeft: "15px"}, 300 );
+	        $(".filterPanel").animate({marginLeft: "10px"}, 500 );
 		self.filter("");
 		self.focusBar(true);
-		reload();
+		self.reload();
 		
 	});
         this.get('#/finalize', function(context) {
-		self.page(2);
-		if(self.status() == 0) this.redirect('#/main');
-		if(self.status() != 0) {
-                  $("#droppableElements").animate({width: "550px"}, 200 );
-		  $("#droppableElements").animate({height: "350px"}, 200 );
-		  $("#droppableElements").css( 'box-shadow' , ' 0 0 10px #999'  );
+		if(self.status() <= 0){ 
+                  this.redirect('#/main');
+                  return;
                 }
-                $(".menuItemArrow").animate({marginLeft: "290px",}, 200 );
+                self.page(2);
+		if(self.status() > 0) {
+                  $(".filterPanel").stop().animate({marginLeft: "-200px"}, 300 );
+                  $("#droppableElements").animate({width: "550px"}, 300 );
+		  $("#droppableElements").animate({height: "350px"}, 200 );
+		  $("#droppableElements").css( 'box-shadow' , ' 0 0 10px #bbb'  );
+                }
+                $(".menuItemArrow").stop().animate({marginLeft: "290px",}, 300 );
 		self.filter("");
 		self.focusBar(true);
-		reload();
+		self.reload();
+		$(".droppable").draggable( "destroy" );	
 	});
 	this.get('#/wizard', function(context) {
 		self.page(3);
 		self.filter("");
-		reload();
+		self.reload();
 	});
 }).run('#/main'); 
 
 
-function reload(){
+self.reload = function(){
 	console.log("reload!");
 	paginate();
 	createTooltips();
@@ -306,17 +326,21 @@ var url1 = "http://shannon.gsi.dit.upm.es/episteme/lmf/sparql/select?query=SELEC
 var url2 = "http://138.4.3.224:8080/Episteme/CompanyMatcher?categorie[0]=Web&categorie[1]=Wifi&weight[0]=0.25&weight[1]=0.75&json=json1";
 
 self.loadData = function loadData(){
+	    $('#blackDIV').addClass('blackActive');
             $.ajax({
 	    type: 'GET',
 	    url: "http://shannon.gsi.dit.upm.es/episteme/lmf/sparql/select?query=SELECT+%3Fname+%3Flogo+%3Furl+%3Fstreetaddress+%3Fprovince+%3Fsummary+WHERE+%7B%0D%0A++%3Fs+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23VCard%3E+%3Fnodoblanco+.%0D%0A++%3Fnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23logo%3E+%3Flogo+.%0D%0A++%3Fnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23fn%3E+%3Fname+.%0D%0A++%3Fnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23url%3E+%3Furl+.%0D%0A++%3Fnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23adr%3E+%3Fadrnodoblanco+.%0D%0A++%3Fadrnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23street-address%3E+%3Fstreetaddress+.%0D%0A++%3Fadrnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23locality%3E+%3Fprovince+.%0D%0A++%3Fs+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23General%3E+%3FnodoblancoSummary+.%0D%0A++%3FnodoblancoSummary+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23summary%3E+%3Fsummary%0D%0A%7D%0D%0ALIMIT+50&output=json",
 	    dataType: 'json',
-	    success: function(allData) {
+            success: function(allData) {
 		    data = JSON.stringify(allData.results.bindings);
 		    console.log("Alldata es: " + data); 
-		    self.companiesData = ko.mapping.fromJSON(data);
+                    self.companiesData = ko.mapping.fromJSON(data);
 		    self.viewData = ko.mapping.fromJSON(data);
-
 	    },
+            error: function (xhr, status) {  
+                  self.loading(false);
+                  alert('Unknown error ' + status); 
+            },
 	    data: {},
 	    async: false
 	    });
@@ -333,8 +357,18 @@ function loadCategories(){
 }
 
 self.changeLanguage = function(place) {  
-        self.lang(languages[place]); 
+        self.lang(languages[place]);
+	if(self.status() == -1){
+	  saveDefault = true;
+	  ko.applyBindings(self, document.getElementById("droppableText1"), document.getElementById("droppableText2"), document.getElementById("droppableText3"));
+          self.reload();
+	}
 };
+
+self.activateHelp = function() {  
+   self.help(!self.help());
+};
+
 
 
 }

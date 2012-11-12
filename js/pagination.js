@@ -8,13 +8,13 @@ function paginate ()
 
 	//Buttons trigger pagination
         $('.dragContainer').find('.prevBtn').unbind('click');//prevent multiple binding (multiple calls)
-	    $('.dragContainer').find('.prevBtn').click(function(e){
+	$('.dragContainer').find('.prevBtn').click(function(e){
 	    e.preventDefault();
 	    $('.previous_link').trigger('click');
 	});
 
         $('.dragContainer').find('.nextBtn').unbind('click');
-	    $('.dragContainer').find('.nextBtn').click(function(e){
+	$('.dragContainer').find('.nextBtn').click(function(e){
 	    e.preventDefault();
 	    $('.next_link').trigger('click');
 	});

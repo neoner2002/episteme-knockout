@@ -1,0 +1,27 @@
+function createFilters () {
+
+  $('ul.filterGroup a').unbind('mouseenter').unbind('mouseleave');
+  $('ul.filterGroup a').mouseenter(
+    function () {
+      console.log("hover " + $(this).text());
+      var selected = $(this).text();
+      $('.draggable').each(function() {
+        if($(this).attr("province") != selected){
+           $(this).stop().animate({ opacity: 0.3 }, 'fast');
+        }
+      });
+    }
+  );
+  $('ul.filterGroup a').mouseleave(
+    function () {
+      console.log("NOhover " + $(this).text());
+      var selected = $(this).text();
+      $('.draggable').each(function() {
+         $(this).stop().animate({ opacity: 1 }, 'fast');
+      });
+    }
+  );
+
+
+};
+$(document).ready(createFilters);

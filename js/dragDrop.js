@@ -1,67 +1,129 @@
-function OnloadFunction ()
-{
-
+saveDefault = true;
 opportunities = 1;
-companies = 1;
+companies = 0;
+
+function OnloadFunction (){
 
 $(function() {
-	$( ".draggable" ).draggable({
-	revert: "invalid",
-	helper: "clone",
-	start: function( event, ui ) {
-                startAction( $(ui.helper), $(this));
-            },
-	stop: function( event, ui ) {
-                stopAction( $(ui.helper), $(this));
-            }
-	});
-
+  if(saveDefault){
+    droppableOfferHTML = $( ".droppableOffer" ).html();
+    droppableCompanyHTML = $( ".droppableCompany" ).html();
+  }
+  saveDefault = false;
 });
 
 $(function() {
-        $( ".company" ).droppable({
-	    accept: ".draggable",
-            drop: function( event, ui ) {
-                dropAction( $(ui.helper), $(this) );
-		console.log("company drop");
-            }
-        });
-    });
+  $( ".draggable" ).draggable({
+    revert: "invalid",
+    helper: "clone",
+    start: function( event, ui ) {
+      startAction( $(ui.helper), $(this));
+    },
+    stop: function( event, ui ) {
+      stopAction( $(ui.helper), $(this));
+    }
+  });
+});
 
 $(function() {
-        $( ".offer" ).droppable({
-	    accept: ".draggable",
-            drop: function( event, ui ) {
-                dropOfferAction( $(ui.helper), $(this) );
-            }
-        });
-    });
+  $( ".droppableCompany" ).droppable({
+     accept: ".draggable",
+     drop: function( event, ui ) {
+       dropAction( $(ui.helper), $(this) );
+       console.log("company drop");
+    }
+  });
+});
+
+$(function() {
+  $( ".droppableOffer" ).droppable({
+    accept: ".offer",
+    drop: function( event, ui ) {
+      dropOfferAction( $(ui.helper), $(this) );
+      companies = 0;
+      stopCompanyAction( $( ".draggableCompany" ) );
+      console.log("offer drop");
+    }
+  });
+});
+
+$(function() {
+  $( ".draggableOffer" ).draggable({
+    helper: "clone",
+    start: function( event, ui ) {
+      startAction( $(ui.helper), $(this));
+    },
+    stop: function( event, ui ) {
+      stopOfferAction( $(ui.helper), $(this));
+    }
+  });
+});
+
+function stopOfferAction( $helper, $original ) {
+	$original.removeClass("draggableOffer");
+	$original.draggable( "destroy" );
+	$original.html( droppableOfferHTML );
+	$original.css( 'opacity' , ' 1'  );
+	$original.attr('title' , '');
+	self.status(0);
+	self.reload();
+	companies = 0;
+	sammyPlugin.trigger('redirectEvent', {url_data: '#/main'});
+}
+
+$(function() {
+  $( ".draggableCompany" ).draggable({
+    helper: "clone",
+    start: function( event, ui ) {
+      startAction( $(ui.helper), $(this));
+    },
+    stop: function( event, ui ) {
+      companies--;
+      stopCompanyAction($(this));
+    }
+  });
+});
+
+function stopCompanyAction( $original ) {
+	$original.removeClass("draggableCompany");
+	$original.draggable( "destroy" );
+	$original.html( droppableCompanyHTML );
+	$original.css( 'opacity' , ' 1'  );
+	$original.attr('title' , '');
+	if(companies < 2){
+	    self.status(1);
+	}
+	self.reload();
+}
 
 function dropAction( $drag, $drop ) {
-	$drop.css( 'background' , 'white'  );
-        $drop.css( 'box-shadow' , ' 0 0 0px #555'  );
 	$drop.html( $drag.html() );
+	$drop.attr('title' , $drag.find('.draggableText').text());
+	$drop.addClass('draggableCompany');
         if(self.status() > 0){
-	if(companies > 1){
+	if(companies < 2){
+          companies++;
+	}
+	if(companies >= 2){
 	    self.status(2);
-	    sammyPlugin.trigger('redirectEvent', {url_data: '#/finalize'});
+	    //sammyPlugin.trigger('redirectEvent', {url_data: '#/finalize'});
 	}
-	else{
-	    companies++;
-	}
+	self.reload();
         }
 }
 
 function dropOfferAction( $drag, $drop ) {
-	$drop.css( 'background' , 'white'  );
-        $drop.css( 'box-shadow' , ' 0 0 0px #5c5'  );
+	$drop.attr('title' , $drag.find('.draggableText').text());
+	$drop.addClass('draggableOffer');
 	$drop.html( $drag.html() );
         if(self.page() == 0){
 	    self.status(1);
+	    self.loading(true);
 	    self.loadData();
 	    self.viewData.sortByPropertyAsc('name', 'value');
 	    sammyPlugin.trigger('redirectEvent', {url_data: '#/composer'});
         }
+	self.reload();
 }
 
 function startAction( $helper, $original ) {
@@ -78,6 +140,8 @@ function stopAction( $helper, $original ) {
 	$original.css( 'opacity' , ' 1'  );
 }
 
-};
+function resetDroppable() {
+	
+}
 
-$(document).ready(OnloadFunction);
+};$(document).ready(OnloadFunction);

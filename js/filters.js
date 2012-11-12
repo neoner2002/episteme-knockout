@@ -1,25 +1,16 @@
-function createFilters ()
-{
+function createFilters () {
 
-	$(function() {
-            $( "#tabs" ).tabs();
-        });
- 
-	$(function() {
-	    $( "#dialog" ).dialog({
-                resizable: true,
-	        autoOpen: false,
-                height: 250,
-          	width: 600,
-	    });
-	});
-
-	$( ".category" )
-            .click(function() {
-                $( "#dialog" ).dialog( "open" );
-            });
+  //$('.k-link').unbind('mouseenter').unbind('mouseleave');
+  //$('.k-link').mouseenter(
+  //  function () {
+  //    console.log("hover " + $(this).text());
+  //  }
+  //);
+  //$('.k-link').mouseleave(
+  //  function () {
+  //    console.log("NOhover " + $(this).text());
+  //  }
+  //);
 
 };
-
-
 $(document).ready(createFilters);

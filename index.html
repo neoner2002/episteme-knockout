@@ -40,20 +40,43 @@
 	    <div id = "logo">
 		<a href="#/main">
                 <img class="epistemeLogo" src="images/episteme_logo.png" />
-            </a>
+                </a>
 		<br class="clear" />
             </div>
 
 	    <div  id = "menuBar" data-bind="visible: page() < 3">
 	        <div  class = "menuBarItem" data-bind="css: { selected: page() == 0 }">
-		  <div class = "menuItemText "><a href="#/main"><span data-bind="text: lang().m1"></span></a></div>
+		  <a href="#/main">
+		  <div class = "menuItemIcon ">
+                    <img src="images/opportunity.svg" />
+		  </div>
+		  <div class = "menuItemText "><span data-bind="text: lang().m1"></span></div>
 		  <div class = "menuItemArrow"></div>
+		  </a>
 		</div>
 		<div  class = "menuBarItem" data-bind="css: { inactive: status() < 1, selected: page() == 1 }">
-		  <div class = "menuItemText"><a href="#/composer"><span data-bind="text: lang().m2"></span></a></div>
+		  <a href="#/composer">
+		  <div class = "menuItemIcon ">
+                    <img src="images/company.svg" />
+		  </div>
+		  <div class = "menuItemText"><span data-bind="text: lang().m2"></span></div>
+		  </a>
 		</div>
 		<div  class = "menuBarItem" data-bind="css: { inactive: status() < 2,  selected: page() == 2 }">
-		  <div class = "menuItemText"><a href="#/finalize"><span data-bind="text: lang().m3"></span></a></div>
+		  <a href="#/finalize">
+		  <div class = "menuItemIcon ">
+                    <img src="images/finalize.svg" />
+		  </div>
+		  <div class = "menuItemText"><span data-bind="text: lang().m3"></span></div>
+		  </a>
+		</div>
+		<div  class = "menuBarItem" data-bind="css: { inactive: status() < -1,  selected: help()}">
+		  <a  href="#" data-bind="click: activateHelp">
+		  <div class = "menuItemIcon ">
+                    <img src="images/help.svg" />
+		  </div>
+		  <div class = "menuItemText"><span data-bind="text: lang().m5"></span></div>
+		  </a>
 		</div>
 	    </div>
 	    <div  id = "langBar" >
@@ -65,15 +88,13 @@
 		</a>
 	    </div>
 	    <div  id = "messageBar" >
-		<div id = "mBarText" data-bind="text: viewOffers().length + ' ' + lang().m1, visible: page() == 0" ></div>
-		<div id = "mBarText" data-bind="text: filteredData().length + ' ' + lang().m2, visible: page() == 1" ></div>
+		<div id = "mBarText" data-bind="text: filteredData().length + ' ' + lang().m4, visible: page() == 1" ></div>
 	    </div>
         </div>
 
 <div id="main" class="mainContainer" data-bind="visible: page() < 3">
-
 <!-- KENDO FILTERS -->
-<ul class="filterPanel" data-bind="kendoPanelBar: {}, visible: page() == 1, foreach: loadedCategories">
+<ul class="filterPanel" data-bind="kendoPanelBar: {}, foreach: loadedCategories">
     <li>
         <span class="filterName" data-bind="text: $parent.lang()[name()]"></span><span class="separator"></span>
         <ul class="filterGroup" data-bind="foreach: values">
@@ -89,18 +110,18 @@
 <!-- DROPPABLES -->
 <div class="dropContainer" data-bind="css: { offerContainer: page() == 0 }" >
     <div id="droppableElements">
-        <div  class="droppable offer" class="class1" data-bind="visible: page() >= 0">
-   	 <div class ="droppableText"> <span data-bind="text: lang().d1"></span> </div>
+        <div  class="droppable droppableOffer offer" class="class1" data-bind="visible: page() >= 0">
+   	 <div class ="droppableText"> <span id ="droppableText1"  data-bind="text: lang().d1"></span> </div>
 	</div>
 
 	<h2 class="to" data-bind="visible: page() > 0">→</h2>
 
-	<div  class="droppable company" class="class2" data-bind="visible: page() > 0 ">
-   	 <div class ="droppableText"> <span data-bind="text: lang().d2"></span> </div>
+	<div  class="droppable droppableCompany company" class="class2" data-bind="visible: page() > 0 ">
+   	 <div class ="droppableText"> <span id ="droppableText2"  data-bind="text: lang().d2"></span> </div>
 	</div>
 
-	<div  class="droppable company" class="class2" data-bind="visible: page() > 0">
-   	 <div class ="droppableText"> <span data-bind="text: lang().d2"></span> </div>
+	<div  class="droppable droppableCompany company" class="class2" data-bind="visible: page() > 0">
+   	 <div class ="droppableText"> <span id ="droppableText3"  data-bind="text: lang().d2"></span> </div>
 	</div>
 
         <div id="finalizeContainer" class="finalizeContainer" data-bind="visible: page() == 2">
@@ -111,7 +132,7 @@
           <div class = "finalizeBtn"><a href="#"> <span data-bind="text: lang().f5"></span> </a></div>
          </div>	
 
-	<div id="lines" data-bind="visible: status() == 0">
+	<div id="lines" data-bind="visible: help() && page() == 0">
 		<img class="img" data-bind="attr: { 'src': lang().i1 }">
 	</div>
 
@@ -126,10 +147,13 @@
     <div id="filterBar" data-bind="if: page() == 1">
     <input id="search" data-bind="attr: { 'placeholder': lang().b1 }, value: filter, hasfocus: focusBar, valueUpdate: 'afterkeydown'"/>
     </div>
+    <div id="Selectlines" data-bind="visible: $root.help() && $root.page() == 0">
+        <img class="img" data-bind="attr: { 'src': $root.lang().i3 }">
+    </div>
 </div>
 
 <!-- DRAGGABLES -->
-<div id="dragContainer" class="dragContainer" data-bind="visible: page() < 2">
+<div class="dragContainer" data-bind="visible: page() < 2">
 <div id="leftArrow" data-bind="visible: existPagination()">
   <a class="prevBtn" href="">
     <img id="larrow" src="images/larrow.png" />
@@ -138,7 +162,7 @@
 
 <div id="draggableElements">
   <div data-bind="foreach: viewOffers, visible: page() == 0, css: { content: page() == 0}">
-    <div class="draggable" data-bind="attr: { 'name': $data.name.value}">
+    <div class="draggable offer" data-bind="attr: {'name': $data.name.value}">
       <div class="logoContainer">
         <!-- ko if: $data.logo != undefined -->
         <img class="defaultLogo" src="images/default.png" data-bind="attr: {src: $data.logo.value}"/>
@@ -152,23 +176,35 @@
       </div>
     </div>
     <!-- ko if: $index() == 13 && $parent.viewOffers().length > 14 -->
-    <a href="#/wizard" >
-      <div id="newOfferContainer">
-      <div id="newOfferText"> <span data-bind="text: $parent.lang().g1"></span> </div>
+    <div class="offerButtonDIV">
+      <a data-bind="attr: { 'href': './wizard/wizard.html?lang=' + $parent.lang().lang} ">
+        <div id="newOfferContainer">
+        <div id="newOfferText"> <span data-bind="text: $parent.lang().g1"></span> </div>
+        
+        </div>
+      </a>
+      <div id="Offerlines" data-bind="visible: $root.help() && $root.page() == 0">
+        <img class="img" data-bind="attr: { 'src': $root.lang().i2 }">
       </div>
-    </a>
+    </div>
     <!-- /ko -->
     <!-- ko if: $index() == $parent.viewOffers().length-1 && $parent.viewOffers().length < 15 -->
-    <a href="#/wizard" >
-      <div id="newOfferContainer">
-      <div id="newOfferText"> <span data-bind="text: $parent.lang().g1"></span> </div>
+    <div class="offerButtonDIV">
+      <a data-bind="attr: { 'href': './wizard/wizard.html?lang=' + $parent.lang().lang} ">
+        <div id="newOfferContainer">
+        <div id="newOfferText"> <span data-bind="text: $parent.lang().g1"></span> </div>
+        
+        </div>
+      </a>
+      <div id="Offerlines" data-bind="visible: $root.help() && $root.page() == 0">
+        <img class="img" data-bind="attr: { 'src': $root.lang().i2 }">
       </div>
-    </a>
+    </div>
     <!-- /ko -->
   </div>
 
-  <div data-bind="foreach: filteredData, visible: page() == 1, css: { content: page() == 1}">
-    <div class="draggable" data-bind="attr: { 'name': $data.name.value, 'title': $data.summary.value  }">
+  <div data-bind="foreach: filteredData, beforeRemove: hideElement, visible: page() == 1, css: { content: page() == 1}">
+    <div id="draggable" class="draggable" data-bind="attr: { 'name': $data.name.value, 'title': '<b>'+$data.name.value()+'</b><br>' + $data.summary.value(), 'province': $data.province.value}">
       <div class="logoContainer">
         <!-- ko if: $data.logo != undefined -->
         <img class="defaultLogo" src="images/default.png" data-bind="attr: {src: $data.logo.value}"/>
@@ -214,6 +250,9 @@
 -->
 </div>
 
+<div id="OfferDetails">
+</div>
+
 <div id="footer">
             <p><span data-bind="text: lang().c1"></span></p>
 		<a href="http://gsi.dit.upm.es/" target="_blank">
@@ -223,7 +262,11 @@
 		<img class="globalLogo" src="images/GlobalMetanoia_logo_gray.png" />
 		</a>
         </div>
-
+<div id="blackDIV"></div>
+<div id="blackCont">
+  <div id="loading"><img id="loadingIMG" src="images/loading.gif"/></div>
+  <div id="blackMSG"><div id="blackText"><p>Puedes arrastrar este elemento</p></div></div>
+</div>
 </body>
 
 </html>
