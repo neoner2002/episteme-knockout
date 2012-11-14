@@ -129,7 +129,7 @@ AppViewModel = function() {
 
 	    self.page = ko.observable(0);
             self.status = ko.observable(-1);
-	    self.help = ko.observable(false);
+	    self.help = ko.observable(true);
 
             self.viewOffers = ko.mapping.fromJS(offers.offers);
 

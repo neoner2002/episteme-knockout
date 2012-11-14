@@ -12,8 +12,8 @@ $(function() {
   saveDefault = false;
 });
 
-$(function() {
-  $( ".draggable" ).draggable({
+
+$( ".draggable" ).draggable({
     revert: "invalid",
     helper: "clone",
     start: function( event, ui ) {
@@ -22,21 +22,24 @@ $(function() {
     stop: function( event, ui ) {
       stopAction( $(ui.helper), $(this));
     }
-  });
 });
 
-$(function() {
-  $( ".droppableCompany" ).droppable({
+
+
+$( ".droppableCompany" ).droppable({
      accept: ".draggable",
      drop: function( event, ui ) {
        dropAction( $(ui.helper), $(this) );
        console.log("company drop");
     }
-  });
 });
 
-$(function() {
-  $( ".droppableOffer" ).droppable({
+$('.droppableCompany').unbind('click');
+$('.droppableCompany').click(function(e){
+    $(this).toggleClass('selected');
+});
+
+$( ".droppableOffer" ).droppable({
     accept: ".offer",
     drop: function( event, ui ) {
       dropOfferAction( $(ui.helper), $(this) );
@@ -44,11 +47,10 @@ $(function() {
       stopCompanyAction( $( ".draggableCompany" ) );
       console.log("offer drop");
     }
-  });
 });
 
-$(function() {
-  $( ".draggableOffer" ).draggable({
+
+ $( ".draggableOffer" ).draggable({
     helper: "clone",
     start: function( event, ui ) {
       startAction( $(ui.helper), $(this));
@@ -56,8 +58,8 @@ $(function() {
     stop: function( event, ui ) {
       stopOfferAction( $(ui.helper), $(this));
     }
-  });
 });
+
 
 function stopOfferAction( $helper, $original ) {
 	$original.removeClass("draggableOffer");
@@ -71,7 +73,7 @@ function stopOfferAction( $helper, $original ) {
 	sammyPlugin.trigger('redirectEvent', {url_data: '#/main'});
 }
 
-$(function() {
+
   $( ".draggableCompany" ).draggable({
     helper: "clone",
     start: function( event, ui ) {
@@ -82,7 +84,7 @@ $(function() {
       stopCompanyAction($(this));
     }
   });
-});
+
 
 function stopCompanyAction( $original ) {
 	$original.removeClass("draggableCompany");

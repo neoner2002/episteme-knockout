@@ -11,7 +11,9 @@ body {
   font-size: 12px;
   color: #333333;
 }
-
+.waitState{
+  cursor:wait;
+}
 .clear {clear: both !important}
 
 #header{
@@ -21,6 +23,7 @@ body {
   background-color: #ECF2E1;
   border-bottom: 2px solid #79A04B;
   position:relative;
+  cursor:default;
   z-index:101;
 }
 #header h1 {
@@ -44,16 +47,24 @@ body {
  border-top: 1px solid #A0A0A0;
  width:100%;
  min-width: 880px;
+ cursor:default;
 }
 
 .gsiLogo{
   height:100px;
-  opacity: 0.7;
+  opacity: 0.5;
 }
-
+.gsiLogo:hover{
+  height:100px;
+  opacity: 1;
+}
 .globalLogo{
   height:90px;
-  opacity: 0.7;
+  opacity: 0.5;
+}
+.globalLogo:hover{
+  height:90px;
+  opacity: 1;
 }
 
 #footer p {
@@ -94,11 +105,14 @@ body {
 .menuBarItem.selected img{
   opacity:1;
 }
+.menuBarItem.selected:hover img{
+  opacity:1;
+}
 .menuBarItem.inactive img{
   opacity:0.1;
 }
 .menuBarItem:hover img{
-  opacity:1;
+  opacity:0.75;
 }
 .menuBarItem.inactive:hover img{
   opacity:0.1;
@@ -116,7 +130,7 @@ body {
 .menuBarItem a{
   height:100%;
   display:block;
-  color:black;
+  color:#42552b;
   text-decoration:none;
 }
 .menuItemArrow{
@@ -140,7 +154,7 @@ body {
   font-weight:bold;
 }
 .inactive a{
-  color:#aaa;
+  color:#bbb;
   pointer-events: none;
   cursor: default;
 }
@@ -151,6 +165,7 @@ body {
   margin: 0 auto;
   text-align: center;
   margin-top:20px;
+  cursor:default;
 }
 #droppableElements{
   width: 152px; 
@@ -173,13 +188,19 @@ body {
   border-radius: 2px;
   overflow: hidden;
 }
-
+.droppable.selected{ 
+  border: 1px solid #00ADFF;
+}
 .offer{
-width: 130px; 
-height: 100px;
-margin:10px;
-float: left; 
-display: inline-block;
+  cursor:default;
+  width: 130px; 
+  height: 100px;
+  margin:10px;
+  float: left; 
+  display: inline-block;
+}
+.company{
+  cursor:pointer;
 }
 .draggableOffer, .draggableCompany{
   cursor:move;
@@ -295,7 +316,7 @@ z-index:-100;
   text-align:center;
   vertical-align:middle;
   border-radius: 0px 0px 2px 2px;
-  box-shadow: 50px -10px 100px #aaa;
+
   opacity: 1;
 }
 
