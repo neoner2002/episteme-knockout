@@ -473,6 +473,7 @@ input:focus{
 /*ToolTips*/
 .ui-tooltip{
   background-color:white;
+  max-width: 500px;
 }
 .offerButtonDIV{
     float:left;

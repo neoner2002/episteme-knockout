@@ -17,6 +17,11 @@ body {
 .clear {clear: both !important}
 .hide  {display: none !important;}
 
+input{ 
+    width: 50%!important;
+    background-color:red;
+    opacity:0.5;
+}
 
 /* @begin main layout styling */
 #container {

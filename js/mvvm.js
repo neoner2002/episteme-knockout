@@ -103,7 +103,8 @@ offers = {"offers": [{
 	]}
 
 templateCategories = [
-            {"id":0,"name":"province","values":[]}
+            {"id":0,"name":"province","values":[]},
+	    {"id":1,"name":"type","values":[]}
             ];
 
 
@@ -321,15 +322,11 @@ function populateCategories(pIndex){
  return s;
 }
 
-var url1 = "http://shannon.gsi.dit.upm.es/episteme/lmf/sparql/select?query=SELECT+*+WHERE+%7B%5B%5D+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Fname%3E+%3Fname+%3B+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Fprovince%3E+%3Fprovince+%3B+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Flogo%3E+%3Flogo+%3B+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Ftype%3E+%3Ftype+%3B%7D&output=json";
-
-var url2 = "http://138.4.3.224:8080/Episteme/CompanyMatcher?categorie[0]=Web&categorie[1]=Wifi&weight[0]=0.25&weight[1]=0.75&json=json1";
-
 self.loadData = function loadData(){
 	    $('#blackDIV').addClass('blackActive');
             $.ajax({
 	    type: 'GET',
-	    url: "http://shannon.gsi.dit.upm.es/episteme/lmf/sparql/select?query=SELECT+%3Fname+%3Flogo+%3Furl+%3Fstreetaddress+%3Fprovince+%3Fsummary+WHERE+%7B%0D%0A++%3Fs+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23VCard%3E+%3Fnodoblanco+.%0D%0A++%3Fnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23logo%3E+%3Flogo+.%0D%0A++%3Fnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23fn%3E+%3Fname+.%0D%0A++%3Fnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23url%3E+%3Furl+.%0D%0A++%3Fnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23adr%3E+%3Fadrnodoblanco+.%0D%0A++%3Fadrnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23street-address%3E+%3Fstreetaddress+.%0D%0A++%3Fadrnodoblanco+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23locality%3E+%3Fprovince+.%0D%0A++%3Fs+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23General%3E+%3FnodoblancoSummary+.%0D%0A++%3FnodoblancoSummary+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23summary%3E+%3Fsummary%0D%0A%7D%0D%0ALIMIT+50&output=json",
+	    url: "http://shannon.gsi.dit.upm.es/episteme/lmf/sparql/select?query=SELECT+%3Fs+%3Fname+%3Flogo+%3Fpostalcode+%3Fprovince+%3Faddress+%3Ftype+%3Fsummary+WHERE+%7B%0D%0A++%3Fs+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type%3E+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23Enterprise%3E+.%0D%0A++%3Fs+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23VCard%3E+%3Fvcard+.%0D%0A++++OPTIONAL%7B%0D%0A++++%3Fvcard+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23logo%3E+%3Flogo+.%0D%0A++++%7D%0D%0A++++%3Fvcard+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23fn%3E+%3Fname+.%0D%0A++++%3Fvcard+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23adr%3E+%3Fdireccionnodo+.%0D%0A++++++%3Fdireccionnodo+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23postal-code%3E+%3Fpostalcode+.%0D%0A++++++%3Fdireccionnodo+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23locality%3E+%3Fprovince+.%0D%0A++++++%3Fdireccionnodo+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23street-address%3E+%3Faddress+.%0D%0A++++%3Fvcard+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23org%3E+%3Forg+.%0D%0A++++++%3Forg+%3Chttp%3A%2F%2Fwww.w3.org%2F2006%2Fvcard%2Fns%23organisation-unit%3E+%3Ftype+.%0D%0A++%3Fs+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23Specific%3E+%3Fspecific+.%0D%0A++++%3Fspecific+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23Plan%3E+%3Fplan+.%0D%0A++++++%3Fplan+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23detail%3E+%3Fsummary%0D%0A%7D&output=json",
 	    dataType: 'json',
             success: function(allData) {
 		    data = JSON.stringify(allData.results.bindings);
@@ -339,7 +336,7 @@ self.loadData = function loadData(){
 	    },
             error: function (xhr, status) {  
                   self.loading(false);
-                  alert('Unknown error ' + status); 
+                  alert('Error loading companies ' + status); 
             },
 	    data: {},
 	    async: false

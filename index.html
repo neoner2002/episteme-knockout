@@ -70,7 +70,7 @@
 		  <div class = "menuItemText"><span data-bind="text: lang().m3"></span></div>
 		  </a>
 		</div>
-		<div  class = "menuBarItem" data-bind="css: { inactive: status() < -1,  selected: help()}">
+		<div  class = "menuBarItem" data-bind="css: { inactive: status() < -1, selected: help()}">
 		  <a  href="#" data-bind="click: activateHelp">
 		  <div class = "menuItemIcon ">
                     <img src="images/help.svg" />
@@ -88,7 +88,12 @@
 		</a>
 	    </div>
 	    <div  id = "messageBar" >
+		<!-- ko if: filteredData().length != 1 -->
 		<div id = "mBarText" data-bind="text: filteredData().length + ' ' + lang().m4, visible: page() == 1" ></div>
+		<!-- /ko -->
+		<!-- ko if: filteredData().length == 1 -->
+		<div id = "mBarText" data-bind="text: filteredData().length + ' ' + lang().m4b, visible: page() == 1" ></div>
+		<!-- /ko -->
 	    </div>
         </div>
 

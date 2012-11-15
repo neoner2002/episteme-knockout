@@ -71,11 +71,11 @@ OfferViewModel = function(lang) {
 
 	/* Función que carga del endpoint la lista de skills */
 	function loadSkills(){
-		var query=endPoint+'sparql/select?query=PREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E+PREFIX+ecos%3A+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23%3E+SELECT+DISTINCT+%3Fskill+WHERE+%7B+++%3Fid+ecos%3ASpecific+%3Fspecific+.+++++%3Fspecific+ecos%3ASkill+%3Fskills+.+++++++++%3Fskills+rdf%3ABag+%3Fbag+.+++++++++%3Fbag+%3Fp+%3Fbagid+.+++++++++%3Fbagid+ecos%3Aname+%3Fskill+.+++++FILTER+%28+lang%28%3Fskill%29+%3D+%22es%22+%29+%7D&output=json';
+		var query=endPoint+'sparql/select?query=SELECT+DISTINCT+%3Fskillname+WHERE+%7B%0D%0A++%3Fs+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23Specific%3E+%3Fspecific+.%0D%0A++++%3Fspecific+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23Skill%3E+%3Fnodoskill+.%0D%0A+++++++%3Fnodoskill+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23Bag%3E+%3Fnodobag+.%0D%0A+++++++++%3Fnodobag+%3Fp+%3Fskillcontent+.%0D%0A++%09%09%09%3Fskillcontent+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23name%3E+%3Fskillname+%0D%0A%7D&output=json';
 		$.getJSON(query,function(data){
 
 			$.each(data.results.bindings,function(key,val){
-				var skill=val.skill.value;
+				var skill=val.skillname.value;
 				console.log(skill);
 				self.skillsArray.push(skill);
 			});
@@ -261,7 +261,7 @@ OfferViewModel = function(lang) {
 			});
 			serialized = serialized + '</gsi:companyReq>';
 		});
-		self.companyGapArray(companyGapArray());
+		self.companyGapArray(self.companyGapArray());
 
 		serialized = serialized + '</rdf:Description></rdf:RDF>';
 		return serialized;
