@@ -2,20 +2,27 @@
  * This script has been custom develop for episteme's project.
  * Developed by Gsi
  */
-
+function nospaces(t){
+if(t.value.match(/\s/g)){
+alert('Sorry, you are not allowed to enter any spaces');
+t.value=t.value.replace(/\s/g,'');
+}
+}
 
 $(document).ready(function() {
 		
 	var current_offer_line=0;
-	var endPoint='http://apps.gsi.dit.upm.es/episteme/lmf/';
-		//var endPoint='http://echo.local:8080/LMF/';
-	level=['Básico','Experto','Avanzado'];
+	var endPoint='http://shannon.gsi.dit.upm.es/episteme/lmf/';
+		//var endPoint='http://localhost:8080/LMF/';
+	level=['Intermediate','Expert','Advanced'];
 
 function getURLParameter(name) {
     return decodeURI(
         (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
     );
 }
+
+
 
 OfferViewModel = function(lang) {
 		self = this;
@@ -35,12 +42,22 @@ OfferViewModel = function(lang) {
 		self.skillsArray = ko.observableArray(),
 		self.selectedChoice = ko.observable()
 
+		self.availableLogos = ko.observableArray([
+		  "episteme","Globalmetanoia","GSI","sphere","bird","circle","coffee",
+		  "ipod","map","next","twitter","windows","youtube"
+		])
+
+		self.help = ko.observable(false);
+
 
 		self.changeLanguage = function(place) {  
       		  self.lang(languages[place]); 
 		};
 
-		level=[self.lang().d6 , self.lang().d7 , self.lang().d8];
+                self.activateHelp = function() {  
+  		  self.help(!self.help());
+		};
+
 	};
 	init();
 
@@ -218,9 +235,16 @@ OfferViewModel = function(lang) {
 
 	/* Función llamada al hacer click en finish */
 	function onFinishCallback(){
-		var serialized= serializer();
-		uploader(serialized);
-		console.log(serialized	);
+
+		createOfferModal(function(result) {
+		  if(result){
+		    var serialized= serializer();
+		    uploader(serialized);
+		    console.log(serialized);
+		  }else{
+		    
+	 	  }
+		});
 			//window.location.replace("./");
 	}
 	
@@ -234,7 +258,7 @@ OfferViewModel = function(lang) {
 		<rdf:Description rdf:about="' ;
 		serialized = serialized + self.offerName().replace(/ +?/g,'');
 		serialized = serialized + '">'+ '<gsi:id>'+ Math.floor(Math.random()*10000)+'</gsi:id>';
-		serialized = serialized + '<gsi:logo>'+self.offerLogo()+'</gsi:logo>';
+		serialized = serialized + '<gsi:logo>'+ '/images/offers/' + self.offerLogo() + '.png' +'</gsi:logo>';
 		serialized = serialized + '<ecos:name>';
 		serialized = serialized + self.offerName();
 		serialized = serialized + '</ecos:name>' + '<ecos:detail>';
@@ -271,11 +295,12 @@ OfferViewModel = function(lang) {
 	function uploader(payload){
 		$.ajax({
 			type: 'POST',
-			url: endPoint+'import/upload?context=default',
+			url: endPoint+'import/upload?context=http://' + self.offerName().replace(/ +?/g,''),
 			contentType: 'application/rdf+xml',
 			data: payload,
 			success: function(){
 				console.log("Success");
+				window.location.href = "../index.html#/main";
 			}
 
 		});

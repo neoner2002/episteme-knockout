@@ -4,8 +4,7 @@ body {
  margin:0;
  padding:0;
  height:100%;
-}
-body {
+
   background: #FAFAF0;
   font-family: verdana, arial;
   font-size: 12px;
@@ -22,9 +21,11 @@ body {
   min-width: 880px;
   background-color: #ECF2E1;
   border-bottom: 2px solid #79A04B;
+  -webkit-box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .52);
   position:relative;
   cursor:default;
   z-index:101;
+  position: fixed !important;
 }
 #header h1 {
   color: #999;
@@ -45,25 +46,43 @@ body {
  float:left;
  background: #FAFAF0;
  border-top: 1px solid #A0A0A0;
+ -webkit-box-shadow: 0 -2px 2px -2px rgba(0, 0, 0, .52);
  width:100%;
  min-width: 880px;
  cursor:default;
 }
 
 .gsiLogo{
+  float:left;
+   background-image: url("../images/gsiLogoGrey.png");
+  transition: background-image 0.3s ease-in;
+      -moz-transition: background-image 0.3s ease-in;    /* FF3.7+ */
+      -o-transition: background-image 0.3s ease-in;      /* Opera 10.5 */
+      -webkit-transition: background-image 0.3s ease-in; /* Saf3.2+, Chrome */
+  
+  background-repeat: no-repeat;
   height:100px;
+  width:100px;
   opacity: 0.5;
 }
 .gsiLogo:hover{
-  height:100px;
+  background-image: url("../images/gsiLogoColor.png");
   opacity: 1;
 }
 .globalLogo{
-  height:90px;
+  float:left;
+  background-image: url("../images/globalLogoGrey.png");
+  transition: background-image 0.3s ease-in;
+      -moz-transition: background-image 0.3s ease-in;    /* FF3.7+ */
+      -o-transition: background-image 0.3s ease-in;      /* Opera 10.5 */
+      -webkit-transition: background-image 0.3s ease-in; /* Saf3.2+, Chrome */
+  background-repeat: no-repeat;
+  height:100px;
+  width:100px;
   opacity: 0.5;
 }
 .globalLogo:hover{
-  height:90px;
+  background-image: url("../images/globalLogoColor.png");
   opacity: 1;
 }
 
@@ -89,8 +108,8 @@ body {
   position:absolute; bottom:0; 
   margin-left:250px;
   width: 100%;
-  max-width: 480px;
-  min-width: 480px;
+  max-width: 620px;
+  min-width: 620px;
   text-align:center;
 }
 .menuBarItem{
@@ -98,6 +117,39 @@ body {
   width:120px;
   float:left;
   text-align: center;
+}
+.selectedOffer{
+  cursor:pointer;
+  z-index:1000;
+  height:80px;
+  width:110px;
+  float:left;
+  background:white;
+  border-radius:5px;
+  overflow: hidden;
+  margin-left: 20px;
+  margin-bottom: 5px;
+  -webkit-box-shadow:inset 0 0px 4px 0px rgba(0, 0, 0, 0.52);
+}
+.selectedOffer:hover{
+  -webkit-box-shadow:inset 0 0px 8px 0px rgba(0, 0, 0, 0.52);
+}
+.selectedOffer .logoContainer {
+  height: 60px;
+}
+.selectedOffer .defaultLogo {
+  padding:0;
+  padding-top:2px;
+  padding-left:10px;
+  width: 90px;
+}
+.selectedOffer .draggableText {
+  font-weight:bold;
+  opacity:0.9;
+  border-radius: 0px 0px 5px 5px;
+  width: 106px;
+  background:#54815F;
+
 }
 .menuBarItem img{
   opacity:0.5;
@@ -168,7 +220,7 @@ body {
   cursor:default;
 }
 #droppableElements{
-  width: 152px; 
+  width: 0px; 
   height: 122px; 
   display: inline-block;
   position:relative;
@@ -181,43 +233,11 @@ body {
   height: 100px; 
   float: left;
   margin:10px;
-  float: right; 
   background: #DADADA;
   border: 1px solid #B9B9B9;
   box-shadow:inset 0 0 8px #bbb;
-  border-radius: 2px;
+  border-radius: 5px;
   overflow: hidden;
-}
-.droppable.selected{ 
-  border: 1px solid #00ADFF;
-}
-.offer{
-  cursor:default;
-  width: 130px; 
-  height: 100px;
-  margin:10px;
-  float: left; 
-  display: inline-block;
-}
-.company{
-  cursor:pointer;
-}
-.draggableOffer, .draggableCompany{
-  cursor:move;
-  background:white;
-  box-shadow: 0 0 0px #5c5;
-}
-.draggableOffer:hover, .draggableCompany:hover{ 
-  box-shadow:0 0 8px #aaa;
-}
-.to {
-text-align: center;
-font-size: 50px;
-padding-top: 25px;
-width: 50px;
-margin-left:20px;
-float: left;
-color: #79A04B;
 }
 .droppableText{
   padding-top: 20px;
@@ -230,12 +250,70 @@ font-size: 15px;
 text-shadow: 1px 1px 0 #EEE;
 margin:10px;
 }
+.droppable.selected{ 
+  border: 1px solid #FFD76F;
+  background-color: #FFD76F;
+}
+.droppable.draggableCompany{ 
+  background-color: white;
+}
+.droppable:hover{
+  background-color: #FFD76F;
+}
+.droppable.draggableCompany:hover{ 
+  background-color: white;
+}
+.droppable:hover .droppableText{
+  color: #555;
+  text-shadow: none;
+}
+.ui-state-disabled{
+  opacity:1;
+}
+.company{
+  cursor:pointer !important;
+}
+.draggableOffer, .draggableCompany{
+  cursor:move !important;
+  background:white;
+  box-shadow: 0 0 0px #5c5;
+}
+.draggableOffer:hover, .draggableCompany:hover{ 
+  box-shadow:0 0 8px #aaa;
+}
+.ui-tooltip table{ 
+  width:100%;
+  border:1px solid #79A04B;
+  padding:5px;
+  background:white;
+  color:#42552b;
+  opacity:1;
+}
 
+.ui-tooltip th{ 
+  color:#42552b;
+  background:white;
+  background-color:#ECF2E1;
+  padding:5px;
+  border-left:1px solid #79A04B;
+}
+.ui-tooltip td{ 
+  background:#ECF2E1;
+  padding:5px;
+  border-left:1px solid #79A04B;
+}
+.ui-tooltip tr{ 
+  border:1px solid #79A04B;
+  padding:5px;
+}
+
+/*MAIN CONTAINER*/
 .mainContainer{
+margin-top:90px;
 background-image: url(../images/dotted.png);
 float:left;
 width:100%;
-box-shadow:inset 0 0 5px #999;
+
 background-color: #F0F0F0;
 z-index:-100;
 }
@@ -278,9 +356,49 @@ z-index:-100;
   margin: 10px 10px 10px 10px; 
   background:white;
   box-shadow: 0px 0px 10px #aaa;
-  border-radius: 2px;
+  border-radius: 5px;
   cursor:move;
   overflow: hidden;
+}
+.clickableOffers{
+  cursor:pointer;
+}
+.draggableInfo, .deleteOffer{
+  display:none;
+  color:black;
+  background:white;
+  font-size: 20px;
+  width: 25px;
+  height: 25px;
+  z-index: 100;
+  margin: 2px;
+  position: absolute;
+  border: 1px solid #eee;
+  border-radius: 0px;
+  opacity:0.5;
+}
+.draggableInfo{
+  border-radius: 5px 0px 0px 0px;
+  cursor:pointer;
+}
+.deleteOffer{
+  border-radius: 0px 5px 0px 0px;
+  cursor:pointer;
+  right: 0;
+}
+.draggableInfo:hover{
+  color:white;
+  background:#0F5BFF;
+}
+.deleteOffer:hover{
+  color:white;
+  background:#d22;
+}
+.draggable:hover .draggableInfo{
+  display:block;
+}
+.draggable:hover .deleteOffer{
+  display:block;
 }
 .dragged{ 
   transform:rotate(-4deg);
@@ -292,6 +410,9 @@ z-index:-100;
 
 .draggable:hover{ 
   box-shadow:0 0 10px #555;
+}
+.clickableOffers:hover{ 
+  box-shadow: inset 0px 0px 10px #AAA;
 }
 .defaultLogo{
   padding-top:5px;
@@ -315,7 +436,7 @@ z-index:-100;
   white-space: nowrap;
   text-align:center;
   vertical-align:middle;
-  border-radius: 0px 0px 2px 2px;
+  border-radius: 0px 0px 5px 5px;
 
   opacity: 1;
 }
@@ -428,6 +549,7 @@ input:focus{
 }
 #newOfferContainer:hover{
   background-color: #FFD76F;
+  box-shadow:inset 0 0 10px #aaa;
 }
 #newOfferContainer:hover #newOfferText{
   color: #555;
@@ -486,6 +608,7 @@ input:focus{
   background-repeat:no-repeat;
 }
 #Offerlines{
+  opacity:1 !important;
   position:absolute;
   margin-left:135px;
 }
@@ -614,7 +737,6 @@ input:focus{
 
 /*BLACK BACKGROUND*/
 #blackDIV{
-  display:none;
   z-index:500;
   position:absolute;
   width:100%;
@@ -624,7 +746,7 @@ input:focus{
 }
 /*BLACK CONTENT*/
 #blackCont{
-  display:none;
+  overflow: auto;
   z-index:550;
   position:absolute;
   width:100%;
@@ -652,7 +774,7 @@ input:focus{
 }
 /*BLACK MESSAGE*/
 #blackMSG{
-  display:none;
+  -webkit-user-select: auto; 
   position:relative;
   z-index:605;
   margin: 0 auto;
@@ -660,20 +782,75 @@ input:focus{
   height:100%;
 }
 #blackText{
+  width:100%;
   padding:10px;
   float:left;
   position:relative;
-  top:302px;
-  left:210px;
+  margin-top:10px;
+  margin-bottom:10px;
   color:white;
-  font-size: 25px;
-  text-align:center;
   z-index:607;
   background:black;
   border-radius: 5px;
   box-shadow: 0px 0px 8px #888;
   opacity:0.8;
 }
-#blackText p{
+#blackText .logoContainer{ 
+  float:right;
+  margin:5px;
+}
+#blackText .defaultLogo{ 
+  background-color: white;
+  padding: 10px;
+}
+#blackText table{ 
+  width:100%;
+  border:1px solid black;
+  padding:5px;
+  background:white;
+  color:black;
+  opacity:1;
+}
+
+#blackText th{ 
+  color:white;
+  background:white;
+  background-color:#79A04B;
+  padding:5px;
+  border-left:1px solid black;
+}
+#blackText td{ 
+  background:white;
+  padding:5px;
+  border-left:1px solid black;
+}
+#blackText tr{ 
+  border:1px solid black;
+  padding:5px;
+}
+#blackText h1{
+  background-color:#79A04B;
+  padding:5px;
+  margin:5px;
+  font-size: 25px;
+  text-align:center;
   z-index:620;
+}
+#blackText h2{
+  margin:5px;
+  font-size: 18px;
+  text-align:left;
+  z-index:620;
+}
+#blackText p{
+  max-width: 700px;
+  margin:10px; 
+  margin-left:20px;
+  font-size: 15px;
+  text-align:left;
+  z-index:620;
+}
+#blackText iframe{
+  margin:10px;
+  text-align:center;
 }

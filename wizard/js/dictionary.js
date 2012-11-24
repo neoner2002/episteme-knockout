@@ -36,6 +36,18 @@ languages =
 
 		e1: "Resumen de la oferta:",
 
+		f1: "Siguiente",
+		f2: "Anterior",
+		f3: "Finalizar",
+
+		m1: "Volver",
+		m5: "Ayuda",
+		m5b: "Ayuda del wizard de Episteme",
+
+		j1: "Confirmación de borrado",
+		j2: "Vas a eliminar este elemento. <br />No se puede restaurar después, ¿Continuar?",
+		j3: "Confirmación de creación",
+		j4: "Se va a almacenar la oferta creada. <br />¿Continuar?",
         },
         {
             lang: "English",
@@ -72,6 +84,19 @@ languages =
 		d8: "Advance",
 
 		e1: "Offer summary:",
+
+		f1: "Next",
+		f2: "Previous",
+		f3: "Finish",
+
+		m1: "Back",
+		m5: "Help",
+		m5b: "Episteme wizard help",
+
+		j1: "Delete confirmation",
+		j2: "You are about to delete this item. <br />It cannot be restored at a later time! Continue?",
+		j3: "Create confirmation",
+		j4: "You are about to store this opportunity. <br />Continue?",
         },
 
     ];

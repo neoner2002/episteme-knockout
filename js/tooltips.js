@@ -3,8 +3,6 @@ function createTooltips ()
 
 
 
-
-
     $(".draggable").tooltip({
         position: {
             my: "center+10 bottom-10",
@@ -18,10 +16,5 @@ function createTooltips ()
             at: "center bottom"
         }
     });
-
-
-
-
-
 };
 $(document).ready(createTooltips);

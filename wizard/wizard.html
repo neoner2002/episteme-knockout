@@ -12,17 +12,19 @@
  <link href="css/smart_wizard.css" rel="stylesheet" type="text/css">
  <link href="css/jquery-ui-1.8.22.custom.css" rel="stylesheet" type="text/css">
  <link href="css/jquery.rating.css" rel="stylesheet" type="text/css">
-
+ <link rel="stylesheet" href="../css/lib/jquery.confirm.css" type="text/css" media="screen">
 
  <title>Asistente de creación de ofertas</title>
 <script type="text/javascript" src="js/dictionary.js" ></script>
  <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
  <script type="text/javascript" src="js/jquery-ui-1.8.22.custom.min.js"></script>
  <script type="text/javascript" src="js/jquery.smartWizard-2.0.min.js"></script>    
+ <script type="text/javascript" src="js/jquery.wizard.user.js"></script>
   <script type="text/javascript" src="js/knockout-2.1.0.js"></script>  
 <script type="text/javascript" src="js/knockout.mapping.js"></script>
 <script type="text/javascript" src="js/jquery.rating.js"></script>
- <script type="text/javascript" src="js/jquery.wizard.user.js"></script>
+ <script type="text/javascript" src="../js/lib/jquery.confirm.js"></script>
+ <script type="text/javascript" src="../js/modal.js"></script>
 </head>
 
 <body>
@@ -34,6 +36,27 @@
                 </a>
 		<br class="clear" />
             </div>
+		
+	    <div  id = "menuBar">
+	        <div  class = "menuBarItem active" >
+		  <a href="../index.html#/main">
+		  <div class = "menuItemIcon ">
+                    <img src="../images/opportunity.svg" />
+		  </div>
+		  <div class = "menuItemText "><span data-bind="text: lang().m1"></span></div>
+		  <div class = "menuItemArrow"></div>
+		  </a>
+		</div>
+		<div  class = "menuBarItem active" data-bind="css: { selected: help()}">
+		  <a  href="#" data-bind="click: activateHelp">
+		  <div class = "menuItemIcon ">
+                    <img src="../images/help.svg" />
+		  </div>
+		  <div class = "menuItemText"><span data-bind="text: lang().m5"></span></div>
+		  </a>
+		</div>
+	    </div>
+	
             <div  id = "langBar" >
 	        <a href="#" data-bind="click: changeLanguage.bind($data,'0')">
 			<img class="flag" src="images/spanish.png" data-bind="css: { flagSelected: lang().lang == 'Spanish' }"/>		
@@ -85,11 +108,12 @@
     <h2 class="StepTitle"><span data-bind="text: lang().b1"></span></h2>
     <div class="skill-level-closure">
       <label for="offerName"><span data-bind="text: lang().b2"></span></label>
-      <input type="text" name="offerName" value="" class="txtBox" data-bind="value: offerName, attr: { 'placeholder': lang().b5+lang().b2 }">
+      <input type="text" name="offerName" value="" onkeyup="nospaces(this)" class="txtBox" data-bind="value: offerName, attr: { 'placeholder': lang().b5+lang().b2 }">
+      <div id="logoContainer"><img data-bind="attr: { 'src': '../images/offers/' + offerLogo() + '.png' }"></img></div>
     </div>
     <div class="skill-level-closure">
       <label for="offerLogo"><span data-bind="text: lang().b3"></span></label>
-      <input type="text" name="offerLogo" value="" class="txtBox" data-bind="value: offerLogo, attr: { 'placeholder': lang().b5+lang().b3 }">
+      <select data-bind="options: availableLogos, value: offerLogo"></select>
     </div>
     <div class="skill-level-closure">
       <label id="wizLabelDescription" for="description"><span data-bind="text: lang().b4"></span></label>
@@ -210,15 +234,47 @@
 
 
 <div id="footer">
-               <p>Demostrador realizado por:</p>
+            <p><span data-bind="text: lang().c1"></span></p>
 		<a href="http://gsi.dit.upm.es/" target="_blank">
-		<img class="gsiLogo" src="images/gsi_logo_gray.png" />
+		<div class="gsiLogo" title="Grupo de Sistemas Inteligentes" ></div>
 		</a>
 		<a href="http://www.globalmetanoia.com/" target="_blank">
-		<img class="globalLogo" src="images/GlobalMetanoia_logo_gray.png" />
+		<div class="globalLogo" title="Global Metanoia" ></div>
 		</a>
 </div>
 
+<div id="blackDIV" data-bind="visible: help()"></div>
+<div id="blackCont" data-bind="visible: help(), click: activateHelp, clickBubble: false">
+  <div id="blackMSG">
+    <div id="blackText">
+      <h1 data-bind="text: lang().m5b"></h1>
+      <p>1.-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac tellus lorem. Phasellus luctus suscipit mauris, nec euismod mauris dapibus sed. Curabitur est tellus, porta et aliquam a, fermentum sed ipsum. Praesent erat arcu, vulputate quis faucibus at, lobortis vestibulum dolor. Sed risus enim, posuere eu venenatis vitae, varius venenatis mauris. Fusce magna lectus, placerat id consectetur et, vestibulum quis mauris. Nullam arcu metus, porta id consequat id, tempus id est. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam non nibh et metus eleifend sagittis.
+
+Sed eu ante ac lectus auctor ullamcorper nec sed tellus. Praesent non sem vel sapien luctus fermentum. Aliquam erat volutpat. Suspendisse mauris ipsum, mattis non gravida vitae, ultricies sit amet lectus. Aliquam tincidunt porttitor varius. Morbi sed sem nunc, sed mollis justo. Ut vitae orci eu dui placerat eleifend ut non orci.</p>
+
+<p>2.-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac tellus lorem. Phasellus luctus suscipit mauris, nec euismod mauris dapibus sed. Curabitur est tellus, porta et aliquam a, fermentum sed ipsum. Praesent erat arcu, vulputate quis faucibus at, lobortis vestibulum dolor. Sed risus enim, posuere eu venenatis vitae, varius venenatis mauris. Fusce magna lectus, placerat id consectetur et, vestibulum quis mauris. Nullam arcu metus, porta id consequat id, tempus id est. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam non nibh et metus eleifend sagittis.
+
+Sed eu ante ac lectus auctor ullamcorper nec sed tellus. Praesent non sem vel sapien luctus fermentum. Aliquam erat volutpat. Suspendisse mauris ipsum, mattis non gravida vitae, ultricies sit amet lectus. Aliquam tincidunt porttitor varius. Morbi sed sem nunc, sed mollis justo. Ut vitae orci eu dui placerat eleifend ut non orci.</p>
+
+<iframe width="70%" height="315" src="http://www.youtube.com/embed/3f7l-Z4NF70" frameborder="0" allowfullscreen></iframe>
+<p>3.-Sed eu ante ac lectus auctor ullamcorper nec sed tellus. Praesent non sem vel sapien luctus fermentum. Aliquam erat volutpat. Suspendisse mauris ipsum, mattis non gravida vitae, ultricies sit amet lectus. Aliquam tincidunt porttitor varius. Morbi sed sem nunc, sed mollis justo. Ut vitae orci eu dui placerat eleifend ut non orci.</p>
+    </div>
+  </div>
+</div>
+
+<!--CONFIRM MODAL-->
+<div id="confirmOverlay">
+    <div id="confirmBox">
+
+        <h1>Title of the confirm dialog</h1>
+        <p>Description of what is about to happen</p>
+
+        <div id="confirmButtons">
+            <a class="button blue" href="#">Yes<span></span></a>
+            <a class="button gray" href="#">No<span></span></a>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

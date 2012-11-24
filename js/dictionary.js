@@ -9,12 +9,29 @@ languages =
 		m4: "Empresas encontradas",
                 m4b: "Empresa encontrada",
 		m5: "Ayuda",
+                m5b: "Ayuda de Episteme",
 		b1: "Buscar por nombre...",
 		b2: "Filtrar por categoría",
                 b3: "Aplicar filtros",
                 province: "Filtrar por provincia",
                 type: "Filtrar por Tipo",
                 b6: "Nombre",
+		b7: "Tipo",
+		b8: "Provincia",
+		b9: "Dirección",
+		b10: "Resumen",
+		b11: "Competencias",
+		b12: "Nivel",
+		b13: "Detalles",
+		b14: "Contratante",
+		b15: "Presupuesto",
+		b16: "Localización",
+		b17: "Fecha de inicio",
+		b18: "Fecha de finalización",
+		b19: "Requisitos de la oferta",
+		b20: "Detalles de la oferta",
+		b21: "Detalles de la compañía",
+		
 		d1: "Arrastra una oportunidad",
 		d2: "Arrastra una empresa",
 		c1: "Demostrador realizado por:",
@@ -33,6 +50,26 @@ languages =
 		i1: "images/arrastra.svg",
 		i2: "images/crear.svg",
 		i3: "images/selecciona.svg",
+		j1: "Confirmación de borrado",
+		j2: "Vas a eliminar este elemento. <br />No se puede restaurar después, ¿Continuar?",
+		j3: "Confirmación de creación",
+		j4: "Se va a almacenar la oferta creada. <br />¿Continuar?",
+		j5: "Confirmación de finalizar",
+		j6: "¡Muy bien! Has seleccionado las empresas adecuadas para la oportunidad."+
+			"<br />¿Quieres pasar al proceso de finalizar?"+
+			"<br />(puedes volver a editar antes de finalizar)",
+		j7: "En desarrollo...",
+		j8: "Esta funcionalidad todavía no está implementada."+
+			"<br />En un futuro podrás ponerte en contacto con las compañías en función de sus medios de comunicación.",
+
+		k1: "Selecciona una oportunidad de la página principal. Si no hay ninguna creada, puedes crearla con el formulario de creación de oportunidades.",
+		k2: "Una vez seleccionada la oportunidad puedes empezar a añadir empresas. En un primer momento están ordenadas alfabéticamente. "
+                     +"Cada oportunidad está formada por varios requisitos, y cada requisito por varias habilidades. "
+                     +"Cada requisito se visualiza como una caja en la interfaz. "
+                     +"Si pulsas sobre una caja, las empresas se ordenan en función de las habilidades del requisito (orden semántico). "
+                     +"Las primeras serán las que más se ajustan a las habilidades de la oportunidad. ",
+		k3: "Cuando ya hayas seleccionado las compañías requeridas en la oportunidad, ya puedes finalizar.",
+		k4: "Al finalizar podrás ponerte en contacto con las compañías de diversas formas y enviarles los datos de la oportunidad para hablar con ellos.",
         },
         {
             lang: "English",
@@ -43,12 +80,29 @@ languages =
 		m4: "Companies found",
 		m4b: "Company found",
 		m5: "Help",
+		m5b: "Episteme help",
 		b1: "Search by name...",
 		b2: "Filter by category",
 		b3: "Apply filters",
                 province: "Filter by province",
                 type: "Filter by type",
                 b6: "Name",
+		b7: "Type",
+		b8: "Province",
+		b9: "Address",
+		b10: "Summary",
+		b11: "Skills",
+		b12: "Level",
+		b13: "Details",
+		b14: "Contractor",
+		b15: "Budget",
+		b16: "Location",
+		b17: "Init date",
+		b18: "End date",
+		b19: "Opportunity requirements",
+		b20: "Opportunity details",
+		b21: "Company details",
+
 		d1: "Drag an opportunity",
 		d2: "Drag a company",
 		c1: "Demonstrator conducted ​​by:",
@@ -67,6 +121,26 @@ languages =
 		i1: "images/drag.svg",
 		i2: "images/create.svg",
 		i3: "images/select.svg",
+		j1: "Delete confirmation",
+		j2: "You are about to delete this item. <br />It cannot be restored at a later time! Continue?",
+		j3: "Create confirmation",
+		j4: "You are about to store this opportunity. <br />Continue?",
+		j5: "Finalize confirmation",
+		j6: "Very good! You have selected the opportunity appropriate companies."+
+			"<br />¿Do you want to finalize?"+
+			"<br />(you can return before complete the finalize process)",
+		j7: "In development...",
+		j8: "This functionality is not implemented yet."+
+			"<br />Soon you will contact the companies depending on their communication capabilities.",
+
+		k1: "Select an opportunity from home. You can create one with the form of creating opportunities.",
+		k2: "Once selected you can start adding opportunity companies. Initially are ordered alphabetically. "
+                      + "Every opportunity is composed of several requirements and each requirement for various skills. "
+                      + "Each requirement is displayed as a box in the interface. "
+                      + "If you click on a box, companies are sorted based on the skills of the requirement (semantic order). "
+                      + "The first will be those that best fit the skills of the opportunity. ",
+		k3: "When you have selected the required companies the opportunity you can finish.",
+		k4: "At the end you can contact the companies and send the opportunity data to talk to them.",
         },
 
     ];

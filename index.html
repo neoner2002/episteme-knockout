@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/lib/kendo.common.min.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/lib/kendo.metro.min.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/lib/jquery.confirm.css" type="text/css" media="screen">
     <!-- javascript libs-->
     <script type="text/javascript" src="js/lib/jquery-1.8.2.js"></script>
     <script type="text/javascript" src="js/lib/jquery-ui-1.9.1.custom.min.js"></script>
@@ -20,12 +21,14 @@
     <script type="text/javascript" src="js/lib/knockout.mapping.js"></script>
     <script type="text/javascript" src="js/lib/sammy-latest.min.js" ></script>
     <script type="text/javascript" src="js/lib/knockout-kendo.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery.confirm.js"></script>
     <!-- javascript custom-->
     <script type="text/javascript" src="js/dictionary.js" ></script>
     <script type="text/javascript" src="js/dragDrop.js"></script>
     <script type="text/javascript" src="js/pagination.js"></script>
     <script type="text/javascript" src="js/tooltips.js"></script>
     <script type="text/javascript" src="js/filters.js"></script>
+    <script type="text/javascript" src="js/modal.js"></script>
     <script type="text/javascript" src="js/mvvm.js"></script>
 
     <link rel="icon" href="images/favicon.ico" type="image/x-icon"> 
@@ -39,7 +42,7 @@
         <div id="header">
 	    <div id = "logo">
 		<a href="#/main">
-                <img class="epistemeLogo" src="images/episteme_logo.png" />
+                <img class="epistemeLogo" src="images/episteme_logo.png"/>
                 </a>
 		<br class="clear" />
             </div>
@@ -55,7 +58,7 @@
 		  </a>
 		</div>
 		<div  class = "menuBarItem" data-bind="css: { inactive: status() < 1, selected: page() == 1 }">
-		  <a href="#/composer">
+		  <a data-bind="attr: {'href': '#/composer' + '/' + selectedOffer()}">
 		  <div class = "menuItemIcon ">
                     <img src="images/company.svg" />
 		  </div>
@@ -71,13 +74,15 @@
 		  </a>
 		</div>
 		<div  class = "menuBarItem" data-bind="css: { inactive: status() < -1, selected: help()}">
-		  <a  href="#" data-bind="click: activateHelp">
+		  <a  href="#" data-bind="click: $root.activateHelp.bind($data,'help','')">
 		  <div class = "menuItemIcon ">
                     <img src="images/help.svg" />
 		  </div>
 		  <div class = "menuItemText"><span data-bind="text: lang().m5"></span></div>
 		  </a>
 		</div>
+		<div  class = "selectedOffer" data-bind="visible: page() > 0, click: $root.activateHelp.bind($data,'offer',selectedOffer()), clickBubble: false">
+		</div><span data-bind="visible: loading()">Loading...</span>
 	    </div>
 	    <div  id = "langBar" >
 	        <a href="#" data-bind="click: changeLanguage.bind($data,'0')">
@@ -96,7 +101,6 @@
 		<!-- /ko -->
 	    </div>
         </div>
-
 <div id="main" class="mainContainer" data-bind="visible: page() < 3">
 <!-- KENDO FILTERS -->
 <ul class="filterPanel" data-bind="kendoPanelBar: {}, foreach: loadedCategories">
@@ -114,34 +118,28 @@
 
 <!-- DROPPABLES -->
 <div class="dropContainer" data-bind="css: { offerContainer: page() == 0 }" >
-    <div id="droppableElements">
-        <div  class="droppable droppableOffer offer" class="class1" data-bind="visible: page() >= 0">
-   	 <div class ="droppableText"> <span id ="droppableText1"  data-bind="text: lang().d1"></span> </div>
+    <div id="droppableElements" data-bind="visible: page() >= 1" >
+
+        <div data-bind="foreach: $root.offerReq">
+	 <div  class="droppable droppableCompany company" class="class2" data-bind="visible: $root.page() > 0, attr: {'name': $data,
+               'title': '<table><tbody>' + $root.nestedReqSkills()[$index()] + '</tbody></table>'}">
+   	  <div class ="droppableText"> <span data-bind="text: $root.lang().d2"></span> </div>
+	 </div>
 	</div>
-
-	<h2 class="to" data-bind="visible: page() > 0">→</h2>
-
-	<div  class="droppable droppableCompany company" class="class2" data-bind="visible: page() > 0 ">
-   	 <div class ="droppableText"> <span id ="droppableText2"  data-bind="text: lang().d2"></span> </div>
-	</div>
-
-	<div  class="droppable droppableCompany company" class="class2" data-bind="visible: page() > 0">
-   	 <div class ="droppableText"> <span id ="droppableText3"  data-bind="text: lang().d2"></span> </div>
+     
+        <div class="lines" id="lines" data-bind="if: page() == 10">
+		<img class="img" data-bind="attr: { 'src': lang().i1 }">
 	</div>
 
         <div id="finalizeContainer" class="finalizeContainer" data-bind="visible: page() == 2">
           <h2> <span data-bind="text: lang().f1"></span> </h2>
-          <div class = "finalizeBtn"><a href="#"> <span data-bind="text: lang().f2"></span> </a></div>
-          <div class = "finalizeBtn"><a href="#"> <span data-bind="text: lang().f3"></span> </a></div>
-          <div class = "finalizeBtn"><a href="#"> <span data-bind="text: lang().f4"></span> </a></div>
-          <div class = "finalizeBtn"><a href="#/composer"> <span data-bind="text: lang().f5"></span> </a></div>
+          <div class = "finalizeBtn"><a href="#" onclick="futureModal()"> <span data-bind="text: lang().f2"></span> </a></div>
+          <div class = "finalizeBtn"><a href="#" onclick="futureModal()"> <span data-bind="text: lang().f3"></span> </a></div>
+          <div class = "finalizeBtn"><a href="#" onclick="futureModal()"> <span data-bind="text: lang().f4"></span> </a></div>
+          <div class = "finalizeBtn"><a data-bind="attr: {'href': '#/composer' + '/' + selectedOffer()}"> <span data-bind="text: lang().f5"></span> </a></div>
          </div>	
-
-	<div id="lines" data-bind="visible: help() && page() == 0">
-		<img class="img" data-bind="attr: { 'src': lang().i1 }">
-	</div>
-
     </div>
+
 </div>
 
 <!-- CONTROL -->
@@ -152,11 +150,10 @@
     <div id="filterBar" data-bind="if: page() == 1">
     <input id="search" data-bind="attr: { 'placeholder': lang().b1 }, value: filter, hasfocus: focusBar, valueUpdate: 'afterkeydown'"/>
     </div>
-    <div id="Selectlines" data-bind="visible: $root.help() && $root.page() == 0">
+    <div class="lines" id="Selectlines" data-bind="if: ($root.page() <= 0) && $root.viewOffers().length > 0">
         <img class="img" data-bind="attr: { 'src': $root.lang().i3 }">
     </div>
 </div>
-
 <!-- DRAGGABLES -->
 <div class="dragContainer" data-bind="visible: page() < 2">
 <div id="leftArrow" data-bind="visible: existPagination()">
@@ -167,10 +164,12 @@
 
 <div id="draggableElements">
   <div data-bind="foreach: viewOffers, visible: page() == 0, css: { content: page() == 0}">
-    <div class="draggable offer" data-bind="attr: {'name': $data.name.value}">
+    <div class="draggable offer clickableOffers" data-bind="click: $root.activateLoading, attr: {'name': $data.name.value, 'title': $data.name.value}">
+      <div class="draggableInfo" data-bind="click: $root.activateHelp.bind($data,'offer',$data.name.value()), clickBubble: false">?</div>
+      <div class="deleteOffer" data-bind="click: $root.deleteOffer, clickBubble: false">X</div>
       <div class="logoContainer">
         <!-- ko if: $data.logo != undefined -->
-        <img class="defaultLogo" src="images/default.png" data-bind="attr: {src: $data.logo.value}"/>
+        <img class="defaultLogo" src="images/default.png" data-bind="attr: {src: '.'+$data.logo.value()}"/>
         <!-- /ko -->
         <!-- ko if: $data.logo == undefined -->
         <img class="defaultLogo" src="images/default.png"/>
@@ -180,15 +179,15 @@
         <p class="draggableText" data-bind="text: $data.name.value"></p>
       </div>
     </div>
+    
     <!-- ko if: $index() == 13 && $parent.viewOffers().length > 14 -->
     <div class="offerButtonDIV">
       <a data-bind="attr: { 'href': './wizard/wizard.html?lang=' + $parent.lang().lang} ">
         <div id="newOfferContainer">
         <div id="newOfferText"> <span data-bind="text: $parent.lang().g1"></span> </div>
-        
         </div>
       </a>
-      <div id="Offerlines" data-bind="visible: $root.help() && $root.page() == 0">
+      <div class="lines" id="Offerlines" data-bind="if: $root.page() == 0">
         <img class="img" data-bind="attr: { 'src': $root.lang().i2 }">
       </div>
     </div>
@@ -198,18 +197,29 @@
       <a data-bind="attr: { 'href': './wizard/wizard.html?lang=' + $parent.lang().lang} ">
         <div id="newOfferContainer">
         <div id="newOfferText"> <span data-bind="text: $parent.lang().g1"></span> </div>
-        
         </div>
       </a>
-      <div id="Offerlines" data-bind="visible: $root.help() && $root.page() == 0">
+      <div class="lines" id="Offerlines" data-bind="if: $root.page() == 0">
         <img class="img" data-bind="attr: { 'src': $root.lang().i2 }">
       </div>
     </div>
     <!-- /ko -->
   </div>
-
+  <!-- ko if: $root.viewOffers().length == 0-->
+  <div class="offerButtonDIV">
+      <a data-bind="attr: { 'href': './wizard/wizard.html?lang=' + $root.lang().lang} ">
+        <div id="newOfferContainer">
+        <div id="newOfferText"> <span data-bind="text: $root.lang().g1"></span> </div>
+        </div>
+      </a>
+      <div class="lines" id="Offerlines" data-bind="if: $root.page() == 0">
+        <img class="img" data-bind="attr: { 'src': $root.lang().i2 }">
+      </div>
+    </div>
+  <!-- /ko -->
   <div data-bind="foreach: filteredData, beforeRemove: hideElement, visible: page() == 1, css: { content: page() == 1}">
-    <div id="draggable" class="draggable" data-bind="attr: { 'name': $data.name.value, 'title': '<b>'+$data.name.value()+'</b><br>' + $data.summary.value(), 'province': $data.province.value}">
+    <div id="draggable" class="draggable draggableCompanies" data-bind="attr: { 'name': $data.name.value, 'title': '<b>'+$data.name.value()+'</b><br>' + $data.summary.value(), 'province': $data.province.value}">
+      <div class="draggableInfo" data-bind="click: $root.activateHelp.bind($data,'company',$data.id.value()), clickBubble: false">?</div>
       <div class="logoContainer">
         <!-- ko if: $data.logo != undefined -->
         <img class="defaultLogo" src="images/default.png" data-bind="attr: {src: $data.logo.value}"/>
@@ -251,7 +261,7 @@
 
 <div data-bind="autoPaginate: filteredData"></div>
 <!--
-<pre data-bind="text: ko.toJSON(loadedCategories, null, 2)"></pre>
+<pre data-bind="text: ko.toJSON(nestedReqSkills, null, 2)"></pre>
 -->
 </div>
 
@@ -261,16 +271,128 @@
 <div id="footer">
             <p><span data-bind="text: lang().c1"></span></p>
 		<a href="http://gsi.dit.upm.es/" target="_blank">
-		<img class="gsiLogo" src="images/gsi_logo_gray.png" />
+		<div class="gsiLogo" title="Grupo de Sistemas Inteligentes" ></div>
 		</a>
 		<a href="http://www.globalmetanoia.com/" target="_blank">
-		<img class="globalLogo" src="images/GlobalMetanoia_logo_gray.png" />
+		<div class="globalLogo" title="Global Metanoia" ></div>
 		</a>
+</div>
+
+<div id="blackDIV" data-bind="visible: help()"></div>
+<div id="blackCont" data-bind="visible: help(), click: activateHelp, clickBubble: false">
+  <div id="blackMSG">
+    <div id="blackText">
+        <div data-bind="if: $root.helpText">
+          <h1 data-bind="text: lang().m5b"></h1>
+          <h2>1.-</h2>
+          <p>
+            <span data-bind="text: $root.lang().k1">
+          </p><br>
+          <h2>2.-</h2>
+          <p>
+            <span data-bind="text: $root.lang().k2">
+          </p><br>
+          <h2>3.-</h2>
+          <p>
+           <span data-bind="text: $root.lang().k3">
+          </p><br>
+          <h2>4.-</h2>
+          <p>
+            <span data-bind="text: $root.lang().k4">
+          </p><br>
         </div>
-<div id="blackDIV"></div>
-<div id="blackCont">
-  <div id="loading"><img id="loadingIMG" src="images/loading.gif"/></div>
-  <div id="blackMSG"><div id="blackText"><p>Puedes arrastrar este elemento</p></div></div>
+        <!--OFFER DETAILS MODAL-->
+        <div data-bind="foreach: offerDetails">
+          <h1><span data-bind="text: $root.lang().b20"></h1>
+          <div class="logoContainer">
+          <!-- ko if: $data.logo != undefined -->
+          <img class="defaultLogo" src="images/default.png" data-bind="attr: {src: '.'+$data.logo.value()}"/>
+          <!-- /ko -->
+          <!-- ko if: $data.logo == undefined -->
+          <img class="defaultLogo" src="images/default.png"/>
+          <!-- /ko -->
+          </div>
+          <h2><span data-bind="text: $root.lang().b6"></h2>
+          <p><span data-bind="text: $data.name.value"></span></p>
+          <h2><span data-bind="text: $root.lang().b13"></h2>
+          <p><span data-bind="text: $data.detail.value"></span></p>
+          <h2><span data-bind="text: $root.lang().b14"></h2>
+          <p><span data-bind="text: $data.contractor.value"></span></p>
+          <h2><span data-bind="text: $root.lang().b15"></h2>
+          <p><span data-bind="text: $data.budget.value"></span></p>
+          <h2><span data-bind="text: $root.lang().b16"></h2>
+          <p><span data-bind="text: $data.address.value"></span></p>
+          <h2><span data-bind="text: $root.lang().b17"></h2>
+          <p><span data-bind="text: $data.beginDate.value"></span></p>
+          <h2><span data-bind="text: $root.lang().b18"></h2>
+          <p><span data-bind="text: $data.endDate.value"></span></p>
+          <h2><span data-bind="text: $root.lang().b19"></h2>
+	</div>
+        <div data-bind="foreach: offerDetails">
+        <table>
+  	  <thead>
+ 	    <tr><th><span data-bind="text: $root.lang().b6"></th><th><span data-bind="text: $root.lang().b12"></th></tr>
+  	  </thead>
+  	  <tbody data-bind="foreach: $root.offerDetailsSkills">
+   	    <tr>
+       	     <td data-bind="text: $data.field.value"></td>
+             <td data-bind="text: $data.weight.value"></td>
+     	    </tr>
+  	  </tbody>
+	</table>
+        </div>
+        <!--COMPANY DETAILS MODAL-->
+        <div data-bind="foreach: companyDetails">
+          <h1><span data-bind="text: $root.lang().b21"></h1>
+          <div class="logoContainer">
+          <!-- ko if: $data.logo != undefined -->
+          <img class="defaultLogo" src="images/default.png" data-bind="attr: {src: $data.logo.value()}"/>
+          <!-- /ko -->
+          <!-- ko if: $data.logo == undefined -->
+          <img class="defaultLogo" src="images/default.png"/>
+          <!-- /ko -->
+          </div>
+          <h2><span data-bind="text: $root.lang().b6"></h2>
+          <p><span data-bind="text: $data.name.value"></span></p>
+          <h2><span data-bind="text: $root.lang().b7"></h2>
+          <p><span data-bind="text: $data.type.value"></span></p>
+          <h2><span data-bind="text: $root.lang().b8"></h2>
+          <p><span data-bind="text: $data.province.value"></span></p>
+          <h2><span data-bind="text: $root.lang().b9"></h2>
+          <p><span data-bind="text: $data.address.value"></span></p>
+          <h2><span data-bind="text: $root.lang().b10"></h2>
+          <p><span data-bind="text: $data.summary.value"></span></p>
+          <h2><span data-bind="text: $root.lang().b11"></h2>
+	</div>
+        <div data-bind="foreach: companyDetails">
+	<table>
+  	  <thead>
+ 	    <tr><th><span data-bind="text: $root.lang().b6"></th><th><span data-bind="text: $root.lang().b12"></th></tr>
+  	  </thead>
+  	  <tbody data-bind="foreach: $root.companyDetailsSkills">
+   	    <tr>
+       	     <td data-bind="text: $data.skillname.value"></td>
+             <td data-bind="text: $data.skilllevel.value"></td>
+     	    </tr>
+  	  </tbody>
+	</table>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!--CONFIRM MODAL-->
+<div id="confirmOverlay">
+    <div id="confirmBox">
+
+        <h1>Title of the confirm dialog</h1>
+        <p>Description of what is about to happen</p>
+
+        <div id="confirmButtons">
+            <a class="button blue" href="#">Yes<span></span></a>
+            <a class="button gray" href="#">No<span></span></a>
+        </div>
+    </div>
 </div>
 </body>
 

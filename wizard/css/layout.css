@@ -48,6 +48,20 @@ input{
   font-weight: 300;
 }
 
+#logoContainer{
+border: 1px dashed #DBD9D9;
+box-shadow: 0 0 17px 1px #CCC;
+float: right;
+width: 80px;
+height: 80px;
+}
+
+#logoContainer img{
+margin:2px;
+width: 76px;
+height: 76px;
+}
+
 /*Idiomas*/
 #langBar{
   float:right;
