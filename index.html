@@ -220,6 +220,7 @@
   <div data-bind="foreach: filteredData, beforeRemove: hideElement, visible: page() == 1, css: { content: page() == 1}">
     <div id="draggable" class="draggable draggableCompanies" data-bind="attr: { 'name': $data.name.value, 'title': '<b>'+$data.name.value()+'</b><br>' + $data.summary.value(), 'province': $data.province.value}">
       <div class="draggableInfo" data-bind="click: $root.activateHelp.bind($data,'company',$data.id.value()), clickBubble: false">?</div>
+      <div class="companyMedal"></div>
       <div class="logoContainer">
         <!-- ko if: $data.logo != undefined -->
         <img class="defaultLogo" src="images/default.png" data-bind="attr: {src: $data.logo.value}"/>
@@ -235,6 +236,10 @@
   </div>
 
   <div class="page_navigation"></div>
+  <div class="page_navigation_text" data-bind="if: page() == 1">
+    <span data-bind="visible: semanticOrder() == false, text: lang().m6"></span>
+    <span data-bind="visible: semanticOrder() == true, text: lang().m7"></span>
+  </div>
 
   <div class="message" data-bind="visible: filteredData().length < 1 && filter() != '' ">
     <div class="med">
@@ -258,14 +263,10 @@
   </a>
 </div>
 </div>	
-
 <div data-bind="autoPaginate: filteredData"></div>
 <!--
 <pre data-bind="text: ko.toJSON(nestedReqSkills, null, 2)"></pre>
 -->
-</div>
-
-<div id="OfferDetails">
 </div>
 
 <div id="footer">
@@ -284,22 +285,10 @@
     <div id="blackText">
         <div data-bind="if: $root.helpText">
           <h1 data-bind="text: lang().m5b"></h1>
-          <h2>1.-</h2>
-          <p>
-            <span data-bind="text: $root.lang().k1">
-          </p><br>
-          <h2>2.-</h2>
-          <p>
-            <span data-bind="text: $root.lang().k2">
-          </p><br>
-          <h2>3.-</h2>
-          <p>
-           <span data-bind="text: $root.lang().k3">
-          </p><br>
-          <h2>4.-</h2>
-          <p>
-            <span data-bind="text: $root.lang().k4">
-          </p><br>
+          <h2>1.-<span data-bind="text: $root.lang().k1"></h2><br>
+          <h2>2.-<span data-bind="text: $root.lang().k2"></h2><br>
+          <h2>3.-<span data-bind="text: $root.lang().k3"></h2><br>
+          <h2>4.-<span data-bind="text: $root.lang().k4"></h2><br>
         </div>
         <!--OFFER DETAILS MODAL-->
         <div data-bind="foreach: offerDetails">

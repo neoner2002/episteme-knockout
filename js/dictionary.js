@@ -10,6 +10,8 @@ languages =
                 m4b: "Empresa encontrada",
 		m5: "Ayuda",
                 m5b: "Ayuda de Episteme",
+		m6: "Orden alfabético",
+		m7: "Orden semántico",
 		b1: "Buscar por nombre...",
 		b2: "Filtrar por categoría",
                 b3: "Aplicar filtros",
@@ -80,6 +82,8 @@ languages =
 		m4: "Companies found",
 		m4b: "Company found",
 		m5: "Help",
+		m6: "Alphabetical order",
+		m7: "Semantic order",
 		m5b: "Episteme help",
 		b1: "Search by name...",
 		b2: "Filter by category",
@@ -133,12 +137,12 @@ languages =
 		j8: "This functionality is not implemented yet."+
 			"<br />Soon you will contact the companies depending on their communication capabilities.",
 
-		k1: "Select an opportunity from home. You can create one with the form of creating opportunities.",
+		k1: "First, select an opportunity from the home page. You can also create one with the creating opportunities form.",
 		k2: "Once selected you can start adding opportunity companies. Initially are ordered alphabetically. "
                       + "Every opportunity is composed of several requirements and each requirement for various skills. "
-                      + "Each requirement is displayed as a box in the interface. "
+                      + "Each requirement is displayed as a box in the user interface. "
                       + "If you click on a box, companies are sorted based on the skills of the requirement (semantic order). "
-                      + "The first will be those that best fit the skills of the opportunity. ",
+                      + "The first position will be those that best fit the skills of the opportunity. ",
 		k3: "When you have selected the required companies the opportunity you can finish.",
 		k4: "At the end you can contact the companies and send the opportunity data to talk to them.",
         },

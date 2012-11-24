@@ -93,6 +93,7 @@ AppViewModel = function() {
             self.status = ko.observable(-1);
 	    self.help = ko.observable(false);
             self.helpText = ko.observable(false);
+	    self.semanticOrder = ko.observable(false);
 
             self.viewOffers = ko.observableArray();
             self.offerReq = ko.observableArray();  
@@ -533,7 +534,7 @@ if(type == "company"){
 	    async: false
 	    });
 }
-
+ $('table tr:even').addClass('zebra_stripe');
 if(type == "help"){
   self.helpText(true);
 }

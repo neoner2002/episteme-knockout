@@ -124,6 +124,7 @@ function dropAction( $drag, $drop ) {
 function dropOfferAction( $drop ) {
 	//$drop.attr('title' , $drag.find('.draggableText').text());
 	//$drop.addClass('draggableOffer');
+        resetDroppables();
 	$(".selectedOffer > .logoContainer").remove();
 	$(".selectedOffer > .textContainer").remove();
 	$(".selectedOffer").append( $drop.find('.logoContainer').clone() );
@@ -136,14 +137,15 @@ function dropOfferAction( $drop ) {
         }
 	self.reload();
 }
-//WHEN A COMPPANY IS DRAGGED
+//WHEN A COMPANY IS DRAGGED
 function startAction( $helper, $original ) {
 	$helper.css( 'box-shadow' , ' 0 0 40px #999'  );
 	$helper.css( 'z-index' , '999'  );
 	$helper.addClass( "dragged" );
 	$original.css( 'opacity' , ' 0.5'  );
+        $helper.find(".companyMedal").removeClass('gold').removeClass('silver').removeClass('bronze');
 }
-//WHEN A COMPPANY IS RELEASED AND NOT DROPPED
+//WHEN A COMPANY IS RELEASED AND NOT DROPPED
 function stopAction( $helper, $original ) {
 	$helper.css( 'box-shadow' , ' 0 0 40px #999'  );
 	$helper.css( 'z-index' , '999'  );
@@ -155,10 +157,19 @@ $('.droppableCompany').unbind('click');
 $('.droppableCompany').click(function(e){
     if($(this).hasClass( 'selected' )){
       resetDroppables();
+      $('.draggableCompanies').find(".companyMedal").removeClass('gold').removeClass('silver').removeClass('bronze');
       self.viewData.sortByPropertyAsc('name', 'value');
+      $('.draggableCompanies').each(function(index) {
+        $(this).animate({opacity: 1}, 1);
+        if($(this).css('display') != 'none'){
+          $(this).hide();
+          $(this).fadeIn('fast');
+        }
+      });
     }else{
       self.viewData.sortByPropertyAsc('name', 'value');
       self.viewData.sortByPropertyDesc($(this).attr('name'), 'value');
+      self.semanticOrder(true);
       $.each($('.droppableCompany'), function() {
         $(this).removeClass('selected');
         $(this).addClass('no_selected');
@@ -167,6 +178,21 @@ $('.droppableCompany').click(function(e){
       $(this).removeClass('no_selected');
       $(this).addClass('selected');
       $(this).droppable( "enable" );
+
+      $('.draggableCompanies').find(".companyMedal").removeClass('gold').removeClass('silver').removeClass('bronze');
+      $('.draggableCompanies').each(function(index) {
+        var stallFor = 75 * parseInt(index);
+        var value = 1/(index/5)
+        $(this).animate({opacity: value}, 1);
+        if(index == 0) $(this).find(".companyMedal").addClass('gold');
+	if(index == 1) $(this).find(".companyMedal").addClass('silver');
+	if(index == 2) $(this).find(".companyMedal").addClass('bronze');
+        if($(this).css('display') != 'none'){
+          $(this).hide();
+          $(this).delay(stallFor).fadeIn();
+          $(this).delay(stallFor).fadeIn();
+        }
+      });
     }
     $.each($('.no_selected'), function() {
       if($(this).hasClass( 'draggableCompany' )){
@@ -183,6 +209,7 @@ $('.droppableCompany').click(function(e){
 
 //RESET DROPPABLE COMPANY STATE
 function resetDroppables() {
+    self.semanticOrder(false);
     $.each($('.droppableCompany'), function() {
       $(this).removeClass('no_selected');
       $(this).removeClass('selected');
