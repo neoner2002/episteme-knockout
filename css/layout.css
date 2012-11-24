@@ -494,7 +494,7 @@ text-align: center;
 
 #search {
   padding:4px;
-  width:600px;
+  width:720px;
   height:18px;
   border: 1px solid #CCC;
   border-radius: 3px;
@@ -637,7 +637,8 @@ input:focus{
 /*LINES*/
 #lines{
   position:absolute;
-  margin-left:175px;
+  right: -220px;
+  bottom: -35px;
   background-repeat:no-repeat;
 }
 #Offerlines{
@@ -649,6 +650,12 @@ input:focus{
   position:absolute;
   margin-left:50px;
   margin-top:-10px;
+}
+#Clicklines{
+  position:absolute;
+  left: -220px;
+  bottom: -65px;
+  background-repeat:no-repeat;
 }
 /*Finalize*/
 .finalizeContainer{

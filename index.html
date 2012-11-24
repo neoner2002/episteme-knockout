@@ -126,9 +126,12 @@
    	  <div class ="droppableText"> <span data-bind="text: $root.lang().d2"></span> </div>
 	 </div>
 	</div>
-     
-        <div class="lines" id="lines" data-bind="if: page() == 10">
+        
+        <div class="lines" id="lines" data-bind="if: page() == 1">
 		<img class="img" data-bind="attr: { 'src': lang().i1 }">
+	</div>
+	<div class="lines" id="Clicklines" data-bind="if: page() == 1">
+		<img class="img" data-bind="attr: { 'src': lang().i4 }">
 	</div>
 
         <div id="finalizeContainer" class="finalizeContainer" data-bind="visible: page() == 2">
