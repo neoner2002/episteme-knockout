@@ -1,6 +1,7 @@
 saveDefault = true;
 opportunities = 1;
 companies = 0;
+storedOpacity = 0;
 
 function OnloadFunction (){
 //SAVE DROPPABLE DEFAULT STATE
@@ -78,11 +79,11 @@ function stopOfferAction( $helper, $original ) {
     },
     stop: function( event, ui ) {
       companies--;
-      stopCompanyAction($(this));
+      stopCompanyAction( $(ui.helper), $(this));
     }
   });
 //WHEN A COMPANY IS DRAGGED FROM DROPPABLE
-function stopCompanyAction( $original ) {
+function stopCompanyAction( $helper, $original ) {
 	$original.removeClass("draggableCompany");
 	$original.draggable( "destroy" );
         $original.droppable( "enable" );
@@ -96,6 +97,9 @@ function stopCompanyAction( $original ) {
             $original.animate({opacity: 0.5}, 200 );
         }
 	self.reload();
+        if(!$original.hasClass( 'selected' ) && self.semanticOrder()){
+          $original.trigger('click');
+        }
 }
 //WHEN A COMPANY IS DROPPED
 function dropAction( $drag, $drop ) {
@@ -118,6 +122,13 @@ function dropAction( $drag, $drop ) {
 		});
 	}
 	self.reload();
+        if($drop.hasClass( 'selected' ) && self.semanticOrder()){
+          var next = $drop.next('.droppableCompany');
+          while(next.hasClass( 'draggableCompany' )){
+            next = next.next('.droppableCompany');
+          }
+          next.trigger('click');
+        }
         }
 }
 //WHEN A OFFER IS DROPPED
@@ -142,6 +153,7 @@ function startAction( $helper, $original ) {
 	$helper.css( 'box-shadow' , ' 0 0 40px #999'  );
 	$helper.css( 'z-index' , '999'  );
 	$helper.addClass( "dragged" );
+        storedOpacity = $original.css( 'opacity' );
 	$original.css( 'opacity' , ' 0.5'  );
         $helper.find(".companyMedal").removeClass('gold').removeClass('silver').removeClass('bronze');
 }
@@ -150,11 +162,12 @@ function stopAction( $helper, $original ) {
 	$helper.css( 'box-shadow' , ' 0 0 40px #999'  );
 	$helper.css( 'z-index' , '999'  );
 	$helper.addClass( "dragged" );
-	$original.css( 'opacity' , ' 1'  );
+	$original.css( 'opacity' , storedOpacity  );
 }
 //WHEN A DROPPABLE COMPANY IS CLICKED
 $('.droppableCompany').unbind('click');
 $('.droppableCompany').click(function(e){
+e.stopPropagation();
     if($(this).hasClass( 'selected' )){
       resetDroppables();
       $('.draggableCompanies').find(".companyMedal").removeClass('gold').removeClass('silver').removeClass('bronze');
@@ -177,8 +190,7 @@ $('.droppableCompany').click(function(e){
       });
       $(this).removeClass('no_selected');
       $(this).addClass('selected');
-      $(this).droppable( "enable" );
-
+       if(!$(this).hasClass( 'draggableCompany' )) $(this).droppable( "enable" );
       $('.draggableCompanies').find(".companyMedal").removeClass('gold').removeClass('silver').removeClass('bronze');
       $('.draggableCompanies').each(function(index) {
         var stallFor = 75 * parseInt(index);
@@ -214,6 +226,6 @@ function resetDroppables() {
       $(this).removeClass('no_selected');
       $(this).removeClass('selected');
       $(this).animate({opacity: 1}, 20 );
-      $(this).droppable( "enable" );
+      if(!$(this).hasClass( 'draggableCompany' )) $(this).droppable( "enable" );
     });
 }

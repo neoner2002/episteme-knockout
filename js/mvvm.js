@@ -193,11 +193,11 @@ ko.bindingHandlers.autoPaginate = {
 self.loadOffers = function loadOffers(){
             $.ajax({
 	    type: 'GET',
-	    url: "http://shannon.gsi.dit.upm.es/episteme/lmf/sparql/select?query=SELECT+%3Fname+%3Flogo+WHERE+%7B%0D%0A%3Fs+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23name%3E+%3Fname+.+%0D%0A%3Fs+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Flogo%3E+%3Flogo+%0D%0A%7D%0D%0A&output=json",
+	    url: "http://shannon.gsi.dit.upm.es/episteme/lmf/sparql/select?query=SELECT+%3Fname+%3Flogo+%3Fsummary%0D%0AWHERE+%7B%0D%0A++%3Fs+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23name%3E+%3Fname+.+%0D%0A++%3Fs+%3Chttp%3A%2F%2Fkmm.lboro.ac.uk%2Fecos%2F1.0%23detail%3E+%3Fsummary+.+%0D%0A++%3Fs+%3Chttp%3A%2F%2Fwww.gsi.dit.upm.es%2Flogo%3E+%3Flogo+%0D%0A%7D&output=json",
 	    dataType: 'json',
             success: function(allData) {
 		    data = JSON.stringify(allData.results.bindings);
-		    //console.log("Alldata es: " + data); 
+		    console.log("Alldata es: " + data); 
 		    self.viewOffers = ko.mapping.fromJSON(data);
 	    },
             error: function (xhr, status) {  
@@ -222,7 +222,7 @@ sammyPlugin = $.sammy(function() {
 		$(".dragContainer").hide().fadeIn();
 	        $(".lines").hide().fadeIn('slow');
                 $(".menuItemArrow").stop().animate({marginLeft: "50px",}, 300 );
-		$(".filterPanel").stop().animate({marginLeft: "-200px"}, 300 );
+		$(".filterPanel").stop().animate({marginLeft: "-250px"}, 300 );
 		self.filter("");
 		self.focusBar(true);
 		self.reload();
@@ -244,11 +244,12 @@ sammyPlugin = $.sammy(function() {
 		droppwidth = 152 + (numBoxes*152);
                 if(self.page() == 0) $(".selectedOffer").hide().fadeIn();
                 //if(self.page() == 0) $("#droppableElements").hide().fadeIn();
+		
+		$("#droppableElements").css('width' , droppwidth+"px");
 		self.page(1);
-		if(self.status() > 0) $("#droppableElements").animate({height: "122px", width: droppwidth+"px"}, 300 );
 		$(".dragContainer").hide().fadeIn();
                 $(".controlContainer").hide().fadeIn();
-		$(".lines").hide().fadeIn('slow');
+		$(".dropContainer").hide().fadeIn();
 		$("#droppableElements").css( 'box-shadow' , 'inset 0 0 3px #ccc'  );
                 $(".menuItemArrow").stop().animate({marginLeft: "170px"}, 300 );
 		$(".filterPanel").stop().animate({marginLeft: "15px"}, 300 );
@@ -265,18 +266,23 @@ sammyPlugin = $.sammy(function() {
                 }
                 self.page(2);
 		if(self.status() > 0) {
-                  $(".filterPanel").stop().animate({marginLeft: "-200px"}, 300 );
-                  $("#droppableElements").animate({width: droppwidth+"px"}, 300 );
-		  $("#droppableElements").animate({height: "350px"}, 200 );
-		  $("#droppableElements").css( 'box-shadow' , ' 0 0 10px #bbb'  );
+                  $(".filterPanel").stop().animate({marginLeft: "-250px"}, 300 );
                 }
+
+		$.each($('.droppableCompany'), function(indexa) {
+                  var company = $(this);
+		  $.each($('.finalizeCompany'), function(indexb) {
+                    if(indexa == indexb){
+		      $(this).html(company.html());
+		    }
+		  });
+		});
+		$('.finalizeFile').hide().fadeIn();
                 $(".menuItemArrow").stop().animate({marginLeft: "290px",}, 300 );
 		$(".lines").hide().fadeIn('slow');
 		self.filter("");
 		self.focusBar(true);
 		self.reload();
-		$(".droppable").draggable( "destroy" );
-                resetDroppables();
 	});
 	this.get('#/wizard', function(context) {
 		self.page(3);
@@ -364,7 +370,7 @@ function processOffer(offerId){
 	    dataType: 'json',
             success: function(allData) {
 		    data = JSON.stringify(allData.results.bindings);
-		    console.log("Alldata es: " + data);
+		    //console.log("Alldata es: " + data);
 		    postProcessOffer(allData.results.bindings);
 	    },
             error: function (xhr, status) {  
@@ -445,7 +451,7 @@ function nestReqSkills(){
      for (var j=0;j<parent.values().length;j++)
        {
 	  //alert(parent.values()[j].name());
-          nested = nested + '<tr><td>' +parent.values()[j].name()+'</td><td>'+parent.values()[j].level()+'</td></tr>';
+          nested = nested + '<tr><td class="name">' +parent.values()[j].name()+'</td><td class="value">'+parent.values()[j].level()+'</td></tr>';
        }
      self.nestedReqSkills.push(nested);
    }

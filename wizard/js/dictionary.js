@@ -17,6 +17,7 @@ languages =
 		b4: "Descripción de la oferta:",
 		b5: "Introducir ",
 
+		c0: "Demostrador realizado por:",
 		c1: "Datos administrativos:",
 		c2: "Contratante:",
 		c3: "Presupuesto:",
@@ -48,6 +49,10 @@ languages =
 		j2: "Vas a eliminar este elemento. <br />No se puede restaurar después, ¿Continuar?",
 		j3: "Confirmación de creación",
 		j4: "Se va a almacenar la oferta creada. <br />¿Continuar?",
+
+		k1: "El nombre no puede contener espacios.",
+		k2: "El presupuesto debe ser un número.",
+		k3: "Introduce al menos una habilidad.",
         },
         {
             lang: "English",
@@ -66,6 +71,7 @@ languages =
 		b4: "Offer Description:",
 		b5: "Introduce ",
 
+		c0: "Demonstrator conducted ​​by:",
 		c1: "Administrative data:",
 		c2: "Contractor:",
 		c3: "Budget:",
@@ -97,6 +103,10 @@ languages =
 		j2: "You are about to delete this item. <br />It cannot be restored at a later time! Continue?",
 		j3: "Create confirmation",
 		j4: "You are about to store this opportunity. <br />Continue?",
+
+		k1: "Name cannot contain any spaces.",
+		k2: "Budget must be a number.",
+		k3: "Introduce at least one skill.",
         },
 
     ];

@@ -4,8 +4,8 @@
  */
 function nospaces(t){
 if(t.value.match(/\s/g)){
-alert('Sorry, you are not allowed to enter any spaces');
-t.value=t.value.replace(/\s/g,'');
+//alert('Sorry, you are not allowed to enter any spaces');
+//t.value=t.value.replace(/\s/g,'');
 }
 }
 
@@ -51,7 +51,8 @@ OfferViewModel = function(lang) {
 
 
 		self.changeLanguage = function(place) {  
-      		  self.lang(languages[place]); 
+      		  self.lang(languages[place]);
+                  setButtons();
 		};
 
                 self.activateHelp = function() {  
@@ -68,15 +69,87 @@ OfferViewModel = function(lang) {
 			lang = 1;
 		}
 		ko.applyBindings(new OfferViewModel(lang));
+		setButtons();
 		loadSkills();
-		$('#wizard').smartWizard({onFinish:onFinishCallback});
+		$('#wizard').smartWizard({onLeaveStep:leaveAStepCallback, onFinish:onFinishCallback});
 
 		$( "#datepickerI" ).datepicker();
 		$( "#datepickerF" ).datepicker();
 		$( "#datepickerI" ).datepicker("option", "dateFormat", "dd-mm-yy");
 		$( "#datepickerF" ).datepicker("option", "dateFormat", "dd-mm-yy");
 		rateIt('\'#act0\'');
+                setButtons();
 	}
+
+        function setButtons(){
+	  $(".buttonNext").text(self.lang().f1);
+	  $(".buttonPrevious").text(self.lang().f2);
+	  $(".buttonFinish").text(self.lang().f3);
+	}
+
+	function leaveAStepCallback(obj){
+          var step_num = obj.attr('rel'); // get the current step number
+          var isValid = true;
+          msg = "error";
+          if(step_num == 1) isValid = validateStep1();
+	  if(step_num == 2) isValid = validateStep2();
+	  if(step_num == 3) isValid = validateStep3();
+          if(!isValid)errorModal(msg);
+          return isValid;
+        }
+ 
+        function validateStep1(){
+          if(self.offerName() == ''){
+            msg = self.lang().b5+self.lang().b2;
+	    return false;
+	  }
+	  if(self.offerName().match(/\s/g)){
+            msg = self.lang().k1;
+	    return false;
+	  }
+	  if(self.description() == ''){
+            msg = self.lang().b5+self.lang().b4;
+	    return false;
+	  }
+	  return true;
+        }
+
+	function validateStep2(){
+	  if(self.contractor() == ''){
+            msg = self.lang().b5+self.lang().c2;
+	    return false;
+	  }
+	  if(self.budget() == ''){
+            msg = self.lang().b5+self.lang().c3;
+	    return false;
+	  }
+	  if(self.budget().search(/^\s*\d+\s*$/)){
+            msg = self.lang().k2;
+	    return false;
+	  }
+	  if(self.address() == ''){
+            msg = self.lang().b5+self.lang().c4;
+	    return false;
+	  }
+	  if(self.beginDate() == ''){
+            msg = self.lang().c7;
+	    return false;
+	  }
+	  if(self.endDate() == ''){
+            msg = self.lang().c7;
+	    return false;
+	  }
+	  return true;
+        }
+		
+	function validateStep3(){
+	  if(self.companyGapArray().length == 0){
+            msg = self.lang().k3;
+	    return false;
+	  }
+	  return true;
+        }
+
 
 	/* Función que activa los campos de autocomplete */
 	function loadActivities(selector){

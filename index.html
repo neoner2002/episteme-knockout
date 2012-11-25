@@ -118,30 +118,91 @@
 
 <!-- DROPPABLES -->
 <div class="dropContainer" data-bind="css: { offerContainer: page() == 0 }" >
-    <div id="droppableElements" data-bind="visible: page() >= 1" >
+    <!-- COMPOSER -->
+    <div id="droppableElements" data-bind="visible: page() == 1" >
 
         <div data-bind="foreach: $root.offerReq">
-	 <div  class="droppable droppableCompany company" class="class2" data-bind="visible: $root.page() > 0, attr: {'name': $data,
-               'title': '<table><tbody>' + $root.nestedReqSkills()[$index()] + '</tbody></table>'}">
-   	  <div class ="droppableText"> <span data-bind="text: $root.lang().d2"></span> </div>
+	 <div  class="droppable droppableCompany company" class="class2" data-bind="visible: $root.page() > 0, attr: {'name': $data}">
+            <div class="draggableInfo droppableInfo" data-bind="attr: {'title': '<table><tbody>' + $root.nestedReqSkills()[$index()] + '</tbody></table>'}">?</div>
+   	    <div class ="droppableText"> <span data-bind="text: $root.lang().d2"></span> </div>
 	 </div>
 	</div>
         
         <div class="lines" id="lines" data-bind="if: page() == 1">
 		<img class="img" data-bind="attr: { 'src': lang().i1 }">
 	</div>
+        <!-- ko if: semanticOrder() == false -->
 	<div class="lines" id="Clicklines" data-bind="if: page() == 1">
 		<img class="img" data-bind="attr: { 'src': lang().i4 }">
 	</div>
-
-        <div id="finalizeContainer" class="finalizeContainer" data-bind="visible: page() == 2">
-          <h2> <span data-bind="text: lang().f1"></span> </h2>
-          <div class = "finalizeBtn"><a href="#" onclick="futureModal()"> <span data-bind="text: lang().f2"></span> </a></div>
-          <div class = "finalizeBtn"><a href="#" onclick="futureModal()"> <span data-bind="text: lang().f3"></span> </a></div>
-          <div class = "finalizeBtn"><a href="#" onclick="futureModal()"> <span data-bind="text: lang().f4"></span> </a></div>
-          <div class = "finalizeBtn"><a data-bind="attr: {'href': '#/composer' + '/' + selectedOffer()}"> <span data-bind="text: lang().f5"></span> </a></div>
-         </div>	
+        <!-- /ko -->
+	<!-- ko if: semanticOrder() == true -->
+	<div class="lines" id="Clicklines" data-bind="if: page() == 1">
+		<img class="img" data-bind="attr: { 'src': lang().i5 }">
+	</div>
+        <!-- /ko -->
     </div>
+    <!-- FINALIZE -->
+    <div id="finalizeElements" data-bind="visible: page() == 2" >
+       <div id="finalizeContainer" class="finalizeContainer" data-bind="visible: page() == 2">
+
+          <h2> <span data-bind="text: lang().f1"></span> </h2>
+          <p><span data-bind="text: lang().f6"></span></p>
+	  <div class="finalizeCompanies" data-bind="foreach: $root.offerReq">
+            <div class="finalizeFile">
+		<div class="finalizeCompany">
+		
+		</div>
+		<div class="finalizeCompanyReq">
+		<table>
+  		  <thead>
+ 		    <tr><th><span data-bind="text: $root.lang().b6"></th><th><span data-bind="text: $root.lang().b12"></th></tr>
+  		  </thead>
+  		  <tbody  data-bind="html: $root.nestedReqSkills()[$index()]">
+  	 	 </tbody>
+		</table>
+		</div>
+	    </div>
+	  </div>
+
+	  <div class = "finalizeButtons">
+	    <div class = "finalizeBtn">
+		<a href="#" onclick="futureModal()">
+		  <div class = "finalizeIcon ">
+                    <img src="images/mail.png" />
+		  </div>
+		  <div class = "finalizeText"><span data-bind="text: lang().f2"></span></div>
+		</a>
+	    </div>
+	    <div class = "finalizeBtn">
+		<a href="#" onclick="futureModal()">
+		  <div class = "finalizeIcon ">
+                    <img src="images/phone.png" />
+		  </div>
+		  <div class = "finalizeText"><span data-bind="text: lang().f3"></span></div>
+		</a>
+	    </div>
+	    <div class = "finalizeBtn">
+		<a href="#" onclick="futureModal()">
+		  <div class = "finalizeIcon ">
+                    <img src="images/meeting.png" />
+		  </div>
+		  <div class = "finalizeText"><span data-bind="text: lang().f4"></span></div>
+		</a>
+	    </div>
+	    <div class = "finalizeBtn">
+		<a href="#" data-bind="attr: {'href': '#/composer' + '/' + selectedOffer()}">
+		  <div class = "finalizeIcon ">
+                    <img src="images/reload.png" />
+		  </div>
+		  <div class = "finalizeText"><span data-bind="text: lang().f5"></span></div>
+		</a>
+	    </div>
+	  </div>
+
+        </div>	
+    </div>
+
 
 </div>
 
@@ -167,8 +228,9 @@
 
 <div id="draggableElements">
   <div data-bind="foreach: viewOffers, visible: page() == 0, css: { content: page() == 0}">
-    <div class="draggable offer clickableOffers" data-bind="click: $root.activateLoading, attr: {'name': $data.name.value, 'title': $data.name.value}">
-      <div class="draggableInfo" data-bind="click: $root.activateHelp.bind($data,'offer',$data.name.value()), clickBubble: false">?</div>
+    <div class="draggable offer clickableOffers" data-bind="click: $root.activateLoading, attr: {'name': $data.name.value}">
+      <div class="draggableInfo" data-bind="click: $root.activateHelp.bind($data,'offer',$data.name.value()), clickBubble: false
+	    ,attr: { 'title': '<b>'+$data.name.value()+'</b><br>' + $data.summary.value()}">?</div>
       <div class="deleteOffer" data-bind="click: $root.deleteOffer, clickBubble: false">X</div>
       <div class="logoContainer">
         <!-- ko if: $data.logo != undefined -->
@@ -221,8 +283,9 @@
     </div>
   <!-- /ko -->
   <div data-bind="foreach: filteredData, beforeRemove: hideElement, visible: page() == 1, css: { content: page() == 1}">
-    <div id="draggable" class="draggable draggableCompanies" data-bind="attr: { 'name': $data.name.value, 'title': '<b>'+$data.name.value()+'</b><br>' + $data.summary.value(), 'province': $data.province.value}">
-      <div class="draggableInfo" data-bind="click: $root.activateHelp.bind($data,'company',$data.id.value()), clickBubble: false">?</div>
+    <div id="draggable" class="draggable draggableCompanies" data-bind="attr: { 'name': $data.name.value, 'province': $data.province.value}">
+      <div class="draggableInfo" data-bind="click: $root.activateHelp.bind($data,'company',$data.id.value()), clickBubble: false
+           ,attr: { 'title': '<b>'+$data.name.value()+'</b><br>' + $data.summary.value()}">?</div>
       <div class="companyMedal"></div>
       <div class="logoContainer">
         <!-- ko if: $data.logo != undefined -->

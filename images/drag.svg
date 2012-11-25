@@ -14,7 +14,7 @@
    inkscape:version="0.48.2 r9819"
    width="210"
    height="180"
-   sodipodi:docname="drag1.svg">
+   sodipodi:docname="drag.svg">
   <metadata
      id="metadata3061">
     <rdf:RDF>
@@ -23,40 +23,12 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs3059">
-    <filter
-       inkscape:collect="always"
-       id="filter4528"
-       color-interpolation-filters="sRGB">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.28379253"
-         id="feGaussianBlur4530" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter4550"
-       color-interpolation-filters="sRGB">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.26780498"
-         id="feGaussianBlur4552" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter4564"
-       color-interpolation-filters="sRGB">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.20376469"
-         id="feGaussianBlur4566" />
-    </filter>
-  </defs>
+     id="defs3059" />
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -66,15 +38,15 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="943"
-     inkscape:window-height="691"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
      id="namedview3057"
      showgrid="false"
      inkscape:zoom="2"
-     inkscape:cx="177.33541"
+     inkscape:cx="99.33541"
      inkscape:cy="74.31596"
-     inkscape:window-x="428"
-     inkscape:window-y="147"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg3055"
      showguides="true">
@@ -93,20 +65,20 @@
      style="display:inline"
      transform="translate(0,-8)" />
   <path
-     style="fill:none;stroke:#e64b00;stroke-width:5.30000019;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter4528)"
+     style="fill:none;stroke:#e64b00;stroke-width:5.30000019000000040;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;"
      d="m 113.61665,166.20041 c 0,0 39.96236,-77.19106 -6.43981,-103.03741 C 73.019368,44.137042 18.859443,51.203803 18.859443,51.203803"
      id="path3070"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="csc" />
   <path
-     style="fill:none;stroke:#e64b00;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter4550)"
+     style="fill:none;stroke:#e64b00;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;"
      d="M 35.453288,66.809688 C 25.858132,51.685121 15.287197,51.197231 15.287197,51.197231 c 0.06096,0.01859 16.270669,-9.817217 20.443716,-17.504823"
      id="path4532"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="ccc" />
   <g
      transform="matrix(0.8274039,0.2949838,-0.27036743,1.0941629,66.884586,-0.0971448)"
-     style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#e64b00;fill-opacity:1;stroke:none;filter:url(#filter4564);font-family:MV Boli;-inkscape-font-specification:MV Boli"
+     style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#e64b00;fill-opacity:1;stroke:none;font-family:MV Boli;-inkscape-font-specification:MV Boli"
      id="text4556">
     <path
        d="m 18.647871,30.768139 c 0.359373,-0.257811 0.724607,-0.41992 1.095703,-0.486328 0.371091,-0.0664 0.763668,-0.119139 1.177735,-0.158203 l 2.929687,-11.859375 c -0.03126,1.4e-5 -0.119147,-0.0019 -0.263672,-0.0059 -0.144538,-0.0039 -0.304694,-0.01561 -0.480469,-0.03516 -0.175787,-0.01952 -0.349615,-0.05272 -0.521484,-0.09961 -0.17188,-0.04686 -0.300787,-0.113267 -0.386719,-0.199219 -0.03907,-0.05467 -0.0879,-0.126939 -0.146484,-0.216797 -0.0586,-0.08983 -0.11524,-0.187485 -0.169922,-0.292969 -0.05469,-0.105453 -0.101567,-0.212875 -0.140625,-0.322265 -0.03907,-0.10936 -0.0586,-0.218735 -0.05859,-0.328125 -5e-6,-0.179672 0.07617,-0.330062 0.228516,-0.451172 0.152338,-0.121078 0.339838,-0.218734 0.5625,-0.292969 0.22265,-0.0742 0.462884,-0.126936 0.720703,-0.158203 0.257806,-0.03123 0.492181,-0.04686 0.703125,-0.04687 0.984367,1.7e-5 1.896476,0.02931 2.736328,0.08789 0.839833,0.05861 1.624989,0.185563 2.355469,0.380859 0.730456,0.195328 1.417955,0.472672 2.0625,0.832031 0.644516,0.35939 1.25975,0.839858 1.845703,1.441406 0.218734,0.226577 0.427718,0.480483 0.626953,0.761719 0.199202,0.281263 0.374983,0.587903 0.527344,0.919922 0.152326,0.332043 0.275373,0.687512 0.369141,1.066406 0.09373,0.378917 0.140607,0.779308 0.140625,1.201172 -1.8e-5,0.226572 -0.01174,0.464853 -0.03516,0.714844 -0.02346,0.250009 -0.05471,0.464852 -0.09375,0.644531 -0.22658,0.906258 -0.544939,1.708991 -0.955078,2.408203 -0.410172,0.699225 -0.886734,1.320318 -1.429687,1.863282 -0.542984,0.542972 -1.138686,1.013675 -1.78711,1.412109 -0.64845,0.39844 -1.320324,0.746096 -2.015625,1.042969 -0.695323,0.296876 -1.402353,0.554689 -2.121093,0.773437 -0.718759,0.218751 -1.417977,0.414063 -2.097657,0.585938 l 0.01172,0 c -0.304694,0.09375 -0.632819,0.175781 -0.984375,0.246093 -0.351568,0.07031 -0.707037,0.128907 -1.066406,0.175782 -0.35938,0.04687 -0.716801,0.08398 -1.072266,0.111328 -0.355472,0.02734 -0.689456,0.04102 -1.001953,0.04102 -0.343753,0 -0.632815,-0.02148 -0.867187,-0.06445 -0.234377,-0.04297 -0.42383,-0.101562 -0.56836,-0.175781 -0.144533,-0.07422 -0.248048,-0.158203 -0.310547,-0.251953 -0.0625,-0.09375 -0.09375,-0.195312 -0.09375,-0.304688 -10e-7,-0.156249 0.04492,-0.318358 0.134766,-0.486328 0.08984,-0.167967 0.236326,-0.32617 0.439453,-0.474609 z m 5.15625,-3.363281 c -0.09376,0.398442 -0.191413,0.808598 -0.292969,1.230468 -0.101569,0.421879 -0.199225,0.835941 -0.292968,1.242188 l 0.269531,-0.05859 c 0.171868,-0.03906 0.40429,-0.09765 0.697265,-0.175781 0.292962,-0.07812 0.630852,-0.175778 1.013672,-0.292969 0.382804,-0.117184 0.785147,-0.257809 1.207032,-0.421875 0.421865,-0.164059 0.86913,-0.361324 1.341796,-0.591797 0.472645,-0.230464 0.939442,-0.492183 1.400391,-0.785156 0.460925,-0.292963 0.902331,-0.611323 1.324219,-0.955078 0.421861,-0.343744 0.792954,-0.712884 1.113281,-1.107422 0.320298,-0.394524 0.576157,-0.808586 0.767578,-1.242187 0.191391,-0.433586 0.287094,-0.884757 0.28711,-1.353516 -1.6e-5,-0.476553 -0.09377,-0.927724 -0.28125,-1.353516 -0.187516,-0.42577 -0.439469,-0.8203 -0.75586,-1.183593 -0.31642,-0.363269 -0.683608,-0.687488 -1.101562,-0.972657 -0.417982,-0.285143 -0.853529,-0.529283 -1.306641,-0.732422 -0.453137,-0.203111 -0.912121,-0.357407 -1.376953,-0.46289 -0.464854,-0.105455 -0.904307,-0.158189 -1.318359,-0.158203 -0.585947,1.515638 -1.085946,3.054699 -1.5,4.617187 -0.414071,1.562508 -0.812508,3.148444 -1.195313,4.757813 z"

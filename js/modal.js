@@ -96,3 +96,20 @@ function futureModal(result){
   });
 		
 };
+function errorModal(messageText){
+
+  $.confirm({
+    'title': 'Error!',
+    'message': messageText,
+    'buttons': {
+
+      'Ok': {
+        'class': 'red',
+          'action': function(){
+		}
+      }
+
+    }
+  });
+		
+};

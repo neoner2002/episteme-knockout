@@ -251,8 +251,12 @@ text-shadow: 1px 1px 0 #EEE;
 margin:10px;
 }
 .droppable.selected{ 
+  color: #555;
   border: 1px solid #FFD76F;
   background-color: #FFD76F;
+}
+.droppable.selected  .droppableText{ 
+  color: #555;
 }
 .droppable.draggableCompany{ 
   background-color: white;
@@ -265,7 +269,9 @@ margin:10px;
 }
 .droppable:hover .droppableText{
   color: #555;
-  text-shadow: none;
+}
+.droppable:hover .droppableInfo{
+  display:block;
 }
 .ui-state-disabled{
   opacity:1;
@@ -386,17 +392,17 @@ z-index:-100;
   right: 0;
 }
 .companyMedal{
-  right: -20px;
-  top: -10px;
-  display:block;
-  cursor:default;
-  opacity:1;
-  border:none;
-  background:transparent;
-  background-repeat:no-repeat;
-  background-size:50px 50px;
-  width: 50px;
-  height: 50px;
+  right: -32px;
+top: -10px;
+display: block;
+cursor: default;
+opacity: 1;
+border: none;
+background: transparent;
+background-repeat: no-repeat;
+background-size: 32px 32px;
+width: 50px;
+height: 50px;
 }
 .companyMedal.gold{
   background-image:url('../images/goldmedal.png');
@@ -658,39 +664,129 @@ input:focus{
   background-repeat:no-repeat;
 }
 /*Finalize*/
-.finalizeContainer{
-  width:90%;
-  margin: 0 auto;
-  margin-top:140px;
-  background-color: #ECF2E1;
-  border: 1px solid #B3B3B3;
+.finalizeElements{
+  width:900px;
 }
-
+.finalizeContainer{
+  float:left;
+  width:100%;
+  margin: 0 auto;
+  margin-top:10px;
+  margin-bottom:30px;
+  background-color: white;
+  border-radius: 8px;
+  background-image: -webkit-linear-gradient(top,#D1D1D1 0,white 150%) !important;
+  box-shadow: 0 0 20px 0px #BEBEBE;
+  border: 1px solid #C7C7C7;
+}
 .finalizeContainer h2{
   margin-bottom: 10px;
   font-size: 20px;
   padding:5px;
+  color: white;
+  background-image: -webkit-linear-gradient(top,#A0A0A0 0,#5A5A5A 100%) !important;
+  -webkit-box-shadow: 0 2px 5px -2px rgba(0, 0, 0, .52);
+  border-radius: 5px 5px 0px 0px;
+}
+.finalizeCompanies{
+  float:left;
+}
+.finalizeFile{
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  width: 820px;
+  padding: 10px;
+  float: left;
+  border-bottom: 2px dashed #B1B1B1;
+}
+.finalizeCompany{
+  float:left;
+  background:white;
+  overflow:hidden;
+  border: 1px solid #B9B9B9;
+  border-radius: 5px;
+}
+.finalizeCompany .logoContainer{
+}
+.finalizeCompanyReq{
+  margin-top: 5px;
+margin-left: 5px;
+float: left;
+width: 680px;
+}
+.finalizeCompanyReq table{ 
+  width:100%;
+  border:1px solid #79A04B;
+  padding:5px;
+  background:white;
+  color:#42552b;
+  opacity:1;
 }
 
+.finalizeCompanyReq th{ 
+  color:white;
+  background-color:#54815F;
+  padding:5px;
+  border-left:1px solid #79A04B;
+}
+.finalizeCompanyReq td{ 
+  background:#ECF2E1;
+  padding:5px;
+  border-left:1px solid #79A04B;
+}
+.finalizeCompanyReq td.name{
+  text-align:left; 
+}
+.finalizeCompanyReq td.value{
+  text-align:center;
+  width:100px;
+}
+.finalizeCompanyReq tr{ 
+  border:1px solid #79A04B;
+  padding:5px;
+}
+.finalizeButtons{
+  float:left;
+  width: 100%;
+}
 .finalizeBtn{
-  border-top: 1px solid #CCC;
+  margin: 10px;
+  margin-bottom:20px;
+  width: 200px;
+  float:left;
 }
 .finalizeBtn a{
-  text-decoration:none;
-  color:#333;
-  text-align:left;
-  font-size: 15px;
-  display:block;
-  padding: 6px;
-  background-color: #ffffff;
-  transition: background-color 0.3s linear;
-      -moz-transition: background-color 0.3s linear;    /* FF3.7+ */
-      -o-transition: background-color 0.3s linear;      /* Opera 10.5 */
-      -webkit-transition: background-color 0.3s linear; /* Saf3.2+, Chrome */
+  width: 200px;
+text-decoration: none;
+color: #333;
+text-align: left;
+font-size: 15px;
+display: block;
+transition: background-color 0.3s linear;
+-moz-transition: background-color 0.3s linear;
+-o-transition: background-color 0.3s linear;
+-webkit-transition: background-color 0.3s linear;
+border-radius:2px;
 }
 .finalizeBtn a:hover{
   color:white;
-  background-color: #79A04B;
+  background-color: #4B7EA0;
+  box-shadow: 0 0 10px #AAA;
+}
+.finalizeIcon{
+  margin-left:50px;
+}
+.finalizeText{
+  width: 200px;
+margin-left: 0;
+padding-bottom:5px;
+font-size: 11px;
+text-align: center;
+}
+.finalizeBtn img{
+  height:100px;
+  width:100px;
 }
 /*Filter Panel KENDO*/
 .filterPanel{
@@ -854,6 +950,7 @@ input:focus{
 }
 
 #blackText th{ 
+  color:white;
   background:white;
   background-color:#79A04B;
   padding:5px;

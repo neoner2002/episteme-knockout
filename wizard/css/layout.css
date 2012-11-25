@@ -23,6 +23,11 @@ input{
     opacity:0.5;
 }
 
+.txtBox{ 
+    width: 50%!important;
+
+}
+
 /* @begin main layout styling */
 #container {
  min-height: 100%;
@@ -49,17 +54,14 @@ input{
 }
 
 #logoContainer{
-border: 1px dashed #DBD9D9;
+background:white;
 box-shadow: 0 0 17px 1px #CCC;
 float: right;
-width: 80px;
-height: 80px;
+padding:5px;
 }
 
 #logoContainer img{
-margin:2px;
-width: 76px;
-height: 76px;
+height: 100px;
 }
 
 /*Idiomas*/
