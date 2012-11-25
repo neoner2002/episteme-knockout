@@ -164,6 +164,7 @@ function stopAction( $helper, $original ) {
 	$helper.addClass( "dragged" );
 	$original.css( 'opacity' , storedOpacity  );
 }
+
 //WHEN A DROPPABLE COMPANY IS CLICKED
 $('.droppableCompany').unbind('click');
 $('.droppableCompany').click(function(e){

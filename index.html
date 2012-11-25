@@ -131,16 +131,15 @@
         <div class="lines" id="lines" data-bind="if: page() == 1">
 		<img class="img" data-bind="attr: { 'src': lang().i1 }">
 	</div>
-        <!-- ko if: semanticOrder() == false -->
-	<div class="lines" id="Clicklines" data-bind="if: page() == 1">
+
+	<div class="lines" id="Clicklines" data-bind="if: page() == 1 && !semanticOrder()">
 		<img class="img" data-bind="attr: { 'src': lang().i4 }">
 	</div>
-        <!-- /ko -->
-	<!-- ko if: semanticOrder() == true -->
-	<div class="lines" id="Clicklines" data-bind="if: page() == 1">
+
+	<div class="lines" id="Clicklines" data-bind="if: page() == 1 && semanticOrder()">
 		<img class="img" data-bind="attr: { 'src': lang().i5 }">
 	</div>
-        <!-- /ko -->
+
     </div>
     <!-- FINALIZE -->
     <div id="finalizeElements" data-bind="visible: page() == 2" >
