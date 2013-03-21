@@ -1,15 +1,10 @@
-function createTooltips ()
-{
-
-
-
+function createTooltips() {
     $(".draggableInfo").tooltip({
         position: {
             my: "center+10 bottom-10",
             at: "center top"
         }
     });
-
     $(".droppableInfo").tooltip({
         position: {
             my: "center+10 top+10",
