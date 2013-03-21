@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+ var endPoint = "http://localhost:8080/LMF/";
+ var endPoint = "http://shannon.gsi.dit.upm.es/episteme/lmf/";
+
+ function deleteOffer(){
+	var id = $('#query').val();
+	console.log("ID ES: " + id);
+	var queryText = "DELETE WHERE { GRAPH <" + id + "> { ?s ?p ?o } }";
+
+ 	$.ajax({
+ 	 type: 'GET',
+ 	 url: endPoint+'sparql/update',
+	 data: { query: queryText },
+ 	 success: function(){
+ 	 	console.log("Oferta eliminada");
+ 	 },
+	 error: function(){
+	 	console.log("No se ha podido eliminar");
+	 }
+
+ 	});
+ }
+
+</script>
+
+<body>
+
+<p>Formulario para eliminar ofertas en Episteme-LMF. Introduce id de la oferta:</p>
+<input type="text" id="query" value="<http://offer1>" size="100"/><br />
+<button onclick='deleteOffer()'>Eliminar</button>
+
+
+</body>
+</html>
+
